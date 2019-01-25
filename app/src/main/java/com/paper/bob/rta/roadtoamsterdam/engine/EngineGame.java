@@ -65,7 +65,30 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
             }catch(InterruptedException e){e.printStackTrace();}
         }
     }
-    public void update() {
+    /*
+    Metodo Update senza parametri e senza valori di return
+    Questo Metodo è il metodo che viene richiamato dal MainThread cioè dal gameLoop ogni Frame.
+    A cadenza di FPS questo metodo viene richiamato e deve aggiornare il Canvas su cui sono gli Object.
+    Per farlo richiama i relativi metodi update() di tutti gli Object , estesi o no, istanziati nell'engine.
+     */
+    public void update()
+    {
+        /*
+            bg.update();
+            player.update();
+            //update top border
+            this.updateTopBorder();
 
+            //udpate bottom border
+            this.updateBottomBorder();
+
+            //CHECK COLLISION
+            for(int i = 0; i<botborder.size(); i++)
+            {
+                if(collision(botborder.get(i), player))
+                    player.setPlaying(false);
+            }
+         */
     }
+
 }
