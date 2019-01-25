@@ -1,13 +1,16 @@
-package com.paper.bob.rta.roadtoamsterdam.engine;
+package com.paper.bob.rta.roadtoamsterdam.engine.utils;
 import android.graphics.Rect;
 
 public abstract class GameObject {
+    //Coordinate della posizione iniziale
     protected int x;
     protected int y;
-    protected int dy;
-    protected int dx;
     protected int width;
     protected int height;
+    //Vettore per un eventuale movimento
+    protected int dy;
+    protected int dx;
+
 
     public void setX(int x)
     {
@@ -34,9 +37,7 @@ public abstract class GameObject {
         return width;
     }
     public Rect getRectangle()
-    {
-        return new Rect(x, y, x+width, y+height);
-    }
+    {return new Rect(x, y, x+width, y+height);}
     @Override
     public String toString() {
         String info = "";
