@@ -1,4 +1,4 @@
-package com.paper.bob.rta.roadtoamsterdam.engine.utils;
+package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Rect;
 
 public abstract class GameObject {
@@ -7,10 +7,6 @@ public abstract class GameObject {
     protected int y;
     protected int width;
     protected int height;
-    //Vettore per un eventuale movimento
-    protected int dy;
-    protected int dx;
-
 
     public void setX(int x)
     {
@@ -43,8 +39,6 @@ public abstract class GameObject {
         String info = "";
         info += "x = "+x+"\t";
         info += "y = "+y+"\t";
-        info += "dx = "+dx+"\t";
-        info += "dy = "+dy+"\t";
         info += "width = "+width+"\t";
         info += "height = "+height+"\t";
         return info;

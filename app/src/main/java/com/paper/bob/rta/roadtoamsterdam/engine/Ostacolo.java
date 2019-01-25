@@ -1,11 +1,9 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
-
 import android.graphics.Bitmap;
-
-import com.paper.bob.rta.roadtoamsterdam.engine.utils.GameObject;
 
 public class Ostacolo extends GameObject {
     private Bitmap img;
+
     /*
     Costruttore della classe Ostacolo.
     L'oggetto ostacolo contiene tutte le informazioni di GameObject ed in più contiene l'immagine Bitmap che rapresenta la sua grafica.
@@ -23,5 +21,12 @@ public class Ostacolo extends GameObject {
         this.x = x;
         this.y = y;
         this.img = Bitmap.createBitmap(img, 0, 0, width, height);
+    }
+
+    @Override
+    public String toString() {
+        String info = super.toString();
+        info += "\nIMG: \n"+img.toString();
+        return info;
     }
 }
