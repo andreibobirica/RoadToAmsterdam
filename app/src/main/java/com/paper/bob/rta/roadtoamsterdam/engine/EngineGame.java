@@ -101,7 +101,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas)
     {
-        if(mostraOstacoli)
+        if(true)
         {
             mostraOstacoli = false;
             LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());

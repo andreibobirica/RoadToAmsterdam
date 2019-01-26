@@ -24,6 +24,5 @@ public class PlatformMainActivity extends AppCompatActivity {
 
         super.onDestroy();
         Log.i("RTA", "applicazione finita");
-        Toast.makeText(getApplicationContext(), "DIO PORCO", Toast.LENGTH_LONG).show();
     }
 }

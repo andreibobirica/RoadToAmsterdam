@@ -35,16 +35,16 @@ public class Ostacolo extends GameObject {
     public Ostacolo(Bitmap img, int x, int y, int height, int width)
     {
         //Di base tutti gli ostacoli hanno la forma rettangolare con grandezza predefinita
-        this.height =height;
-        this.width = width;
-        this.x = x;
-        this.y = y;
+        this.height =100;
+        this.width = 100;
+        this.x = 100;
+        this.y = 100;
         this.img = Bitmap.createBitmap(img, 0, 0, width, height);
     }
 
     public void draw(Canvas canvas)
     {
-        //canvas.drawBitmap(animation.getImage(),x,y,null);
+        canvas.drawBitmap(img,x,y,null);
     }
 
     @Override
