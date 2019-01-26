@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataGraber;
-import com.paper.bob.rta.roadtoamsterdam.gameUtils.xmlParser;
 
 import java.util.ArrayList;
 
@@ -16,10 +15,9 @@ public class LevelComposer {
 
     public LevelComposer(String infoLevel,Context context)
     {
-        Log.i("RTA", "xmlParser richiamto1");
+        Log.i("RTA", "LevelComposer Avviato");
         dtGraber = new DataGraber("datalevels.xml",context);
         this.infoLevel = infoLevel;
-        Log.i("RTA", "xmlParser richiamto2");
     }
 
 

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
 
     //Proprità
-    private LevelComposer lvComposer;
     private MainThread gameLoop;
+    private boolean mostraOstacoli = true;
 
     //Costruttori
     //Implementazione di Costruttori per essere leggibile anche da XML
@@ -48,15 +48,9 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        Log.i("RTA", "creazione Thread");
         gameLoop = new MainThread(getHolder(), this);
-        //we can safely start the game loop
         gameLoop.setRunning(true);
         gameLoop.start();
-
-
-
-
     }
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
@@ -107,12 +101,18 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas)
     {
-        lvComposer = new LevelComposer("benzinaio", getContext());
-        ArrayList<Ostacolo> ostacoli = new ArrayList<>();
-        Log.i("RTA", "Disegno del Canvas");
-        for(int i = 0; i < ostacoli.size(); i++)
-        {ostacoli.get(i).draw(canvas);}
-        Log.i("RTA", "Level Composer Avviato");
+        if(mostraOstacoli)
+        {
+            mostraOstacoli = false;
+            LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
+            ArrayList<Ostacolo> ostacoli = lvComposer.getOstacoli();
+            Log.i("RTA", "Disegno del Canvas");
+            for(int i = 0; i < ostacoli.size(); i++)
+            {ostacoli.get(i).draw(canvas);}
+            Log.i("RTA", "Engine Game attivato");
+
+        }
+
 
     }
 
