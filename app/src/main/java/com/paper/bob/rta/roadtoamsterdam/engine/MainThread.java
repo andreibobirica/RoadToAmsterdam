@@ -1,4 +1,4 @@
-package com.paper.bob.rta.roadtoamsterdam.engine.utils;
+package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
@@ -49,9 +49,6 @@ public class MainThread extends Thread
                     catch(Exception e){e.printStackTrace();}
                 }
             }
-
-
-
 
             timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime-timeMillis;

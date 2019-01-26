@@ -1,16 +1,20 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
-import com.paper.bob.rta.roadtoamsterdam.engine.utils.MainThread;
+
+import java.util.ArrayList;
 
 public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
 
     //Proprità
-    private LevelCreator lvCreator;
+    private LevelComposer lvComposer;
     private MainThread gameLoop;
 
     //Costruttori
@@ -44,7 +48,15 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        lvCreator = new LevelCreator("");
+        Log.i("RTA", "creazione Thread");
+        gameLoop = new MainThread(getHolder(), this);
+        //we can safely start the game loop
+        gameLoop.setRunning(true);
+        gameLoop.start();
+
+
+
+
     }
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
@@ -89,6 +101,19 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
                     player.setPlaying(false);
             }
          */
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void draw(Canvas canvas)
+    {
+        lvComposer = new LevelComposer("benzinaio", getContext());
+        ArrayList<Ostacolo> ostacoli = new ArrayList<>();
+        Log.i("RTA", "Disegno del Canvas");
+        for(int i = 0; i < ostacoli.size(); i++)
+        {ostacoli.get(i).draw(canvas);}
+        Log.i("RTA", "Level Composer Avviato");
+
     }
 
 }
