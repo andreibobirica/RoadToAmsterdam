@@ -12,6 +12,7 @@ import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
@@ -76,20 +77,23 @@ public class DataGraber {
 
         for (int i = 0; i < livelli.getLength(); i++)
         {
-            NodeList ost = livelli.item(i).getChildNodes().item(0).getChildNodes();
-            for (int e = 0; e < ost.getLength(); e++)
-            {
-                String imgName = ost.item(e).getFirstChild().getTextContent();
-                int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
-                Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+            Log.i("RTA", "Node");
+            Node lv = livelli.item(i);
+            if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
+                NodeList ost = lv.getFirstChild().getChildNodes();
+                for (int e = 0; e < ost.getLength(); e++) {
+                    String imgName = ost.item(e).getFirstChild().getTextContent();
+                    int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
+                    Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
 
-                int x = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("x").getNodeValue());
-                int y = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("y").getNodeValue());
-                int width = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("width").getNodeValue());
-                int height = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("height").getNodeValue());
+                    int x = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("x").getNodeValue());
+                    int y = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("y").getNodeValue());
+                    int width = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("width").getNodeValue());
+                    int height = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("height").getNodeValue());
 
-                ostacoli.add(new Ostacolo(img,x,y,height,width));
-            }
+                    ostacoli.add(new Ostacolo(img, x, y, height, width));
+                }
+            }else{}
         }
         //DEBUG METODO
         /*

@@ -1,7 +1,6 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataGraber;
 
