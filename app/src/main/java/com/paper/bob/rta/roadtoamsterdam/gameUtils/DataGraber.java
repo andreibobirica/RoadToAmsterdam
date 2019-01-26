@@ -3,9 +3,11 @@ package com.paper.bob.rta.roadtoamsterdam.gameUtils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
 
+import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
 
 import org.w3c.dom.Document;
@@ -25,11 +27,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class DataGraber {
 
     private Element radice;
+    private Context context;
     /**
      *Costruttore completo
      *@param nomeFile nome del file xml
      */
     public DataGraber(String nomeFile, Context context) {
+        this.context = context;
 		/*
 		* Cosa servono queste 4 righe?
 		* Servono ad allocare il campo radice con il riferimento del nodo radice del documento XML con nome passato come parametro costruttore
@@ -41,7 +45,6 @@ public class DataGraber {
             Document documento = dBuilder.parse(is);
             radice = documento.getDocumentElement();
             radice.normalize();
-            Log.i("RTA", "DataGraber Creato");
         }//try
 		/*
 		*DOM E SAX sono due interfacce che si completano, servono anche per il Parser XML e per gestire vari errori come la ricerca del riferimento del file
@@ -68,35 +71,31 @@ public class DataGraber {
 
     public ArrayList<Ostacolo> getOstacoli(String lvName)
     {
-        Log.i("RTA", "DataGraber.sgetOstacoli() Avviato");
         ArrayList<Ostacolo> ostacoli = new ArrayList<Ostacolo>();
         NodeList livelli = radice.getChildNodes();
-        Log.i("RTA", String.valueOf(livelli.getLength()));
-        /*
+
         for (int i = 0; i < livelli.getLength(); i++)
         {
-            Log.i("RTA", "Ispezione item: "+i);
-            Log.i("RTA", "Ispezione item: "+i);
-            String x = livelli.item(i).getAttributes().getNamedItem("x").getNodeValue();
-            Log.i("RTA", "Ispezione item: "+i);
-            int y = Integer.parseInt(livelli.item(i).getAttributes().getNamedItem("y").getNodeValue());
-            Log.i("RTA", "Ispezione item: "+i);
-            int width = Integer.parseInt(livelli.item(i).getAttributes().getNamedItem("width").getNodeValue());
-            int height = Integer.parseInt(livelli.item(i).getAttributes().getNamedItem("height").getNodeValue());
-            Log.i("RTA", "Ispezione item: "+i);
-            String imgName = livelli.item(i).getFirstChild().getTextContent();
+            NodeList ost = livelli.item(i).getChildNodes().item(0).getChildNodes();
+            for (int e = 0; e < ost.getLength(); e++)
+            {
+                String imgName = ost.item(e).getFirstChild().getTextContent();
+                int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
+                Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
 
+                int x = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("x").getNodeValue());
+                int y = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("y").getNodeValue());
+                int width = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("width").getNodeValue());
+                int height = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("height").getNodeValue());
 
-            Uri path = Uri.parse("android.resource://com.paper.bob.rta.roadtoamsterdam.gameUtils"+imgName);
-            String pathIMG = path.toString();
-            Bitmap img = BitmapFactory.decodeFile(pathIMG);
-            ostacoli.add(new Ostacolo(img,Integer.parseInt(x),y,height,width));
-            Log.i("RTA", "pathIMG");
-            //System.out.println(pathIMG);
-            Log.i("RTA", ostacoli.get(i).toString());
-            //System.out.println(ostacoli.get(i).toString());
-        }*/
-        return null;
+                ostacoli.add(new Ostacolo(img,x,y,height,width));
+            }
+        }
+        //DEBUG METODO
+        /*
+        for(int i=0; i < ostacoli.size(); i++)
+        {Log.i("RTA", ostacoli.get(i).toString());}*/
+        return ostacoli;
     }
 
 }

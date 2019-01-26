@@ -15,7 +15,6 @@ public class LevelComposer {
 
     public LevelComposer(String infoLevel,Context context)
     {
-        Log.i("RTA", "LevelComposer Avviato");
         dtGraber = new DataGraber("datalevels.xml",context);
         this.infoLevel = infoLevel;
     }

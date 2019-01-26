@@ -106,11 +106,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
             mostraOstacoli = false;
             LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
             ArrayList<Ostacolo> ostacoli = lvComposer.getOstacoli();
-            Log.i("RTA", "Disegno del Canvas");
             for(int i = 0; i < ostacoli.size(); i++)
             {ostacoli.get(i).draw(canvas);}
-            Log.i("RTA", "Engine Game attivato");
-
         }
 
 
