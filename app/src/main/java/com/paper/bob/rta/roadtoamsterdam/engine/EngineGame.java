@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
@@ -98,9 +97,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
             player.update();
             //update top border
             this.updateTopBorder();
-
-            //udpate bottom border
-            this.updateBottomBorder();
 
             //CHECK COLLISION
             for(int i = 0; i<botborder.size(); i++)

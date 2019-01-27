@@ -89,6 +89,28 @@ public class DataGraber {
         return bg;
     }
 
+    public Background getPersonaggi(String lvName)
+    {
+        Log.i("RTA", "bg");
+        Background bg = null;
+        String bgName = "";
+        NodeList livelli = radice.getChildNodes();
+        for (int i = 0; i < livelli.getLength(); i++)
+        {
+            Log.i("RTA", "Node");
+            Node lv = livelli.item(i);
+            if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
+                bgName = lv.getFirstChild().getNextSibling().getFirstChild().getTextContent();
+                break;
+            }else{}
+        }
+
+        int resId = context.getResources().getIdentifier(bgName, "drawable", context.getPackageName());
+        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+        bg = new Background(img);
+        return bg;
+    }
+
 
     public ArrayList<Ostacolo> getOstacoli(String lvName)
     {
