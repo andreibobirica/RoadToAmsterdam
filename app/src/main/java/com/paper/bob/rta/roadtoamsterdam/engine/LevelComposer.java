@@ -25,6 +25,9 @@ public class LevelComposer {
 
     public Background getBackGround()
     {return dtGraber.getBackground(infoLevel);}
+
+    public Player getPlayer()
+    {return dtGraber.getPlayer(infoLevel);}
     public void getObjects(){}
 
     @Override

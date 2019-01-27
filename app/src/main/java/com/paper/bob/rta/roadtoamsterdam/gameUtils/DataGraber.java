@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Background;
 import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.engine.Player;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -69,7 +70,6 @@ public class DataGraber {
 
     public Background getBackground(String lvName)
     {
-        Log.i("RTA", "bg");
         Background bg = null;
         String bgName = "";
         NodeList livelli = radice.getChildNodes();
@@ -89,25 +89,24 @@ public class DataGraber {
         return bg;
     }
 
-    public Background getPersonaggi(String lvName)
+    public Player getPlayer(String lvName)
     {
-        Background bg = null;
-        String bgName = "";
+        Player pl = null;
+        String plName = "";
         NodeList livelli = radice.getChildNodes();
         for (int i = 0; i < livelli.getLength(); i++)
         {
             Node lv = livelli.item(i);
             if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
-                bgName = lv.getFirstChild().getNextSibling().getFirstChild().getTextContent();
+                plName = lv.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getFirstChild().getTextContent();
                 break;
             }else{}
         }
-
-        int resId = context.getResources().getIdentifier(bgName, "drawable", context.getPackageName());
+        int resId = context.getResources().getIdentifier(plName, "drawable", context.getPackageName());
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
-        bg = new Background(img);
-        Log.i("RTA", "Prsng");
-        return bg;
+        pl = new Player(img);
+        Log.i("RTA", "Player");
+        return pl;
     }
 
 
