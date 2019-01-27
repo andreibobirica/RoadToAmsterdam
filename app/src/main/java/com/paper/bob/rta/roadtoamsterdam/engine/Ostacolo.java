@@ -42,6 +42,12 @@ public class Ostacolo extends GameObject {
         this.img = Bitmap.createBitmap(img, 0, 0, width, height);
     }
 
+    /*
+    Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
+    Questo metodo non ha valori di return in quando non fornisce dati, ma attua solo l'azione di disegnare se stesso su un canvas
+    fornito.
+    @param draw Canvas oggetto canvas su cui si deve disegnare l'immmagine img.
+     */
     public void draw(Canvas canvas)
     {
         canvas.drawBitmap(img,x,y,null);

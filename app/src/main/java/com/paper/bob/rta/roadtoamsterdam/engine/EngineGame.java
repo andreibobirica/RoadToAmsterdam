@@ -41,11 +41,12 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     //Istruzioni da eseguire su tutti i Costruttori
     private void init(Context c)
     {
+        //GET Display Size Info
         WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         WIDTH = display.getWidth();  // deprecated
         HEIGHT = display.getHeight();  // deprecated
-        Log.i("RTA", WIDTH+" "+HEIGHT);
+
         //add the callback to the surfaceholder to intercept events
         getHolder().addCallback(this);
         //make EngineGame focusable so it can handle events
@@ -55,19 +56,19 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
 
+        //OPERAZIONI ch edefiniscono un LIVELLO
         LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
         ostacoli = lvComposer.getOstacoli();
-        bg = lvComposer.getBackGround();
-        bg.setVector(-1);
+        bg = lvComposer.getBackGround();;
 
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
         gameLoop.start();
     }
-    @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
 
-    }
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {}
+
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         boolean retry = true;
@@ -91,7 +92,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     */
     public void update()
     {
-        bg.update();
+        bg.update(-4);
         /*
             bg.update();
             player.update();
@@ -116,9 +117,9 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     {
         //BACKGROUND
         bg.draw(canvas);
-            //OSTACOLI
-            for(int i = 0; i < ostacoli.size(); i++)
-            {ostacoli.get(i).draw(canvas);}
+        //OSTACOLI
+        for(int i = 0; i < ostacoli.size(); i++)
+        {ostacoli.get(i).draw(canvas);}
 
     }
 }

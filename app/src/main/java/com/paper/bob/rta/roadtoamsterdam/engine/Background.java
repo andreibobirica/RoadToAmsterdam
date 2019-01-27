@@ -16,21 +16,13 @@ public class Background {
     }
     public void draw(Canvas canvas)
     {
-        canvas.drawBitmap(image, x, y,null);
-        if(x<0)
-        {
-            canvas.drawBitmap(image, x+EngineGame.WIDTH, y, null);
-        }
+        canvas.drawBitmap(image, x, y, null);
     }
-    public void update()
+    public void update(int dx)
     {
         x+=dx;
-        if(x<-EngineGame.WIDTH){
+        if(x<-(EngineGame.WIDTH)){
             x=0;
         }
-    }
-    public void setVector(int dx)
-    {
-        this.dx = dx;
     }
 }
