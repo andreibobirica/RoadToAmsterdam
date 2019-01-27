@@ -75,7 +75,6 @@ public class DataGraber {
         NodeList livelli = radice.getChildNodes();
         for (int i = 0; i < livelli.getLength(); i++)
         {
-            Log.i("RTA", "Node");
             Node lv = livelli.item(i);
             if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
                 bgName = lv.getFirstChild().getNextSibling().getFirstChild().getTextContent();
@@ -86,18 +85,17 @@ public class DataGraber {
         int resId = context.getResources().getIdentifier(bgName, "drawable", context.getPackageName());
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
         bg = new Background(img);
+        Log.i("RTA", "Background");
         return bg;
     }
 
     public Background getPersonaggi(String lvName)
     {
-        Log.i("RTA", "bg");
         Background bg = null;
         String bgName = "";
         NodeList livelli = radice.getChildNodes();
         for (int i = 0; i < livelli.getLength(); i++)
         {
-            Log.i("RTA", "Node");
             Node lv = livelli.item(i);
             if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
                 bgName = lv.getFirstChild().getNextSibling().getFirstChild().getTextContent();
@@ -108,6 +106,7 @@ public class DataGraber {
         int resId = context.getResources().getIdentifier(bgName, "drawable", context.getPackageName());
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
         bg = new Background(img);
+        Log.i("RTA", "Prsng");
         return bg;
     }
 
@@ -140,6 +139,7 @@ public class DataGraber {
         /*
         for(int i=0; i < ostacoli.size(); i++)
         {Log.i("RTA", ostacoli.get(i).toString());}*/
+        Log.i("RTA", "  Ostacoli");
         return ostacoli;
     }
 

@@ -53,6 +53,10 @@ public class Ostacolo extends GameObject {
         canvas.drawBitmap(img,x,y,null);
     }
 
+    /**
+     * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
+     * @return info info Oggetto
+     */
     @Override
     public String toString() {
         String info = super.toString();
