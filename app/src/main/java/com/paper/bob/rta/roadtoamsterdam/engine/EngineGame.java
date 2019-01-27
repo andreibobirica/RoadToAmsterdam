@@ -6,8 +6,10 @@ import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 
@@ -16,26 +18,34 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     //Proprità
     private MainThread gameLoop;
     private ArrayList<Ostacolo> ostacoli;
+    private Background bg;
+    public static int WIDTH;
+    public static int HEIGHT;
 
     //Costruttori
     //Implementazione di Costruttori per essere leggibile anche da XML
     public EngineGame(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
     public EngineGame(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
     //Costruttore
     public EngineGame(Context context)
     {
         super(context);
-        init();
+        init(context);
     }
     //Istruzioni da eseguire su tutti i Costruttori
-    private void init()
+    private void init(Context c)
     {
+        WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        WIDTH = display.getWidth();  // deprecated
+        HEIGHT = display.getHeight();  // deprecated
+        Log.i("RTA", WIDTH+" "+HEIGHT);
         //add the callback to the surfaceholder to intercept events
         getHolder().addCallback(this);
         //make EngineGame focusable so it can handle events
@@ -47,13 +57,12 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
 
         LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
         ostacoli = lvComposer.getOstacoli();
+        bg = lvComposer.getBackGround();
+        bg.setVector(-1);
 
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
         gameLoop.start();
-
-
-
     }
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
@@ -79,9 +88,10 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     Questo Metodo è il metodo che viene richiamato dal MainThread cioè dal gameLoop ogni Frame.
     A cadenza di FPS questo metodo viene richiamato e deve aggiornare il Canvas su cui sono gli Object.
     Per farlo richiama i relativi metodi update() di tutti gli Object , estesi o no, istanziati nell'engine.
-     */
+    */
     public void update()
     {
+        bg.update();
         /*
             bg.update();
             player.update();
@@ -104,9 +114,11 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas)
     {
-
+        //BACKGROUND
+        bg.draw(canvas);
+            //OSTACOLI
             for(int i = 0; i < ostacoli.size(); i++)
             {ostacoli.get(i).draw(canvas);}
-    }
 
+    }
 }

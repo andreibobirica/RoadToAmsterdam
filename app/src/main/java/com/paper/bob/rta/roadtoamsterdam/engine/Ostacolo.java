@@ -50,7 +50,7 @@ public class Ostacolo extends GameObject {
     @Override
     public String toString() {
         String info = super.toString();
-        info += "\nIMG: \n"+img.toString();
+        info += "\nIMG: \t"+img.toString();
         return info;
     }
 }

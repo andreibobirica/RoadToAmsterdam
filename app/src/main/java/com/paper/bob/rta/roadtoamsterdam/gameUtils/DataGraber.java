@@ -3,11 +3,9 @@ package com.paper.bob.rta.roadtoamsterdam.gameUtils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.util.Log;
 
-import com.paper.bob.rta.roadtoamsterdam.R;
+import com.paper.bob.rta.roadtoamsterdam.engine.Background;
 import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
 
 import org.w3c.dom.Document;
@@ -16,7 +14,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXParseException;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -70,6 +67,29 @@ public class DataGraber {
     }
 
 
+    public Background getBackground(String lvName)
+    {
+        Log.i("RTA", "bg");
+        Background bg = null;
+        String bgName = "";
+        NodeList livelli = radice.getChildNodes();
+        for (int i = 0; i < livelli.getLength(); i++)
+        {
+            Log.i("RTA", "Node");
+            Node lv = livelli.item(i);
+            if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
+                bgName = lv.getFirstChild().getNextSibling().getFirstChild().getTextContent();
+                break;
+            }else{}
+        }
+
+        int resId = context.getResources().getIdentifier(bgName, "drawable", context.getPackageName());
+        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+        bg = new Background(img);
+        return bg;
+    }
+
+
     public ArrayList<Ostacolo> getOstacoli(String lvName)
     {
         ArrayList<Ostacolo> ostacoli = new ArrayList<Ostacolo>();
@@ -77,7 +97,6 @@ public class DataGraber {
 
         for (int i = 0; i < livelli.getLength(); i++)
         {
-            Log.i("RTA", "Node");
             Node lv = livelli.item(i);
             if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
                 NodeList ost = lv.getFirstChild().getChildNodes();

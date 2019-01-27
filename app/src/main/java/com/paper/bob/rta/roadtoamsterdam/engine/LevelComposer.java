@@ -23,7 +23,8 @@ public class LevelComposer {
     public ArrayList<Ostacolo> getOstacoli()
     {return dtGraber.getOstacoli(infoLevel);}
 
-    public void getBackGround(){}
+    public Background getBackGround()
+    {return dtGraber.getBackground(infoLevel);}
     public void getObjects(){}
 
     @Override
