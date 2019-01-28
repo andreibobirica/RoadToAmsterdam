@@ -117,6 +117,14 @@ public class DataGraber {
                             width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_width);
                             height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_height);
                             break;
+                        case "normale":
+                            width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_width);
+                            height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_height);
+                            break;
+                        case "normale_oriz":
+                            width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_oriz_width);
+                            height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_oriz_height);
+                            break;
                         default:
                             width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_width);
                             height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_height);

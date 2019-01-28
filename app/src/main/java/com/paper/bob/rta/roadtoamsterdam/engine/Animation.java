@@ -27,6 +27,7 @@ public class Animation {
             startTime = System.nanoTime();
         }
         if(currentFrame == frames.length){
+            Log.i("RTA", "Gif creata con successo");
             currentFrame = 0;
             playedOnce = true;
         }

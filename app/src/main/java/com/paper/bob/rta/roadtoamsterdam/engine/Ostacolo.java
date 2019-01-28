@@ -10,7 +10,6 @@ public class Ostacolo extends GameObject {
     private Bitmap img;
     private int nframe;
     private Animation animation = new Animation();
-    private long startTime;
 
     /**
     Costruttore della classe Ostacolo.
@@ -37,12 +36,10 @@ public class Ostacolo extends GameObject {
         if(nframe>1) {
             Bitmap[] gif = new Bitmap[nframe];
             for (int i = 0; i < gif.length; i++) {
-                gif[i] = Bitmap.createBitmap(img, i * width, 0, width/nframe, height);
+                gif[i] = Bitmap.createBitmap(img, i * (img.getWidth()/nframe), 0, img.getWidth()/nframe, img.getHeight());
             }
             animation.setFrames(gif);
-            animation.setFrame(nframe);
-            animation.setDelay(250);
-            startTime = System.nanoTime();
+            animation.setDelay(200);
         }
     }
 
@@ -55,11 +52,12 @@ public class Ostacolo extends GameObject {
     public void draw(Canvas canvas)
     {
         if(nframe>1) {
-            img = animation.getImage();
+           img = animation.getImage();
         }
         Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
         Rect dest = new Rect(x,y,x+width, y+height);
         canvas.drawBitmap(img, src, dest, null);
+
     }
 
     /**
@@ -69,7 +67,7 @@ public class Ostacolo extends GameObject {
     public void update()
     {
         if(nframe>1) {
-            animation.update();
+           animation.update();
         }
     }
 
