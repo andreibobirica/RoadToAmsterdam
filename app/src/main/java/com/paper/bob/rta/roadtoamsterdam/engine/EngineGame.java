@@ -11,7 +11,6 @@ import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
 import java.util.ArrayList;
 
@@ -20,8 +19,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     //Proprità
     private MainThread gameLoop;
     private ArrayList<Ostacolo> ostacoli;
-    private ArrayList<Personaggio> personaggi;
-    private Player pl;
     private Background bg;
     public static int WIDTH;
     public static int HEIGHT;
@@ -99,6 +96,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     public void update()
     {
         bg.update(-5);
+        for(int i = 0; i < ostacoli.size(); i++)
+        {ostacoli.get(i).update();}
         //Personaggi
         /*
         for(Personaggio p : personaggi)

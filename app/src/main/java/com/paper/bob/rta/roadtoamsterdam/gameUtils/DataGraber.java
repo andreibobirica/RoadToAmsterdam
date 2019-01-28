@@ -122,16 +122,40 @@ public class DataGraber {
                             height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_height);
                             break;
                     }
-                    ostacoli.add(new Ostacolo(img, x, y, height, width));
+                    //Individuazione n. frame
+                    int nFrame = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("frame").getNodeValue());
+                    //Adattamento della risoluzione relativa
+                    x = positionAdapter(x,y)[0];
+                    y = positionAdapter(x,y)[1];
+                    //Creazione Ostacolo
+                    ostacoli.add(new Ostacolo(img, x, y, height, width, nFrame));
                 }
             }else{Log.i("RTA", "Il Livello non esiste");}
         }
 
-        /* //DEBUG METODO
+
         for(int i=0; i < ostacoli.size(); i++)
-        {Log.i("RTA", ostacoli.get(i).toString());}*/
+        {Log.i("RTA", ostacoli.get(i).toString());}
         Log.i("RTA", "  Ostacoli");
         return ostacoli;
+    }
+
+    public int[] positionAdapter(int x, int y)
+    {
+        int[] ret= new int[2];
+        int screenWidth = EngineGame.WIDTH;
+        int screenHeight = EngineGame.HEIGHT;
+        //Position x and y stay for Coordinates in 1280 and 720 pxs
+        if(x==0)
+        {ret[0]=0;}
+        else
+        {ret[0]=(x*screenWidth)/1280;}
+
+        if(y==0)
+        {ret[1]=0;}
+        else
+        {ret[1]=(y*screenHeight)/720;}
+        return  ret;
     }
 
     public ArrayList<Personaggio> getPersonaggi(String lvName)
