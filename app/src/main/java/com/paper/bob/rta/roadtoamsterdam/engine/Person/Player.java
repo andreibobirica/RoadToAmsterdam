@@ -1,7 +1,10 @@
-package com.paper.bob.rta.roadtoamsterdam.engine;
+package com.paper.bob.rta.roadtoamsterdam.engine.Person;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.Log;
+
+import com.paper.bob.rta.roadtoamsterdam.engine.Animation;
+import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
 
 
 public class Player extends Ostacolo {
@@ -14,17 +17,15 @@ public class Player extends Ostacolo {
     private Animation animation = new Animation();
     private long startTime;
 
-    public Player(Bitmap img) {
-        super(img,400,200, 10, 10);
+    public Player(Bitmap img, int rowCount, int colCount, int x, int y) {
+        super(img,x,y, (img.getWidth()/colCount), (img.getHeight()/rowCount));
         dy = 0;
         dx = 0;
         numFrames = 3;
-        Log.i("RTA", "  Bitmapp");
         Bitmap[] gif = new Bitmap[3];
 
         for (int i = 0; i < gif.length; i++)
         {gif[i] = Bitmap.createBitmap(img, i*width, 0, width, height);}
-        Log.i("RTA", "PlayerConstruct"+gif.length+" dio porco");
         for (int i = 0; i < gif.length; i++)
         {gif[i] = Bitmap.createBitmap(img, i*width, height, width, height*2);}
 

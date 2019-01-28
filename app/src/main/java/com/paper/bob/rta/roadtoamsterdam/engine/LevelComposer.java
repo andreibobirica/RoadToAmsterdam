@@ -26,10 +26,10 @@ public class LevelComposer {
     public Background getBackGround()
     {return dtGraber.getBackground(infoLevel);}
 
-    public Player getPlayer()
-    {return dtGraber.getPlayer(infoLevel);}
-    public void getObjects(){}
-
+    /*
+    public ArrayList<Personaggio> getPersonaggi()
+    {return dtGraber.getPersonaggi(infoLevel);}
+*/
     @Override
     public String toString() {
         return "";

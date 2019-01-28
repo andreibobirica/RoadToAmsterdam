@@ -1,6 +1,7 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 
 public class Ostacolo extends GameObject {
     private Bitmap img;
@@ -50,6 +51,10 @@ public class Ostacolo extends GameObject {
      */
     public void draw(Canvas canvas)
     {
+        float multiplier = (float)(EngineGame.WIDTH / EngineGame.HEIGHT);
+        Matrix bgMatrix = new Matrix();
+        bgMatrix.postScale(multiplier, multiplier);
+        canvas.drawBitmap(img, bgMatrix, paint);
         canvas.drawBitmap(img,x,y,null);
     }
 

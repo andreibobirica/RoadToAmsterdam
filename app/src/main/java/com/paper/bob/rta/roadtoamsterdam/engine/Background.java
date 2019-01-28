@@ -2,8 +2,6 @@ package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
-
 public class Background {
 
     private Bitmap image;
@@ -21,7 +19,7 @@ public class Background {
     public void update(int dx)
     {
         x+=dx;
-        if(x<-(EngineGame.WIDTH)){
+        if(x<-(EngineGame.WIDTH*2)){
             x=0;
         }
     }

@@ -10,6 +10,9 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
+
 import java.util.ArrayList;
 
 public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
@@ -17,6 +20,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     //Proprità
     private MainThread gameLoop;
     private ArrayList<Ostacolo> ostacoli;
+    private ArrayList<Personaggio> personaggi;
     private Player pl;
     private Background bg;
     public static int WIDTH;
@@ -60,7 +64,9 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
         ostacoli = lvComposer.getOstacoli();
         bg = lvComposer.getBackGround();;
-        pl = lvComposer.getPlayer();
+        //pl = lvComposer.getPlayer();
+        //personaggi = lvComposer.getPersonaggi();
+
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
         gameLoop.start();
@@ -92,8 +98,16 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     */
     public void update()
     {
-        bg.update(-4);
-        pl.update();
+        bg.update(-5);
+        //Personaggi
+        /*
+        for(Personaggio p : personaggi)
+        {p.update();}
+        */
+        //pl.update();
+
+
+
         /*
             bg.update();
             player.update();
@@ -118,7 +132,12 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         //OSTACOLI
         for(int i = 0; i < ostacoli.size(); i++)
         {ostacoli.get(i).draw(canvas);}
-        pl.draw(canvas);
+        //OSTACOLI
+        /*
+        for(int i = 0; i < ostacoli.size(); i++)
+        {ostacoli.get(i).draw(canvas);}
+        */
+        //pl.draw(canvas);
 
     }
 }

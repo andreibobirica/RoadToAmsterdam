@@ -6,8 +6,9 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Background;
+import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
-import com.paper.bob.rta.roadtoamsterdam.engine.Player;
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -81,34 +82,14 @@ public class DataGraber {
                 break;
             }else{}
         }
-
         int resId = context.getResources().getIdentifier(bgName, "drawable", context.getPackageName());
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+        //img = this.bitmapScale(img);
+
         bg = new Background(img);
         Log.i("RTA", "Background");
         return bg;
     }
-
-    public Player getPlayer(String lvName)
-    {
-        Player pl = null;
-        String plName = "";
-        NodeList livelli = radice.getChildNodes();
-        for (int i = 0; i < livelli.getLength(); i++)
-        {
-            Node lv = livelli.item(i);
-            if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
-                plName = lv.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getFirstChild().getTextContent();
-                break;
-            }else{}
-        }
-        int resId = context.getResources().getIdentifier(plName, "drawable", context.getPackageName());
-        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
-        pl = new Player(img);
-        Log.i("RTA", "Player");
-        return pl;
-    }
-
 
     public ArrayList<Ostacolo> getOstacoli(String lvName)
     {
@@ -124,15 +105,15 @@ public class DataGraber {
                     String imgName = ost.item(e).getFirstChild().getTextContent();
                     int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
                     Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+                    //img = this.bitmapScale(img);
 
                     int x = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("x").getNodeValue());
                     int y = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("y").getNodeValue());
                     int width = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("width").getNodeValue());
                     int height = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("height").getNodeValue());
-
                     ostacoli.add(new Ostacolo(img, x, y, height, width));
                 }
-            }else{}
+            }else{Log.i("RTA", "  Il Livello non esiste");}
         }
         //DEBUG METODO
         /*
@@ -142,4 +123,37 @@ public class DataGraber {
         return ostacoli;
     }
 
+    public ArrayList<Personaggio> getPersonaggi(String lvName)
+    {
+        ArrayList<Personaggio> personaggi = new ArrayList<Personaggio>();
+        NodeList livelli = radice.getChildNodes();
+        for (int i = 0; i < livelli.getLength(); i++)
+        {
+            Node lv = livelli.item(i);
+            if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
+                NodeList prs = lv.getFirstChild().getNextSibling().getNextSibling().getChildNodes();
+                for (int e = 0; e < prs.getLength(); e++) {
+                    String imgName = prs.item(e).getFirstChild().getTextContent();
+                    int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
+                    Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+                    img = this.bitmapScale(img);
+
+                    int x = Integer.parseInt(prs.item(e).getAttributes().getNamedItem("x").getNodeValue());
+                    int y = Integer.parseInt(prs.item(e).getAttributes().getNamedItem("y").getNodeValue());
+                    personaggi.add(new Personaggio(img, x, y));
+                }
+            }else{Log.i("RTA", "  Il Livello non esiste");}
+        }
+
+        /*//DEBUG METODO
+        for(int i=0; i < personaggi.size(); i++)
+        {Log.i("RTA", personaggi.get(i).toString());}*/
+        Log.i("RTA", "  Personaggi");
+        return personaggi;
+    }
+
+    private Bitmap bitmapScale(Bitmap img)
+    {
+        return Bitmap.createScaledBitmap(img, EngineGame.WIDTH, EngineGame.HEIGHT, true);
+    }
 }
