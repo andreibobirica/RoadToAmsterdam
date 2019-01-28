@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engine.Background;
 import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
@@ -84,8 +85,6 @@ public class DataGraber {
         }
         int resId = context.getResources().getIdentifier(bgName, "drawable", context.getPackageName());
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
-        //img = this.bitmapScale(img);
-
         bg = new Background(img);
         Log.i("RTA", "Background");
         return bg;
@@ -105,18 +104,30 @@ public class DataGraber {
                     String imgName = ost.item(e).getFirstChild().getTextContent();
                     int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
                     Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
-                    //img = this.bitmapScale(img);
 
+                    //Posizione
                     int x = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("x").getNodeValue());
                     int y = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("y").getNodeValue());
-                    int width = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("width").getNodeValue());
-                    int height = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("height").getNodeValue());
+
+                    //Grandezza Relativa
+                    String tipo = ost.item(e).getAttributes().getNamedItem("tipo").getNodeValue();
+                    int width,height;
+                    switch (tipo) {
+                        case "piccolo":
+                            width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_width);
+                            height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_height);
+                            break;
+                        default:
+                            width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_width);
+                            height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_height);
+                            break;
+                    }
                     ostacoli.add(new Ostacolo(img, x, y, height, width));
                 }
-            }else{Log.i("RTA", "  Il Livello non esiste");}
+            }else{Log.i("RTA", "Il Livello non esiste");}
         }
-        //DEBUG METODO
-        /*
+
+        /* //DEBUG METODO
         for(int i=0; i < ostacoli.size(); i++)
         {Log.i("RTA", ostacoli.get(i).toString());}*/
         Log.i("RTA", "  Ostacoli");
@@ -136,7 +147,6 @@ public class DataGraber {
                     String imgName = prs.item(e).getFirstChild().getTextContent();
                     int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
                     Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
-                    img = this.bitmapScale(img);
 
                     int x = Integer.parseInt(prs.item(e).getAttributes().getNamedItem("x").getNodeValue());
                     int y = Integer.parseInt(prs.item(e).getAttributes().getNamedItem("y").getNodeValue());
@@ -152,8 +162,4 @@ public class DataGraber {
         return personaggi;
     }
 
-    private Bitmap bitmapScale(Bitmap img)
-    {
-        return Bitmap.createScaledBitmap(img, EngineGame.WIDTH, EngineGame.HEIGHT, true);
-    }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="ostacolo_piccolo_width">75dp</dimen>
+    <dimen name="ostacolo_piccolo_height">150dp</dimen>
+    <dimen name="ostacolo_normale_width">100dp</dimen>
+    <dimen name="ostacolo_normale_height">200dp</dimen>
+</resources>

@@ -1,29 +1,13 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Rect;
 
 public class Ostacolo extends GameObject {
     private Bitmap img;
 
-    /**
-    Costruttore della classe Ostacolo.
-    L'oggetto ostacolo contiene tutte le informazioni di GameObject ed in più contiene l'immagine Bitmap che rapresenta la sua grafica.
-    Inizialmente la larghezza e la lunghezza viene impostata da questo costruttore a una grandezza fissa.
-    Il costruttore ha come parametri:
-    @param img l'immagine che farà da grafica per l'ostacolo
-    @param x coordinata x iniziale su cui starà l'ostacolo;
-    @param y coordinata y iniziale su cui starà l'ostacolo
-     */
-    public Ostacolo(Bitmap img, int x, int y)
-    {
-        //Di base tutti gli ostacoli hanno la forma rettangolare con grandezza predefinita
-        height = 100;
-        width = 50;
-        this.x = x;
-        this.y = y;
-        this.img = Bitmap.createBitmap(img, 0, 0, width, height);
-    }
     /**
     Costruttore della classe Ostacolo.
     L'oggetto ostacolo contiene tutte le informazioni di GameObject ed in più contiene l'immagine Bitmap che rapresenta la sua grafica.
@@ -40,7 +24,7 @@ public class Ostacolo extends GameObject {
         this.width = width;
         this.x = x;
         this.y = y;
-        this.img = Bitmap.createBitmap(img, 0, 0, width, height);
+        this.img = img;
     }
 
     /**
@@ -51,11 +35,9 @@ public class Ostacolo extends GameObject {
      */
     public void draw(Canvas canvas)
     {
-        float multiplier = (float)(EngineGame.WIDTH / EngineGame.HEIGHT);
-        Matrix bgMatrix = new Matrix();
-        bgMatrix.postScale(multiplier, multiplier);
-        canvas.drawBitmap(img, bgMatrix, paint);
-        canvas.drawBitmap(img,x,y,null);
+        Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
+        Rect dest = new Rect(0,0,width-1, height-1);
+        canvas.drawBitmap(img, src, dest, null);
     }
 
     /**
