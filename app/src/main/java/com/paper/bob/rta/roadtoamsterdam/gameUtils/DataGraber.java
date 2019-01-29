@@ -98,6 +98,7 @@ public class DataGraber {
         for (int i = 0; i < livelli.getLength(); i++)
         {
             Node lv = livelli.item(i);
+            Log.i("RTA", "Nome lv: "+lv.getAttributes().getNamedItem("name").getNodeValue());
             if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
                 NodeList ost = lv.getFirstChild().getChildNodes();
                 for (int e = 0; e < ost.getLength(); e++) {
@@ -132,23 +133,28 @@ public class DataGraber {
                     }
                     //Individuazione n. frame
                     int nFrame = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("frame").getNodeValue());
+                    //Individuazione se fisico
+                    boolean fisico = Boolean.parseBoolean(ost.item(e).getAttributes().getNamedItem("fisico").getNodeValue());
                     //Adattamento della risoluzione relativa
                     x = positionAdapter(x,y)[0];
                     y = positionAdapter(x,y)[1];
                     //Creazione Ostacolo
-                    ostacoli.add(new Ostacolo(img, x, y, height, width, nFrame));
+                    Ostacolo o = new Ostacolo(img, x, y, height, width, nFrame);
+                    o.setFisico(fisico);
+                    ostacoli.add(o);
                 }
-            }else{Log.i("RTA", "Il Livello non esiste");}
+            }else{}
         }
 
-
+/*
         for(int i=0; i < ostacoli.size(); i++)
         {Log.i("RTA", ostacoli.get(i).toString());}
+       */
         Log.i("RTA", "  Ostacoli");
         return ostacoli;
     }
 
-    public int[] positionAdapter(int x, int y)
+    private int[] positionAdapter(int x, int y)
     {
         int[] ret= new int[2];
         int screenWidth = EngineGame.WIDTH;
@@ -168,7 +174,7 @@ public class DataGraber {
 
     public ArrayList<Personaggio> getPersonaggi(String lvName)
     {
-        ArrayList<Personaggio> personaggi = new ArrayList<Personaggio>();
+        ArrayList<Personaggio> personaggi = new ArrayList<>();
         NodeList livelli = radice.getChildNodes();
         for (int i = 0; i < livelli.getLength(); i++)
         {
@@ -179,17 +185,29 @@ public class DataGraber {
                     String imgName = prs.item(e).getFirstChild().getTextContent();
                     int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
                     Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
-
+                    //Posizione
                     int x = Integer.parseInt(prs.item(e).getAttributes().getNamedItem("x").getNodeValue());
                     int y = Integer.parseInt(prs.item(e).getAttributes().getNamedItem("y").getNodeValue());
-                    personaggi.add(new Personaggio(img, x, y));
+                    //Grandezza Relativa
+                    int width,height;
+                    width = context.getResources().getDimensionPixelSize(R.dimen.person_width);
+                    height= context.getResources().getDimensionPixelSize(R.dimen.person_height);
+                    //Individuazione n. frame
+                    int nFrame = Integer.parseInt(prs.item(e).getAttributes().getNamedItem("frame").getNodeValue());
+                    //Adattamento della risoluzione relativa
+                    x = positionAdapter(x,y)[0];
+                    y = positionAdapter(x,y)[1];
+                    //Individuazione del dialogo
+                    String dialogo = prs.item(e).getAttributes().getNamedItem("dialogo").getNodeValue();
+                    //Individuazione notify
+                    boolean notify = Boolean.parseBoolean(prs.item(e).getAttributes().getNamedItem("notify").getNodeValue());
+                    //Creazione Personaggio
+                    personaggi.add(new Personaggio(img, x, y, height, width, nFrame,dialogo,notify));
                 }
-            }else{Log.i("RTA", "  Il Livello non esiste");}
+            }else{}
         }
 
-        /*//DEBUG METODO
-        for(int i=0; i < personaggi.size(); i++)
-        {Log.i("RTA", personaggi.get(i).toString());}*/
+
         Log.i("RTA", "  Personaggi");
         return personaggi;
     }

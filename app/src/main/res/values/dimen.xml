@@ -6,4 +6,7 @@
     <dimen name="ostacolo_normale_height">200dp</dimen>
     <dimen name="ostacolo_normale_oriz_height">100dp</dimen>
     <dimen name="ostacolo_normale_oriz_width">200dp</dimen>
+
+    <dimen name="person_height">125dp</dimen>
+    <dimen name="person_width">75dp</dimen>
 </resources>

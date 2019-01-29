@@ -1,15 +1,13 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class Ostacolo extends GameObject {
     private Bitmap img;
     private int nframe;
     private Animation animation = new Animation();
+    private boolean fisico = false;
 
     /**
     Costruttore della classe Ostacolo.
@@ -39,10 +37,12 @@ public class Ostacolo extends GameObject {
                 gif[i] = Bitmap.createBitmap(img, i * (img.getWidth()/nframe), 0, img.getWidth()/nframe, img.getHeight());
             }
             animation.setFrames(gif);
-            animation.setDelay(200);
+            //Se 2 frame = 100 delay - Se 6 frame = 200 delay
+            //Per ogni frame 25 di delay in più
+            int delay = 50+nframe*25;
+            animation.setDelay(delay);
         }
     }
-
     /**
     Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
     Questo metodo non ha valori di return in quando non fornisce dati, ma attua solo l'azione di disegnare se stesso su un canvas
@@ -59,7 +59,6 @@ public class Ostacolo extends GameObject {
         canvas.drawBitmap(img, src, dest, null);
 
     }
-
     /**
     Metodo update che viene richiamato ogni volta che si deve updatare l'oggetto Ostacolo, cioè ogni frame
      Senza parametri e senza valori di ritorno.
@@ -70,7 +69,23 @@ public class Ostacolo extends GameObject {
            animation.update();
         }
     }
-
+    /**
+     * Metodo che setta la propietà booleana fisico, cioè se l'ostacolo è fisico, cioè collide, oppure è immateriale, cioè rimane alle spalle
+     * Nel caso la propietà fisico della classe è true, l'ostacolo può collidere con il Player.
+     * Nel caso la propietà fisico della classe è false, l'ostacolo rimane inmateriale, e non collide, rimane semplicemente alle
+     * spalle del Player al suo passaggio.
+     * @param p valore boleano che spiega se l'ostacolo è fisico, cioè collide, oppure è immateriale, cioè rimane alle Spalle del Player
+     */
+    public void setFisico(boolean f){fisico = f;}
+    /**
+     * Metodo che restituisce un valore booleano che sta a significare se l'oggetto è fisico o no, sta a significare se l'oggetto ha
+     * la possibilità di collidere col player, bloccandolo.
+     * Nel caso la propietà fisico della classe è true, l'ostacolo può collidere con il Player.
+     * Nel caso la propietà fisico della classe è false, l'ostacolo rimane inmateriale, e non collide, rimane semplicemente alle
+     * spalle del Player al suo passaggio.
+     * @return fisico propietà booleana che spiega se l'ostacolo è fisico, cioè collide, oppure è immateriale, cioè rimane alle Spalle del Player
+     */
+    public boolean getFisico(){return fisico;}
     /**
      * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
      * @return info info Oggetto
@@ -78,7 +93,7 @@ public class Ostacolo extends GameObject {
     @Override
     public String toString() {
         String info = super.toString();
-        info += "\nnFrame"+nframe+"\tanimation: "+animation.toString();
+        info += "\nnFrame: "+nframe+"\tanimation: "+animation.toString();
         info += "\nIMG: \t"+img.toString();
         return info;
     }

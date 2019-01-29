@@ -19,6 +19,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     //Proprità
     private MainThread gameLoop;
     private ArrayList<Ostacolo> ostacoli;
+    private ArrayList<Personaggio> personaggi;
     private Background bg;
     public static int WIDTH;
     public static int HEIGHT;
@@ -59,10 +60,11 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
 
         //OPERAZIONI ch edefiniscono un LIVELLO
         LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
+        bg = lvComposer.getBackGround();
         ostacoli = lvComposer.getOstacoli();
-        bg = lvComposer.getBackGround();;
+        personaggi = lvComposer.getPersonaggi();
+
         //pl = lvComposer.getPlayer();
-        //personaggi = lvComposer.getPersonaggi();
 
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
@@ -87,7 +89,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
             }catch(InterruptedException e){e.printStackTrace();}
         }
     }
-    /*
+    /**
     Metodo Update senza parametri e senza valori di return
     Questo Metodo è il metodo che viene richiamato dal MainThread cioè dal gameLoop ogni Frame.
     A cadenza di FPS questo metodo viene richiamato e deve aggiornare il Canvas su cui sono gli Object.
@@ -95,15 +97,15 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     */
     public void update()
     {
+        //Background
         bg.update(-5);
-        for(int i = 0; i < ostacoli.size(); i++)
-        {ostacoli.get(i).update();}
+        //Ostacoli
+        for(Ostacolo o : ostacoli)
+        {o.update();}
         //Personaggi
-        /*
         for(Personaggio p : personaggi)
         {p.update();}
-        */
-        //pl.update();
+
 
 
 
@@ -129,13 +131,12 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         //BACKGROUND
         bg.draw(canvas);
         //OSTACOLI
-        for(int i = 0; i < ostacoli.size(); i++)
-        {ostacoli.get(i).draw(canvas);}
-        //OSTACOLI
-        /*
-        for(int i = 0; i < ostacoli.size(); i++)
-        {ostacoli.get(i).draw(canvas);}
-        */
+        for(Ostacolo o : ostacoli)
+        {o.draw(canvas);}
+        //PERSONAGGI
+        for(Personaggio p : personaggi)
+        {p.draw(canvas);}
+
         //pl.draw(canvas);
 
     }
