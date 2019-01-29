@@ -63,8 +63,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         bg = lvComposer.getBackGround();
         ostacoli = lvComposer.getOstacoli();
         personaggi = lvComposer.getPersonaggi();
-
-        //pl = lvComposer.getPlayer();
+        for(Personaggio p : personaggi)
+        {p.setContext(getContext());}
 
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
