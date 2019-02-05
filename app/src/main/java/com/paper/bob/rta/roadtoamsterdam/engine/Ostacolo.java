@@ -2,12 +2,15 @@ package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class Ostacolo extends GameObject {
     private Bitmap img;
     private int nframe;
     private Animation animation = new Animation();
     private boolean fisico = false;
+
+    private static Background bgCoord;
 
     /**
     Costruttore della classe Ostacolo.
@@ -43,6 +46,7 @@ public class Ostacolo extends GameObject {
             animation.setDelay(delay);
         }
     }
+
     /**
     Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
     Questo metodo non ha valori di return in quando non fornisce dati, ma attua solo l'azione di disegnare se stesso su un canvas
@@ -54,10 +58,12 @@ public class Ostacolo extends GameObject {
         if(nframe>1) {
            img = animation.getImage();
         }
-        Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
-        Rect dest = new Rect(x,y,x+width, y+height);
-        canvas.drawBitmap(img, src, dest, null);
-
+        if(x<EngineGame.WIDTH)
+        {
+            Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
+            Rect dest = new Rect(x,y,x+width, y+height);
+            canvas.drawBitmap(img, src, dest, null);
+        }
     }
     /**
     Metodo update che viene richiamato ogni volta che si deve updatare l'oggetto Ostacolo, cioè ogni frame
@@ -65,6 +71,8 @@ public class Ostacolo extends GameObject {
      */
     public void update()
     {
+        this.x += bgCoord.getDX();
+        this.y += bgCoord.getDY();
         if(nframe>1) {
            animation.update();
         }
@@ -86,6 +94,12 @@ public class Ostacolo extends GameObject {
      * @return fisico propietà booleana che spiega se l'ostacolo è fisico, cioè collide, oppure è immateriale, cioè rimane alle Spalle del Player
      */
     public boolean getFisico(){return fisico;}
+    /**
+        Metodo che setta il Background per gli ostacoli, il riferimento al background per gli ostacoli serve, perchè se la posizione del Background
+        Cambia, deve cambiare anche quella degli ostacoli, perchè a ruota gli ostacoli stanno fissi sul background, quindi devono muoversi con esse
+        @param bg Background da settare, da salvarsi il riferimento, in maniera tale da avere le sue coordinate
+     */
+    public static void setBgCoord(Background bg) {bgCoord = bg;}
     /**
      * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
      * @return info info Oggetto

@@ -85,7 +85,7 @@ public class DataGraber {
         }
         int resId = context.getResources().getIdentifier(bgName, "drawable", context.getPackageName());
         Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
-        bg = new Background(img);
+        bg = new Background(img,0,0);
         Log.i("RTA", "Background");
         return bg;
     }

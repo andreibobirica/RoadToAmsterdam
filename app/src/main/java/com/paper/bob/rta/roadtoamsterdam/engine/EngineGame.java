@@ -64,7 +64,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         ostacoli = lvComposer.getOstacoli();
         personaggi = lvComposer.getPersonaggi();
         for(Personaggio p : personaggi)
-        {p.setContext(getContext());}
+        { p.setContext(getContext());}
+        Ostacolo.setBgCoord(bg);
 
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
@@ -98,7 +99,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     public void update()
     {
         //Background
-        bg.update(-5);
+        bg.update();
         //Ostacoli
         for(Ostacolo o : ostacoli)
         {o.update();}
