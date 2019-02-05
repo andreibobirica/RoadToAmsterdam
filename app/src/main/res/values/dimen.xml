@@ -4,9 +4,11 @@
     <dimen name="ostacolo_piccolo_height">100dp</dimen>
     <dimen name="ostacolo_normale_width">100dp</dimen>
     <dimen name="ostacolo_normale_height">200dp</dimen>
+    <dimen name="ostacolo_grande_width">175dp</dimen>
+    <dimen name="ostacolo_grande_height">350dp</dimen>
     <dimen name="ostacolo_normale_oriz_height">100dp</dimen>
     <dimen name="ostacolo_normale_oriz_width">200dp</dimen>
 
-    <dimen name="person_height">125dp</dimen>
-    <dimen name="person_width">75dp</dimen>
+    <dimen name="person_height">150dp</dimen>
+    <dimen name="person_width">150dp</dimen>
 </resources>

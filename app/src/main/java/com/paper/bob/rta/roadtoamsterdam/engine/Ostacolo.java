@@ -58,12 +58,12 @@ public class Ostacolo extends GameObject {
         if(nframe>1) {
            img = animation.getImage();
         }
-        if(x<EngineGame.WIDTH)
+        if(x<EngineGame.WIDTH && y <EngineGame.HEIGHT)
         {
             Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
             Rect dest = new Rect(x,y,x+width, y+height);
             canvas.drawBitmap(img, src, dest, null);
-            Log.i("RTA",super.getX()+" personaggi "+super.getY());
+            Log.i("RTA",super.getX()+"X : Y"+super.getY());
         }
     }
     /**

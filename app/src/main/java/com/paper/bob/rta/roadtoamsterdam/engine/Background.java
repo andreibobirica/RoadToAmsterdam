@@ -16,7 +16,7 @@ public class Background {
     public Background(Bitmap res,int dx,int dy)
     {
         this.dx = -20;
-        this.dy = dy;
+        this.dy = -5;
         image = res;
         y=0;
         x=0;
@@ -50,6 +50,16 @@ public class Background {
         else if(x == 0)
         {
             this.dx = -(this.dx);
+        }
+
+        int limiteY = 200;
+        y+=this.dy;
+        if(y==-(limiteY)){
+            this.dy = -(this.dy);
+        }
+        else if(y == 0)
+        {
+            this.dy = -(this.dy);
         }
 
     }
