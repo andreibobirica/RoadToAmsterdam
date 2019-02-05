@@ -63,6 +63,7 @@ public class Ostacolo extends GameObject {
             Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
             Rect dest = new Rect(x,y,x+width, y+height);
             canvas.drawBitmap(img, src, dest, null);
+            Log.i("RTA",super.getX()+" personaggi "+super.getY());
         }
     }
     /**

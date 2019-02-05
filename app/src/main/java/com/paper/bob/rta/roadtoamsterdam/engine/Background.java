@@ -44,7 +44,6 @@ public class Background {
     {
         int limite = 4000;
         x+=this.dx;
-        Log.i("RTA", String.valueOf(x));
         if(x==-(limite)){
             this.dx = -(this.dx);
         }
