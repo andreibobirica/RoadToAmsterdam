@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.paper.bob.rta.roadtoamsterdam.engine.Background;
 import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
 
 
@@ -34,21 +35,19 @@ public class Personaggio extends Ostacolo {
     public void draw(Canvas c)
     {
         super.draw(c);
-       // if(notify) not.draw(c);
-
+        if(notify)not.draw(c);
     }
 
     public void update()
     {
         super.update();
-       // if(notify)not.update();
+        if(notify)not.update();
     }
 
-
-    public void setContext(Context c)
-    { //not.setContext(c);
-    }
 
     public void setNotify(boolean n)
     {notify = n;}
+
+    public int getContatore()
+    {return contatore;}
 }

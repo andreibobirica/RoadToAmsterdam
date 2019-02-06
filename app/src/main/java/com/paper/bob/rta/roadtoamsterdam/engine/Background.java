@@ -15,11 +15,11 @@ public class Background {
      */
     public Background(Bitmap res,int dx,int dy)
     {
-        this.dx = -25;
-        this.dy = -10;
+        this.dx = -10;
+        this.dy = -5;
         image = res;
-        y=-10;
-        x=-25;
+        y=-5;
+        x=-10;
     }
     /**
      Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
@@ -67,5 +67,7 @@ public class Background {
 
     public int getY()
     {return y;}
+    public int getX()
+    {return x;}
 
 }

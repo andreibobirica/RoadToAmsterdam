@@ -2,6 +2,7 @@ package com.paper.bob.rta.roadtoamsterdam.engine;
 
 import android.content.Context;
 
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Notify;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataGraber;
 
@@ -19,8 +20,6 @@ public class LevelComposer {
         this.infoLevel = infoLevel;
     }
 
-
-
     public ArrayList<Ostacolo> getOstacoli()
     {return dtGraber.getOstacoli(infoLevel);}
 
@@ -28,7 +27,11 @@ public class LevelComposer {
     {return dtGraber.getBackground(infoLevel);}
 
     public ArrayList<Personaggio> getPersonaggi()
-    {return dtGraber.getPersonaggi(infoLevel);}
+    {
+        ArrayList<Personaggio> p = dtGraber.getPersonaggi(infoLevel);
+        Notify.setDG(dtGraber);
+        return p;
+    }
 
     @Override
     public String toString() {

@@ -176,6 +176,13 @@ public class DataGraber {
         return  ret;
     }
 
+    public Bitmap getNotifyImage()
+    {
+        int resId = context.getResources().getIdentifier("notify", "drawable", context.getPackageName());
+        Bitmap imgNot = BitmapFactory.decodeResource(context.getResources(), resId);
+        return imgNot;
+    }
+
     public ArrayList<Personaggio> getPersonaggi(String lvName)
     {
         ArrayList<Personaggio> personaggi = new ArrayList<>();
@@ -210,8 +217,6 @@ public class DataGraber {
                 }
             }else{}
         }
-
-
         Log.i("RTA", "  Personaggi");
         return personaggi;
     }

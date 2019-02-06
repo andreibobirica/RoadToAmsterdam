@@ -5,11 +5,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Notify;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
 
 import java.util.ArrayList;
@@ -63,9 +65,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         bg = lvComposer.getBackGround();
         ostacoli = lvComposer.getOstacoli();
         personaggi = lvComposer.getPersonaggi();
-        for(Personaggio p : personaggi)
-        { p.setContext(getContext());}
         Ostacolo.setBgCoord(bg);
+        Notify.setBgCoord(bg);
 
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
@@ -107,9 +108,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         for(Personaggio p : personaggi)
         {p.update();}
 
-
-
-
         /*
             bg.update();
             player.update();
@@ -137,8 +135,5 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         //PERSONAGGI
         for(Personaggio p : personaggi)
         {p.draw(canvas);}
-
-        //pl.draw(canvas);
-
     }
 }

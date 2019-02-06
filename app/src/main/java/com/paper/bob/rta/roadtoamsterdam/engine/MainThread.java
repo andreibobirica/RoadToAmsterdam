@@ -5,7 +5,7 @@ import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 
 public class MainThread extends Thread
 {
-    private int FPS = 30;
+    private int FPS = 60;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private EngineGame engGame;

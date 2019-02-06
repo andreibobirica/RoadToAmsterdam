@@ -10,10 +10,10 @@ public class Ostacolo extends GameObject {
     private Animation animation = new Animation();
     private boolean fisico = false;
 
-    private static Background bgCoord;
+    protected static Background bgCoord;
 
     private static int n = 0;
-    private int contatore;
+    public int contatore;
 
     /**
     Costruttore della classe Ostacolo.
@@ -48,7 +48,7 @@ public class Ostacolo extends GameObject {
             animation.setFrames(gif);
             //Se 2 frame = 100 delay - Se 6 frame = 200 delay
             //Per ogni frame 25 di delay in più
-            int delay = 50+nframe*25;
+            int delay = 50+nframe*50;
             animation.setDelay(delay);
         }
     }
@@ -79,8 +79,6 @@ public class Ostacolo extends GameObject {
     {
         this.x += bgCoord.getDX();
         this.y += bgCoord.getDY();
-        if(contatore == 3)
-        Log.i("RTA",bgCoord.getDY()+" ostacolo n. : "+contatore+" Y:: "+y+" bg y: "+bgCoord.getY());
         if(nframe>1) {
            animation.update();
         }
@@ -108,6 +106,12 @@ public class Ostacolo extends GameObject {
         @param bg Background da settare, da salvarsi il riferimento, in maniera tale da avere le sue coordinate
      */
     public static void setBgCoord(Background bg) {bgCoord = bg;}
+    /**
+     * Metodo che ritorna il riferimento al Background in caso altri elementi abbiano bisogno delle coordinate del background
+     * Per esempio l'oggetto Notify ha bisogno delle coordinate epr sporstarsi conseguitivamente anche lui.
+     * @return bgCoord Oggetto background che ritorna per le sue coordinate
+     */
+    public static Background getBgCoord() {return bgCoord;}
     /**
      * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
      * @return info info Oggetto
