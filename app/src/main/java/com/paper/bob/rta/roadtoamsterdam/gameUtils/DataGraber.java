@@ -10,6 +10,7 @@ import com.paper.bob.rta.roadtoamsterdam.engine.Background;
 import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -219,6 +220,41 @@ public class DataGraber {
         }
         Log.i("RTA", "  Personaggi");
         return personaggi;
+    }
+
+    public Player getPlayer(String lvName)
+    {
+
+        NodeList livelli = radice.getChildNodes();
+        Player play = null;
+        for (int i = 0; i < livelli.getLength(); i++)
+        {
+            Node lv = livelli.item(i);
+            if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
+                Node pl = lv.getFirstChild().getNextSibling().getNextSibling().getNextSibling();
+                String imgName = pl.getFirstChild().getTextContent();
+                int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
+                Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+                //Posizione
+                int x = Integer.parseInt(pl.getAttributes().getNamedItem("x").getNodeValue());
+                int y = Integer.parseInt(pl.getAttributes().getNamedItem("y").getNodeValue());
+                //Grandezza Relativa
+                int width,height;
+                width = context.getResources().getDimensionPixelSize(R.dimen.person_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.person_height);
+                //Individuazione n. frame
+                int nFrame = Integer.parseInt(pl.getAttributes().getNamedItem("frame").getNodeValue());
+                //Adattamento della risoluzione relativa
+                x = positionAdapter(x,y)[0];
+                y = positionAdapter(x,y)[1];
+                //Creazione Player
+                play = new Player(img,x,y,height,width,nFrame);
+                Log.i("RTA", "  Player: "+x+" "+y+" "+nFrame+" "+img+" "+imgName);
+                break;
+            }
+        }
+        Log.i("RTA", "  Player");
+        return play;
     }
 
 }

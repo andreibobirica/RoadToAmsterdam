@@ -7,12 +7,18 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 
+import com.paper.bob.rta.roadtoamsterdam.R;
+import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Notify;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
 import java.util.ArrayList;
 
@@ -23,6 +29,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     private ArrayList<Ostacolo> ostacoli;
     private ArrayList<Personaggio> personaggi;
     private Background bg;
+    private Player pl;
+    private Controller control;
     public static int WIDTH;
     public static int HEIGHT;
 
@@ -43,6 +51,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         init(context);
     }
     //Istruzioni da eseguire su tutti i Costruttori
+    @SuppressLint("ClickableViewAccessibility")
     private void init(Context c)
     {
         //GET Display Size Info
@@ -62,12 +71,21 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
 
         //OPERAZIONI ch edefiniscono un LIVELLO
         LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
+        //Background
         bg = lvComposer.getBackGround();
+        //Ostacoli
         ostacoli = lvComposer.getOstacoli();
+        //Personaggi
         personaggi = lvComposer.getPersonaggi();
+        //Coordinate Background
         Ostacolo.setBgCoord(bg);
         Notify.setBgCoord(bg);
-
+        //Player
+        pl = lvComposer.getPlayer();
+        //Controller
+        control = PlatformMainActivity.getController();
+        pl.setController(control);
+        //THREAD Game
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
         gameLoop.start();
@@ -107,6 +125,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         //Personaggi
         for(Personaggio p : personaggi)
         {p.update();}
+        //Player
+        pl.update();
 
         /*
             bg.update();
@@ -135,5 +155,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         //PERSONAGGI
         for(Personaggio p : personaggi)
         {p.draw(canvas);}
+        pl.draw(canvas);
     }
 }

@@ -46,7 +46,10 @@ public class Personaggio extends Ostacolo {
 
 
     public void setNotify(boolean n)
-    {notify = n;}
+    {
+        notify = n;
+        setFisico(n);
+    }
 
     public int getContatore()
     {return contatore;}

@@ -5,7 +5,7 @@ import android.graphics.Rect;
 import android.util.Log;
 
 public class Ostacolo extends GameObject {
-    private Bitmap img;
+    protected Bitmap img;
     private int nframe;
     private Animation animation = new Animation();
     private boolean fisico = false;

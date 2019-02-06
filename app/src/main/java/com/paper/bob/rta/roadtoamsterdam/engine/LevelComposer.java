@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Notify;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataGraber;
 
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class LevelComposer {
 
     public Background getBackGround()
     {return dtGraber.getBackground(infoLevel);}
+
+    public Player getPlayer()
+    {return dtGraber.getPlayer(infoLevel);}
 
     public ArrayList<Personaggio> getPersonaggi()
     {
