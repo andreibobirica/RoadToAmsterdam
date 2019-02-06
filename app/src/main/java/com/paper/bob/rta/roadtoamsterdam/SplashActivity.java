@@ -1,18 +1,18 @@
 package com.paper.bob.rta.roadtoamsterdam;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
-public class PlatformMainActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
-    protected PowerManager.WakeLock mWakeLock;
+    private PowerManager.WakeLock mWakeLock;
+    private static int SPLASH_TIME = 2000; //This is 4 seconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +27,21 @@ public class PlatformMainActivity extends AppCompatActivity {
         //Eliminazione Title BAR
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //Activity del PLatform Game
-        setContentView(R.layout.activity_platform_main);
+        setContentView(R.layout.activity_splash);
+        //Code to start timer and take action after the timer ends
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do any action here. Now we are moving to next page
+                Intent mySuperIntent = new Intent(SplashActivity.this, PlatformMainActivity.class);
+                startActivity(mySuperIntent);
+                /* This 'finish()' is for exiting the app when back button pressed
+                *  from Home page which is ActivityHome
+                */
+                finish();
+            }
+        }, SPLASH_TIME);
+
 
     }
-    @Override
-    public void onDestroy() {
-
-        super.onDestroy();
-        Log.i("RTA", "applicazione finita");
-    }
-
 }
