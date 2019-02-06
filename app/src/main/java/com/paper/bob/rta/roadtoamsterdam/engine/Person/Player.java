@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Controller;
+import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 
 
 public class Player extends Personaggio {
@@ -15,6 +16,7 @@ public class Player extends Personaggio {
     private Bitmap jumpRLAnim;
 
     private Controller control;
+    private EngineGame engineGame;
 
     public Player(Bitmap img, int x, int y, int height, int width, int nframe){
         super(img,x,y,height,width,nframe,"",false);
@@ -24,43 +26,44 @@ public class Player extends Personaggio {
 
     public void update()
     {
-        Log.i("RTA",control.toString());
         super.update();
-        int dx = 15;
-        int dy = 10;
-        int dDown = 3;
+        int dx = 10;
+        int dy = 5;
+        int dDown = 2;
+        //Numero che indica dove non ci si può muovere
+        int nDMove = engineGame.verCollision();
 
-        if(control.getMDown())
+        if(control.getMDown() && nDMove!=2)
         {
             y+=dDown;
-            if (control.getMRight())
+            if (control.getMRight() && nDMove!=1)
             {
                 x+=dx;
             }
-            else if (control.getMLeft())
+            else if (control.getMLeft() && nDMove!=3)
             {
                 x+=-dx;
             }
         }
-        else if(control.getMUp())
+        else if(control.getMUp()&& nDMove!=4)
         {
             y+=-dy;
-            if (control.getMRight())
+            if (control.getMRight() && nDMove!=1)
             {
                 x += dx;
             }
-            else if (control.getMLeft())
+            else if (control.getMLeft() && nDMove!=3)
             {
                 x += -dx;
             }
         }
         else
         {
-            if (control.getMRight())
+            if (control.getMRight() && nDMove!=1)
             {
                 x += dx;
             }
-            else if (control.getMLeft())
+            else if (control.getMLeft() && nDMove!=3)
             {
                 x += -dx;
             }
@@ -74,5 +77,8 @@ public class Player extends Personaggio {
 
     public void setController(Controller control)
     {this.control = control;}
+
+    public void setEngineGame(EngineGame eng)
+    {engineGame = eng;}
 
 }

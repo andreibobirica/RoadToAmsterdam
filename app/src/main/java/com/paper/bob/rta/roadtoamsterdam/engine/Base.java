@@ -6,10 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
-public class Base {
+public class Base{
     private Bitmap img;
     private static Background bgCoord;
     private int x, y;
+    Rect dest;
 
     public Base(Bitmap res)
     {
@@ -17,10 +18,14 @@ public class Base {
         y=EngineGame.HEIGHT+100;
         img = res;
     }
+
+    public Rect getRect()
+    {return dest;}
+
     public void draw(Canvas canvas)
     {
         Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
-        Rect dest = new Rect(x,y,EngineGame.WIDTH+x, EngineGame.HEIGHT+y+200);
+        dest = new Rect(x,y,EngineGame.WIDTH+x, EngineGame.HEIGHT+y+200);
         canvas.drawBitmap(img, src, dest, null);
         if(x<EngineGame.WIDTH)
         {

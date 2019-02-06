@@ -3,6 +3,7 @@ package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -121,6 +122,9 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     */
     public void update()
     {
+        //Collision
+        pl.setEngineGame(this);
+
         //Background
         bg.update();
         //Base
@@ -133,6 +137,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         {p.update();}
         //Player
         pl.update();
+
 
         /*
             bg.update();
@@ -164,5 +169,72 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         for(Personaggio p : personaggi)
         {p.draw(canvas);}
         pl.draw(canvas);
+    }
+
+    public boolean collision(GameObject a, GameObject b)
+    {
+        if(Rect.intersects(a.getRectangle(), b.getRectangle()))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public int verCollision()
+    {
+        int ret=0;
+        //COLLISIONI
+        ArrayList<GameObject> objColl = new ArrayList<>();
+        for(Ostacolo o : ostacoli)
+        {
+            if(o.getFisico())
+            {objColl.add(o);}
+        }
+        for(Personaggio p : personaggi)
+        {
+            if(p.getFisico())
+            {objColl.add(p);}
+        }
+        for(GameObject g : objColl)
+        {
+            if(collision(pl,g))
+            {
+                Log.i("RTA","collisione Ostacolo: "+objColl.indexOf(g));
+
+                int xa,xb;
+                int ya,yb;
+                int wa,wb;
+                int ha,hb;
+                xa = pl.getX(); xb = g.getX();
+                ya = pl.getY(); yb = g.getY();
+                wa = pl.getWidth(); wb=g.getWidth();
+                ha = pl.getHeight();hb=g.getHeight();
+
+                int xma = wa-xa/2;int xmb = wb-xb/2;
+                int yma = ha-ya/2;int ymb = hb-yb/2;
+
+
+                if(wa>xb && xa < xb)
+                {
+                    Log.i("RTA","sinistro");
+                    //control.setMRight(false);
+                    ret=1;
+                }
+                else if(xa<wb && xa>xb)
+                {
+                    Log.i("RTA","destro");
+                    //control.setMLeft(false);
+                    ret=3;
+                }
+
+                if(ha>yb && yb > ya)
+                {
+                    Log.i("RTA","sopra");
+                    //control.setMDown(false);
+                    ret=2;
+                }
+            }
+        }
+        return ret;
     }
 }

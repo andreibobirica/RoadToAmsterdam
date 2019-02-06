@@ -1,13 +1,10 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 
 import android.os.Handler;
-import android.util.Log;
-
-import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
 public class Controller {
 
-    private Player pl;
+
     private boolean moving;
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     private boolean uping=false;
@@ -16,6 +13,8 @@ public class Controller {
     {mRight = m;moving=m;}
     public void setMLeft(boolean m)
     {mLeft = m;moving=m;}
+    public void setMDown(boolean m)
+    {mDown = m;moving=m;}
     public void setMUp(boolean m)
     {
         if(!uping) {
@@ -26,12 +25,11 @@ public class Controller {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
-                    Log.i("RTA","uping");
                     mUp = false;
                     mDown=true;
                     uping= false;
                 }
-            }, 450);
+            }, 500);
         }
     }
 
