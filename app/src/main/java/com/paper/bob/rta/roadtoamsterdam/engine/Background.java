@@ -15,8 +15,8 @@ public class Background {
      */
     public Background(Bitmap res,int dx,int dy)
     {
-        this.dx = -10;
-        this.dy = -5;
+        this.dx = -0;
+        this.dy = -0;
         image = res;
         y=-5;
         x=-10;

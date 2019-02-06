@@ -43,15 +43,13 @@ public class PlatformMainActivity extends AppCompatActivity {
         btn_right.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    Log.i("RTA","RIGHT RIGHT RIGHT");
-                    control.setMRight(true);
-                    return true;
+                    Log.i("RTA","RIGHT RIGHT RIGHT false");
+                    control.setMRight(false);
                 }
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
 
-                    Log.i("RTA","RIGHT RIGHT RIGHT");
-                    control.setMRight(false);
-                    return true;
+                    Log.i("RTA","RIGHT RIGHT RIGHT true");
+                    control.setMRight(true);
                 }
                 return false;
             }
@@ -60,15 +58,15 @@ public class PlatformMainActivity extends AppCompatActivity {
         btn_left.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    Log.i("RTA","LEFT LEFT LEFT");
-                    control.setMLeft(true);
-                    return true;
+                    Log.i("RTA","LEFT LEFT LEFT false");
+                    control.setMLeft(false);
+
                 }
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
 
-                    Log.i("RTA","LEFT LEFT LEFT");
-                    control.setMLeft(false);
-                    return true;
+                    Log.i("RTA","LEFT LEFT LEFT true");
+                    control.setMLeft(true);
+
                 }
                 return false;
             }

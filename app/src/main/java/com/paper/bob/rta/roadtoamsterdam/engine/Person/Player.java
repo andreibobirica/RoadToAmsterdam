@@ -24,27 +24,45 @@ public class Player extends Personaggio {
 
     public void update()
     {
+        Log.i("RTA",control.toString());
         super.update();
-        if(control.getMUp())
+        int dx = 15;
+        int dy = 10;
+        int dDown = 3;
+
+        if(control.getMDown())
         {
+            y+=dDown;
             if (control.getMRight())
             {
-
+                x+=dx;
             }
             else if (control.getMLeft())
             {
-
+                x+=-dx;
+            }
+        }
+        else if(control.getMUp())
+        {
+            y+=-dy;
+            if (control.getMRight())
+            {
+                x += dx;
+            }
+            else if (control.getMLeft())
+            {
+                x += -dx;
             }
         }
         else
         {
             if (control.getMRight())
             {
-                x += 5;
+                x += dx;
             }
             else if (control.getMLeft())
             {
-                x += -5;
+                x += -dx;
             }
         }
     }
