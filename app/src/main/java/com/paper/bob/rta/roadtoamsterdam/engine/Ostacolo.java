@@ -12,6 +12,9 @@ public class Ostacolo extends GameObject {
 
     private static Background bgCoord;
 
+    private static int n = 0;
+    private int contatore;
+
     /**
     Costruttore della classe Ostacolo.
     L'oggetto ostacolo contiene tutte le informazioni di GameObject ed in più contiene l'immagine Bitmap che rapresenta la sua grafica.
@@ -24,6 +27,9 @@ public class Ostacolo extends GameObject {
      */
     public Ostacolo(Bitmap img, int x, int y, int height, int width,int nframe)
     {
+        //Contatore Ostacoli
+        n++;
+        contatore = n;
         //Grandezza
         this.height =height;
         this.width = width;
@@ -63,7 +69,6 @@ public class Ostacolo extends GameObject {
             Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
             Rect dest = new Rect(x,y,x+width, y+height);
             canvas.drawBitmap(img, src, dest, null);
-            Log.i("RTA",super.getX()+"X : Y"+super.getY());
         }
     }
     /**
@@ -74,6 +79,8 @@ public class Ostacolo extends GameObject {
     {
         this.x += bgCoord.getDX();
         this.y += bgCoord.getDY();
+        if(contatore == 3)
+        Log.i("RTA",bgCoord.getDY()+" ostacolo n. : "+contatore+" Y:: "+y+" bg y: "+bgCoord.getY());
         if(nframe>1) {
            animation.update();
         }

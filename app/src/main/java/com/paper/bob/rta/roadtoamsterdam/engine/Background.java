@@ -15,10 +15,10 @@ public class Background {
      */
     public Background(Bitmap res,int dx,int dy)
     {
-        this.dx = -20;
-        this.dy = -5;
+        this.dx = 0;
+        this.dy = -10;
         image = res;
-        y=0;
+        y=-10;
         x=0;
     }
     /**
@@ -42,25 +42,21 @@ public class Background {
      */
     public void update()
     {
+        //Parametri provisori
         int limite = 4000;
-        x+=this.dx;
-        if(x==-(limite)){
-            this.dx = -(this.dx);
-        }
-        else if(x == 0)
-        {
-            this.dx = -(this.dx);
-        }
-
         int limiteY = 200;
-        y+=this.dy;
-        if(y==-(limiteY)){
-            this.dy = -(this.dy);
-        }
+        //Controllo sul movimento provisorio
+        if(x==-(limite))
+        {this.dx = -(this.dx);}
+        else if(x == 0)
+        {this.dx = -(this.dx);}
+        if(y==-(limiteY))
+        {this.dy = -(this.dy);}
         else if(y == 0)
-        {
-            this.dy = -(this.dy);
-        }
+        {this.dy = -(this.dy);}
+        //Modifica
+        x+=this.dx;
+        y+=this.dy;
 
     }
 
@@ -68,5 +64,8 @@ public class Background {
     {return dx;}
     public int getDY()
     {return dy;}
+
+    public int getY()
+    {return y;}
 
 }
