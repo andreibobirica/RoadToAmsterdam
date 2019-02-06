@@ -14,6 +14,7 @@ public class PlatformMainActivity extends AppCompatActivity {
 
     protected PowerManager.WakeLock mWakeLock;
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
