@@ -15,8 +15,8 @@ public class Background {
      */
     public Background(Bitmap res,int dx,int dy)
     {
-        this.dx = -0;
-        this.dy = -0;
+        this.dx = -10;
+        this.dy = -5;
         image = res;
         y=-5;
         x=-10;
@@ -29,12 +29,10 @@ public class Background {
      */
     public void draw(Canvas canvas)
     {
-/*
+
         Rect src = new Rect(0,0,image.getWidth(), image.getHeight());
-        Rect dest = new Rect(x,y,image.getWidth()+1, EngineGame.HEIGHT+1);
+        Rect dest = new Rect(x,y,x+5500, EngineGame.HEIGHT+y+200);
         canvas.drawBitmap(image, src, dest, null);
-*/
-        canvas.drawBitmap(image,x,y,null);
     }
     /**
      Metodo update che viene richiamato ogni volta che si deve updatare l'oggetto Ostacolo, cioè ogni frame

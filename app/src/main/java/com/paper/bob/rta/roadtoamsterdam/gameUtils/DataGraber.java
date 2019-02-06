@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engine.Background;
+import com.paper.bob.rta.roadtoamsterdam.engine.Base;
 import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 import com.paper.bob.rta.roadtoamsterdam.engine.Ostacolo;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
@@ -148,7 +149,8 @@ public class DataGraber {
                     o.setFisico(fisico);
                     ostacoli.add(o);
                 }
-            }else{}
+                break;
+            }
         }
 
 /*
@@ -214,9 +216,11 @@ public class DataGraber {
                     //Individuazione notify
                     boolean notify = Boolean.parseBoolean(prs.item(e).getAttributes().getNamedItem("notify").getNodeValue());
                     //Creazione Personaggio
-                    personaggi.add(new Personaggio(img, x, y, height, width, nFrame,dialogo,notify));
+                    Personaggio p = new Personaggio(img, x, y, height, width, nFrame,dialogo,notify);
+                    personaggi.add(p);
                 }
-            }else{}
+
+            }
         }
         Log.i("RTA", "  Personaggi");
         return personaggi;
@@ -255,6 +259,26 @@ public class DataGraber {
         }
         Log.i("RTA", "  Player");
         return play;
+    }
+
+    public Base getBase(String lvName)
+    {
+        NodeList livelli = radice.getChildNodes();
+        Base base = null;
+        for (int i = 0; i < livelli.getLength(); i++)
+        {
+            Node lv = livelli.item(i);
+            if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
+                Node pl = lv.getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
+                String imgName = pl.getFirstChild().getTextContent();
+                int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
+                Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+                base = new Base(img);
+                break;
+            }
+        }
+        Log.i("RTA", "  Base");
+        return base;
     }
 
 }

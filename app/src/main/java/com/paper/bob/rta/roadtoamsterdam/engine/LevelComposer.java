@@ -30,6 +30,9 @@ public class LevelComposer {
     public Player getPlayer()
     {return dtGraber.getPlayer(infoLevel);}
 
+    public Base getBase()
+    {return dtGraber.getBase(infoLevel);}
+
     public ArrayList<Personaggio> getPersonaggi()
     {
         ArrayList<Personaggio> p = dtGraber.getPersonaggi(infoLevel);

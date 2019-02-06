@@ -29,6 +29,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     private ArrayList<Ostacolo> ostacoli;
     private ArrayList<Personaggio> personaggi;
     private Background bg;
+    private Base base;
     private Player pl;
     private Controller control;
     public static int WIDTH;
@@ -73,15 +74,18 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
         //Background
         bg = lvComposer.getBackGround();
+        //Base
+        base = lvComposer.getBase();
         //Ostacoli
         ostacoli = lvComposer.getOstacoli();
         //Personaggi
         personaggi = lvComposer.getPersonaggi();
+        //Player
+        pl = lvComposer.getPlayer();
         //Coordinate Background
         Ostacolo.setBgCoord(bg);
         Notify.setBgCoord(bg);
-        //Player
-        pl = lvComposer.getPlayer();
+        Base.setBgCoord(bg);
         //Controller
         control = PlatformMainActivity.getController();
         pl.setController(control);
@@ -119,6 +123,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     {
         //Background
         bg.update();
+        //Base
+        base.update();
         //Ostacoli
         for(Ostacolo o : ostacoli)
         {o.update();}
@@ -149,6 +155,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     {
         //BACKGROUND
         bg.draw(canvas);
+        //Base
+        base.draw(canvas);
         //OSTACOLI
         for(Ostacolo o : ostacoli)
         {o.draw(canvas);}
