@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class LevelComposer {
 
-    private DataGraber dtGraber;
-    private String infoLevel;
+    private DataGraber dtGraber;//Campo che si occupa di Prelevare tutti i dati neccessari al Game, incluse le sue Istanze
+    private String infoLevel;//Informazioni del livello
 
     public LevelComposer(String infoLevel,Context context)
     {
@@ -21,18 +21,34 @@ public class LevelComposer {
         this.infoLevel = infoLevel;
     }
 
-    public ArrayList<Ostacolo> getOstacoli()
-    {return dtGraber.getOstacoli(infoLevel);}
+    /**
+     * Metodo che si occupa di prelevaretutti gli Ostacoli di un dato livello dal Datagraber
+     * @return  Arraylist contenente tutti gli ostacoli
+     */
+    public ArrayList<Ostacolo> getOstacoli() {return dtGraber.getOstacoli(infoLevel);}
 
-    public Background getBackGround()
-    {return dtGraber.getBackground(infoLevel);}
+    /**
+     * Metodo che si occupa prelevare il Background dal Datagraber
+     * @return Oggetto Background
+     */
+    public Background getBackGround() {return dtGraber.getBackground(infoLevel);}
 
-    public Player getPlayer()
-    {return dtGraber.getPlayer(infoLevel);}
+    /**
+     * Metodo che si occupa di prelevare il Player dal DataGraber
+     * @return Player
+     */
+    public Player getPlayer() {return dtGraber.getPlayer(infoLevel);}
 
-    public Base getBase()
-    {return dtGraber.getBase(infoLevel);}
+    /**
+     * Metodo che si occupa di prelevare la Base Dal DataGraber
+     * @return Base
+     */
+    public Base getBase() {return dtGraber.getBase(infoLevel);}
 
+    /**
+     * Metodo che preleva un Insieme di Personaggi dal Datagraber
+     * @return ArrayList di tutti i Personaggi
+     */
     public ArrayList<Personaggio> getPersonaggi()
     {
         ArrayList<Personaggio> p = dtGraber.getPersonaggi(infoLevel);

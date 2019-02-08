@@ -32,12 +32,13 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     private Background bg;
     private Base base;
     private Player pl;
+    private ArrayList<GameObject> objColl = new ArrayList<>();
     private Controller control;
     public static int WIDTH;
     public static int HEIGHT;
 
     //Costruttori
-    //Implementazione di Costruttori per essere leggibile anche da XML
+    //Implementazione di Costruttori per essere leggibile anche da XML Layout
     public EngineGame(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -47,8 +48,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         init(context);
     }
     //Costruttore
-    public EngineGame(Context context)
-    {
+    public EngineGame(Context context) {
         super(context);
         init(context);
     }
@@ -71,7 +71,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
 
-        //OPERAZIONI ch edefiniscono un LIVELLO
+        //OPERAZIONI ch edefiniscono un LIVELLO, Creazione LevelComposer
         LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
         //Background
         bg = lvComposer.getBackGround();
@@ -87,9 +87,14 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         Ostacolo.setBgCoord(bg);
         Notify.setBgCoord(bg);
         Base.setBgCoord(bg);
-        //Controller
+        //Controller//Collision per il Player
         control = PlatformMainActivity.getController();
         pl.setController(control);
+        control.setPlayer(pl);
+        control.setObjColl(objColl);
+        //Gestione Collisioni
+        for(Ostacolo o : ostacoli) {if(o.getFisico()) {objColl.add(o);}}
+        for(Personaggio p : personaggi) {if(p.getFisico()) {objColl.add(p);}}
         //THREAD Game
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
@@ -122,36 +127,16 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     */
     public void update()
     {
-        //Collision
-        pl.setEngineGame(this);
-
         //Background
         bg.update();
         //Base
         base.update();
         //Ostacoli
-        for(Ostacolo o : ostacoli)
-        {o.update();}
+        for(Ostacolo o : ostacoli) {o.update();}
         //Personaggi
-        for(Personaggio p : personaggi)
-        {p.update();}
+        for(Personaggio p : personaggi) {p.update();}
         //Player
         pl.update();
-
-
-        /*
-            bg.update();
-            player.update();
-            //update top border
-            this.updateTopBorder();
-
-            //CHECK COLLISION
-            for(int i = 0; i<botborder.size(); i++)
-            {
-                if(collision(botborder.get(i), player))
-                    player.setPlaying(false);
-            }
-         */
     }
 
     @SuppressLint("MissingSuperCall")
@@ -168,73 +153,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         //PERSONAGGI
         for(Personaggio p : personaggi)
         {p.draw(canvas);}
+        //PLAYER
         pl.draw(canvas);
     }
 
-    public boolean collision(GameObject a, GameObject b)
-    {
-        if(Rect.intersects(a.getRectangle(), b.getRectangle()))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public int verCollision()
-    {
-        int ret=0;
-        //COLLISIONI
-        ArrayList<GameObject> objColl = new ArrayList<>();
-        for(Ostacolo o : ostacoli)
-        {
-            if(o.getFisico())
-            {objColl.add(o);}
-        }
-        for(Personaggio p : personaggi)
-        {
-            if(p.getFisico())
-            {objColl.add(p);}
-        }
-        for(GameObject g : objColl)
-        {
-            if(collision(pl,g))
-            {
-                Log.i("RTA","collisione Ostacolo: "+objColl.indexOf(g));
-
-                int xa,xb;
-                int ya,yb;
-                int wa,wb;
-                int ha,hb;
-                xa = pl.getX(); xb = g.getX();
-                ya = pl.getY(); yb = g.getY();
-                wa = pl.getWidth(); wb=g.getWidth();
-                ha = pl.getHeight();hb=g.getHeight();
-
-                int xma = wa-xa/2;int xmb = wb-xb/2;
-                int yma = ha-ya/2;int ymb = hb-yb/2;
-
-
-                if(wa>xb && xa < xb)
-                {
-                    Log.i("RTA","sinistro");
-                    //control.setMRight(false);
-                    ret=1;
-                }
-                else if(xa<wb && xa>xb)
-                {
-                    Log.i("RTA","destro");
-                    //control.setMLeft(false);
-                    ret=3;
-                }
-
-                if(ha>yb && yb > ya)
-                {
-                    Log.i("RTA","sopra");
-                    //control.setMDown(false);
-                    ret=2;
-                }
-            }
-        }
-        return ret;
-    }
 }

@@ -24,7 +24,6 @@ public class Personaggio extends Ostacolo {
         super(img,x,y,height,width,nframe);
         this.dialogo = dialogo;
         //Se è Notified, allora è anche fisico, se non è Notified, non è fisico
-
         if(notify) {
             this.notify = notify;
             this.setFisico(notify);
@@ -45,12 +44,5 @@ public class Personaggio extends Ostacolo {
     }
 
 
-    public void setNotify(boolean n)
-    {
-        notify = n;
-        setFisico(n);
-    }
-
-    public int getContatore()
-    {return contatore;}
+    public void setNotify(boolean n) {notify = n;}
 }

@@ -5,19 +5,34 @@ import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 
 public class MainThread extends Thread
 {
-    private int FPS = 60;
+    //Campo che definisce il numero di FPS
+    public static final int FPS = 60;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private EngineGame engGame;
     private boolean running;
-    public static Canvas canvas;
+    private static Canvas canvas;
 
+    /**
+     * Costruttore del MainThred che definisce i campo e cosa il Thred dovrà regolare in tempistiche
+     * @param surfaceHolder La view su cui il Thred fa appoggio
+     * @param engGame il EngineGame che il Thred dovrà regolare in tempistiche e ottimizzazione.
+     */
     public MainThread(SurfaceHolder surfaceHolder, EngineGame engGame)
     {
         super();
         this.surfaceHolder = surfaceHolder;
         this.engGame = engGame;
     }
+
+    /**
+     * Metodo run che definisce il Thred di gioco, tramite un algoritmo e un sistema di Wait & Do si riesce a definire
+     * Un sistema di FPS Engine Game, per il quale ogni azione si riesce ad eseguirla ad una cerca distanza dal tempo.
+     * Il metodo run() non ha valori da parametro e nessun valore di ritorno.
+     * Il suo unico scopo è definire con un ciclo continuo infinito le azioni e scandirle per tempo.
+     * In particola ad intervali regolari richiama i metodi:
+     * EngineGame.update()  & EngineGame.draw() che successivamente faranno in modo che il gioco funzioni su un Engine Game.
+     */
     @Override
     public void run()
     {
@@ -68,6 +83,10 @@ public class MainThread extends Thread
             }
         }
     }
+
+    /**
+     * Metodo che fa partire il Thred.
+     */
     public void setRunning(boolean b)
     {
         running=b;

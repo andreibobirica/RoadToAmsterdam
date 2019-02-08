@@ -18,8 +18,8 @@ public class Background {
         this.dx = 0;
         this.dy = 0;
         image = res;
-        y=-5;
-        x=-10;
+        y=0;
+        x=0;
     }
     /**
      Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
@@ -62,6 +62,13 @@ public class Background {
     {return dx;}
     public int getDY()
     {return dy;}
+
+    /*
+    public void setDX(int dx)
+    {this.dx = dx;}
+    public void setDY(int dy)
+    {this.dy = dy;}
+    */
 
     public int getY()
     {return y;}

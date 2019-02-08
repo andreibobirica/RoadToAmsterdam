@@ -253,7 +253,6 @@ public class DataGraber {
                 y = positionAdapter(x,y)[1];
                 //Creazione Player
                 play = new Player(img,x,y,height,width,nFrame);
-                Log.i("RTA", "  Player: "+x+" "+y+" "+nFrame+" "+img+" "+imgName);
                 break;
             }
         }

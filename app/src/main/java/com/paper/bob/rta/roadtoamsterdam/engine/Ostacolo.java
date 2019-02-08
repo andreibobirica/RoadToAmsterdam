@@ -2,19 +2,20 @@ package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class Ostacolo extends GameObject {
-    protected Bitmap img;
+    //Campi che definiscono l'ostacolo
+    private Bitmap img;
     private int nframe;
     private Animation animation = new Animation();
     private boolean fisico = false;
 
-    protected static Background bgCoord;
+    //Campo bgCoord, cioè riferimento al Background per seguirne i movimenti e le sue coordinate
+    private static Background bgCoord;
 
+    //Campi contatore per tenere traccia di quanti Ostacoli ci sono
     private static int n = 0;
-    public int contatore;
-
+    private int contatore;
     /**
     Costruttore della classe Ostacolo.
     L'oggetto ostacolo contiene tutte le informazioni di GameObject ed in più contiene l'immagine Bitmap che rapresenta la sua grafica.
@@ -52,7 +53,6 @@ public class Ostacolo extends GameObject {
             animation.setDelay(delay);
         }
     }
-
     /**
     Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
     Questo metodo non ha valori di return in quando non fornisce dati, ma attua solo l'azione di disegnare se stesso su un canvas
@@ -123,4 +123,16 @@ public class Ostacolo extends GameObject {
         info += "\nIMG: \t"+img.toString();
         return info;
     }
+    /**
+     * Metodo che ritorna l'immagine, serve principalmente per costruttori di copia
+     * @return img Bitmap con l'immagine dell'ostacolo
+     */
+    public Bitmap getImage()
+    {return img;}
+    /**
+     * Metodo che ritorna il numero di frame
+     * @return numero int di frame
+     */
+    public int getNFrame()
+    {return nframe;}
 }

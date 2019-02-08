@@ -62,7 +62,19 @@ public abstract class GameObject {
      */
     public Rect getRectangle()
     {return new Rect(x, y, x+width, y+height);}
+    /**
+     * Metodo che imposta la larghezza del GameObject
+     * @param w larghezza del gameobject
+     */
+    public void setWidth(int w)
+    {this.width = w;}
 
+    /**
+     * Metodo che imposta L'altezza del GameObject
+     * @param h altezza del gameobject
+     */
+    public void setHeight(int h)
+    {this.height = h;}
     /**
      * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
      * @return info info Oggetto
