@@ -81,29 +81,29 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         ostacoli = lvComposer.getOstacoli();
         //Personaggi
         personaggi = lvComposer.getPersonaggi();
-        //Player
+        //Player & Movement Player
         pl = lvComposer.getPlayer();
+        bg.setPlayer(pl);
         //Coordinate Background
         Ostacolo.setBgCoord(bg);
         Notify.setBgCoord(bg);
         Base.setBgCoord(bg);
+        //Gestione Collisioni
+        for(Ostacolo o : ostacoli) {if(o.getFisico()) {objColl.add(o);}}
+        for(Personaggio p : personaggi) {if(p.getFisico()) {objColl.add(p);}}
         //Controller//Collision per il Player
         control = PlatformMainActivity.getController();
         pl.setController(control);
         control.setPlayer(pl);
         control.setObjColl(objColl);
-        //Gestione Collisioni
-        for(Ostacolo o : ostacoli) {if(o.getFisico()) {objColl.add(o);}}
-        for(Personaggio p : personaggi) {if(p.getFisico()) {objColl.add(p);}}
+        control.setBase(base);
         //THREAD Game
         gameLoop = new MainThread(getHolder(), this);
         gameLoop.setRunning(true);
         gameLoop.start();
     }
-
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {}
-
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         boolean retry = true;
@@ -138,7 +138,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         //Player
         pl.update();
     }
-
     @SuppressLint("MissingSuperCall")
     @Override
     public void draw(Canvas canvas)

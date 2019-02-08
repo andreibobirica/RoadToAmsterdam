@@ -13,7 +13,7 @@ public class Player extends Personaggio {
     private Bitmap leftAnim;
     private Bitmap rightAnim;
     private Bitmap jumpLAnim;
-    private Bitmap jumpRLAnim;
+    private Bitmap jumpRAnim;
 
     private Controller control;
 
@@ -39,14 +39,40 @@ public class Player extends Personaggio {
         super.update();
 
         if(control.getMDown())
-        {y+=dDown;}
+        {
+            y+=dDown;
+            if (control.getMRight())
+            {
+                this.setImage(jumpRAnim);
+            }
+            else if (control.getMLeft())
+            {
+                this.setImage(jumpLAnim);
+            }
+        }
         else if(control.getMUp())
-        {y+=-dy;}
+        {
+            y+=-dy;
+            if (control.getMRight())
+            {
+                this.setImage(jumpRAnim);
+            }
+            else if (control.getMLeft())
+            {
+                this.setImage(jumpLAnim);
+            }
+        }
 
-        if (control.getMRight())
-        {x += dx;}
-        else if (control.getMLeft())
-        {x += -dx;}
+            if (control.getMRight())
+            {
+                x += dx;
+                this.setImage(rightAnim);
+            }
+            else if (control.getMLeft())
+            {
+                x += -dx;
+                this.setImage(leftAnim);
+            }
 
     }
 
@@ -62,4 +88,12 @@ public class Player extends Personaggio {
         dy = control.getDY();
         dDown = control.getDDown();
     }
+
+    public int getDX(){return dx;}
+    public int getDY(){return dy;}
+
+    public void setLeftAnim(Bitmap i){leftAnim = i;}
+    public void setRightAnim(Bitmap i){rightAnim = i;}
+    public void setJumpLAnim(Bitmap i){jumpLAnim = i;}
+    public void setJumpRAnim(Bitmap i){jumpRAnim = i;}
 }

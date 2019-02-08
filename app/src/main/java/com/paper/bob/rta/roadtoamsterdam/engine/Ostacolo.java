@@ -129,6 +129,7 @@ public class Ostacolo extends GameObject {
      */
     public Bitmap getImage()
     {return img;}
+    public void setImage(Bitmap img){this.img = img;}
     /**
      * Metodo che ritorna il numero di frame
      * @return numero int di frame

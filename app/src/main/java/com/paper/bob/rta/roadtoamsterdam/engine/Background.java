@@ -4,10 +4,13 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
+
 public class Background {
 
     private Bitmap image;
     private int x, y, dx, dy;
+    private Player pl;
 
     /**
      * Costruttore della classe Background, questo costruttore inizializza un background ricevendo come parametro una img Bitmap
@@ -18,8 +21,8 @@ public class Background {
         this.dx = 0;
         this.dy = 0;
         image = res;
-        y=0;
-        x=0;
+        y=-1000;
+        x=-1000;
     }
     /**
      Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
@@ -31,7 +34,7 @@ public class Background {
     {
 
         Rect src = new Rect(0,0,image.getWidth(), image.getHeight());
-        Rect dest = new Rect(x,y,x+5500, EngineGame.HEIGHT+y+200);
+        Rect dest = new Rect(x,y,x+5000, EngineGame.HEIGHT+y+1000);
         canvas.drawBitmap(image, src, dest, null);
     }
     /**
@@ -40,7 +43,8 @@ public class Background {
      */
     public void update()
     {
-        //Parametri provisori
+        /*
+        //Parametri provisori Movimento Di Crociera di DEBUG
         int limite = 4000;
         int limiteY = 200;
         //Controllo sul movimento provisorio
@@ -52,6 +56,22 @@ public class Background {
         {this.dy = -(this.dy);}
         else if(y == 0)
         {this.dy = -(this.dy);}
+        */
+
+        int xm = ((pl.getX()+pl.getWidth())+pl.getX())/2;
+        if(xm>(EngineGame.WIDTH/4)*3)
+        {dx = -pl.getDX();}
+        else if((xm)<(EngineGame.WIDTH/4))
+        {dx = pl.getDX();}
+        else { dx=0;}
+
+        int ym = ((pl.getY()+pl.getHeight())+pl.getY())/2;
+        if(ym > (EngineGame.HEIGHT/4)*3)
+        {dy = -pl.getDY();}
+        else if(ym<(EngineGame.HEIGHT/4))
+        {dy = pl.getDY();}
+        else { dy=0;}
+
         //Modifica
         x+=this.dx;
         y+=this.dy;
@@ -63,12 +83,7 @@ public class Background {
     public int getDY()
     {return dy;}
 
-    /*
-    public void setDX(int dx)
-    {this.dx = dx;}
-    public void setDY(int dy)
-    {this.dy = dy;}
-    */
+    public void setPlayer(Player pl){this.pl = pl;}
 
     public int getY()
     {return y;}

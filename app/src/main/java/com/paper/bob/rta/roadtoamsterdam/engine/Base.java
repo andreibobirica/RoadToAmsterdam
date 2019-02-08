@@ -6,35 +6,32 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
-public class Base{
+public class Base extends GameObject{
     private Bitmap img;
     private static Background bgCoord;
-    private int x, y;
-    Rect dest;
-
+    private Rect dest;
     public Base(Bitmap res)
     {
         x=0;
-        y=EngineGame.HEIGHT+100;
+        y=EngineGame.HEIGHT-100;
+        width = EngineGame.WIDTH+x;
+        height = EngineGame.HEIGHT+y+200;
         img = res;
     }
-
-    public Rect getRect()
-    {return dest;}
 
     public void draw(Canvas canvas)
     {
         Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
-        dest = new Rect(x,y,EngineGame.WIDTH+x, EngineGame.HEIGHT+y+200);
+        dest = new Rect(x, y, width, height);
         canvas.drawBitmap(img, src, dest, null);
         if(x<EngineGame.WIDTH)
         {
-            dest = new Rect(x,y,(EngineGame.WIDTH*2)+x, EngineGame.HEIGHT+y+200);
+            dest = new Rect(x,y,(EngineGame.WIDTH*2)+x, height);
             canvas.drawBitmap(img, src, dest, null);
         }
         if(x>0)
         {
-            dest = new Rect(x,y,-(EngineGame.WIDTH+x), EngineGame.HEIGHT+y+200);
+            dest = new Rect(x,y,-(EngineGame.WIDTH+x), height);
             canvas.drawBitmap(img, src, dest, null);
         }
     }
@@ -49,6 +46,9 @@ public class Base{
             x=-EngineGame.WIDTH;
         }
     }
+
+    public Rect getRect()
+    {return dest;}
 
     public static void setBgCoord(Background bg)
     {bgCoord = bg;}

@@ -251,8 +251,21 @@ public class DataGraber {
                 //Adattamento della risoluzione relativa
                 x = positionAdapter(x,y)[0];
                 y = positionAdapter(x,y)[1];
+                //CREATING ANIMATION GIF
+                Bitmap leftAnim,rightAnim,jumpLAnim,jumpRAnim;
+
+                leftAnim = Bitmap.createBitmap(img, 0, 0, img.getWidth()/4, img.getHeight());
+                rightAnim = Bitmap.createBitmap(img, img.getWidth()/4, 0, img.getWidth()/2, img.getHeight());
+                Log.i("RTA", "  Player");
+                jumpLAnim = Bitmap.createBitmap(img, img.getWidth()/4, 0, img.getWidth()/2, img.getHeight());
+                Log.i("RTA", "  Player");
+                jumpRAnim = Bitmap.createBitmap(img, img.getWidth()/4, 0, img.getWidth()/2, img.getHeight());
                 //Creazione Player
-                play = new Player(img,x,y,height,width,nFrame);
+                play = new Player(jumpLAnim,x,y,height,width,nFrame);
+                play.setJumpLAnim(jumpLAnim);
+                play.setJumpRAnim(jumpRAnim);
+                play.setLeftAnim(leftAnim);
+                play.setRightAnim(rightAnim);
                 break;
             }
         }

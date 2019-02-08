@@ -12,11 +12,12 @@ public class Controller {
 
     private Player pl;
     private ArrayList<GameObject> objColl;
+    private Base b;
 
     //VETTORI DI MOVIMENTO
     private int dx = 10;
-    private int dy = 5;
-    private int dDown = 2;
+    private int dy = 15;
+    private int dDown = 10;
 
     private boolean moving;
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
@@ -46,12 +47,12 @@ public class Controller {
                     mDown=true;
                     uping= false;
                 }
-            }, 500);
+            }, 300);
         }
     }
 
     public boolean getMDown()
-    {return (!verCol(0,dy)&& mDown);}
+    {return (!verCol(0,dDown)&& mDown && !verColBase());}
     public boolean getMRight()
     {return (!verCol(dx,0)&& mRight);}
     public boolean getMLeft()
@@ -63,6 +64,7 @@ public class Controller {
     {this.pl = pl;}
     public void setObjColl(ArrayList<GameObject> o)
     {this.objColl = o;}
+    public void setBase(Base b){this.b = b;}
 
     /**
      * Metodo che confronta due Oggetti Rect e verifica se è avvenuta una collisione fra i due.
@@ -73,7 +75,13 @@ public class Controller {
      * @return valore booleano, se true significa che è avvenuta una collisione, se false non è avvenuta una collisione
      */
     private boolean collision(GameObject a, GameObject b)
-    {return Rect.intersects(a.getRectangle(), b.getRectangle());}
+    {
+        if(Rect.intersects(a.getRectangle(), b.getRectangle())) {
+            Log.i("RTA","Collisione con: "+b.toString());
+            return true;
+        }
+        return false;
+    }
     /**
      * Metodo che confronta tutti gli GameObject Fisici con il Player, e ritorna se in un ipotetico movimento collidono oppure no.
      * Il metodo contronta tutti gli GameObject objCol, oggetti preventivamente creati che rappresentato tutti gli GameOnject Fisici e che possono collidere.
@@ -87,6 +95,7 @@ public class Controller {
      */
     private boolean verCol(int dx, int dy)
     {
+        Log.i("RTA", String.valueOf(objColl.size()));
         for(GameObject g : objColl)
         {
             Player pl2 = new Player(pl);
@@ -98,6 +107,16 @@ public class Controller {
         }
         return false;
     }
+
+    private boolean verColBase()
+    {
+        Log.i("RTA","Collisione base");
+        Player pl2 = new Player(pl);
+        pl2.setY(pl.getY()+dy);
+        pl2.setHeight(pl.getHeight()+dDown);
+        return(collision(pl2,b));
+    }
+
 
     public String toString()
     {return "bool: "+moving+mLeft+mRight+mUp;}

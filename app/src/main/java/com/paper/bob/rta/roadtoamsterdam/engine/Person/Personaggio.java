@@ -43,6 +43,5 @@ public class Personaggio extends Ostacolo {
         if(notify)not.update();
     }
 
-
     public void setNotify(boolean n) {notify = n;}
 }
