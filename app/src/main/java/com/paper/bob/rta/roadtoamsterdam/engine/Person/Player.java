@@ -2,10 +2,8 @@
 package com.paper.bob.rta.roadtoamsterdam.engine.Person;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Controller;
-import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 
 
 public class Player extends Personaggio {
@@ -14,6 +12,9 @@ public class Player extends Personaggio {
     private Bitmap rightAnim;
     private Bitmap jumpLAnim;
     private Bitmap jumpRAnim;
+    private Bitmap img;
+    //0 normal ; 1 left ; 2 right ;
+    private int cambioImg = 0;
 
     private Controller control;
 
@@ -24,6 +25,7 @@ public class Player extends Personaggio {
 
     public Player(Bitmap img, int x, int y, int height, int width, int nframe) {
         super(img, x, y, height, width, nframe, null, false);
+        this.img = img;
         setFisico(true);
         setNotify(false);
     }
@@ -38,41 +40,41 @@ public class Player extends Personaggio {
     {
         super.update();
 
+        //Controllo se in basso o in alto
+        //In più per variare le animazioni se verifica se si salta a destra o a sinistra
         if(control.getMDown())
         {
             y+=dDown;
-            if (control.getMRight())
-            {
-                this.setImage(jumpRAnim);
-            }
-            else if (control.getMLeft())
-            {
-                this.setImage(jumpLAnim);
-            }
         }
         else if(control.getMUp())
         {
             y+=-dy;
-            if (control.getMRight())
-            {
-                this.setImage(jumpRAnim);
-            }
-            else if (control.getMLeft())
-            {
-                this.setImage(jumpLAnim);
-            }
         }
 
-            if (control.getMRight())
-            {
-                x += dx;
+        //CONTROLLO  se a destra o a sinistra
+        if (control.getMRight())
+        {
+            x += dx;
+            if(cambioImg != 2) {
+                cambioImg=2;
                 this.setImage(rightAnim);
             }
-            else if (control.getMLeft())
-            {
-                x += -dx;
+        }
+        else if (control.getMLeft())
+        {
+            x += -dx;
+            if(cambioImg != 1) {
+                cambioImg = 1;
                 this.setImage(leftAnim);
             }
+        }
+        else
+        {
+            if(cambioImg != 0) {
+                cambioImg = 0;
+                this.setImage(img);
+            }
+        }
 
     }
 

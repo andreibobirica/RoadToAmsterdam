@@ -91,6 +91,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         //Gestione Collisioni
         for(Ostacolo o : ostacoli) {if(o.getFisico()) {objColl.add(o);}}
         for(Personaggio p : personaggi) {if(p.getFisico()) {objColl.add(p);}}
+        Log.i("RTA", String.valueOf(objColl.size()));
         //Controller//Collision per il Player
         control = PlatformMainActivity.getController();
         pl.setController(control);

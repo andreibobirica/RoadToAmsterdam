@@ -10,35 +10,74 @@ import java.util.ArrayList;
 
 public class Controller {
 
+    //Variabili con cui verificare le collisioni
     private Player pl;
     private ArrayList<GameObject> objColl;
     private Base b;
 
-    //VETTORI DI MOVIMENTO
-    private int dx = 10;
-    private int dy = 15;
-    private int dDown = 10;
+    //VETTORI DI MOVIMENTO Player
+    private final int dx = 15;
+    private final int dy = 15;
+    private final int dDown = 15;
 
-    private boolean moving;
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
+    /**Variabile uping che indica se si sta ancora effetuando l'azione di salto oppure no
+     * inolte la variabile dTiime indica il dELAY TIME con cui il salto deve essere interroto*/
     private boolean uping=false;
+    private int dTime = 500;
 
+    /**
+     * Metodo che ritorna il valore di dX
+     * Il valore di dX è il vettore di movimento verso  destra e sinistra, cioè di movimento
+     * @return vettore di movimento
+     */
     public int getDX(){return dx;}
+    /**
+     * Metodo che ritorna il valore di dY
+     * Il valore di dY è il vettore di movimento verso l'alto, cioè di salto
+     * @return vettore di movimento
+     */
     public int getDY(){return dy;}
+    /**
+     * Metodo che ritorna il valore di dDown
+     * Il valore di dDown è il vettore di movimento verso il Basso, cioè di caduta
+     * @return vettore di movimento
+     */
     public int getDDown(){return dDown;}
 
+    /**
+     * Metodo che serve per settare la possibilità di movimento del Player a destra
+     * @param m boolean che rappresenta la possibilità di movimento
+     */
     public void setMRight(boolean m)
     {mRight = m;}
+    /**
+     * Metodo che serve per settare la possibilità di movimento del Player a sinistra
+     * @param m boolean che rappresenta la possibilità di movimento
+     */
     public void setMLeft(boolean m)
     {mLeft = m;}
+    /**
+     * Metodo che serve per settare la possibilità di movimento del Player in basso
+     * @param m boolean che rappresenta la possibilità di movimento
+     */
     public void setMDown(boolean m)
     {mDown = m;}
+    /**
+     * Metodo che serve per settare la possibilità di movimento del Player in alto
+     * A differenza di tutti gli altri metodo set Movimento, questo ha un algoritmo che interferisce con la
+     * variabile mUp solo per un certo periodo di tempo, il che provoca il fatto che il salto è solo una azione spontanea, durevole, e inspammabile.
+     * Cioè che mentre si decide di saltare, e si preme il pulsante per saltare, una volta iniziata l'azione di salto si deve aspettare che finisca, per
+     * Ripoter saltare, per che l'azione finisca devono passare il delayMillis impostato nel Handler.
+     * Per capire se è passato il delay o no si fa appoggio sulla variabile uping, che indica se si sta ancora nel bel mezzo della azione salto
+     * Oppure si ha finito l'azione salto.
+     * @param m boolean che rappresenta la possibilità di movimento
+     */
     public void setMUp(boolean m)
     {
         if(!uping) {
             mUp = m;
             mDown=false;
-            moving = m;
             uping = true;
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -47,25 +86,54 @@ public class Controller {
                     mDown=true;
                     uping= false;
                 }
-            }, 300);
+            }, dTime);
         }
     }
 
+    /**
+     * Metodo che ritorna se il Player può muoversi in basso
+     * @return boolean che rappresenta la possibilità di movimento
+     */
     public boolean getMDown()
     {return (!verCol(0,dDown)&& mDown && !verColBase());}
+    /**
+     * Metodo che ritorna se il Player può muoversi a destra
+     * @return boolean che rappresenta la possibilità di movimento
+     */
     public boolean getMRight()
     {return (!verCol(dx,0)&& mRight);}
+    /**
+     * Metodo che ritorna se il Player può muoversi a sinistra
+     * @return boolean che rappresenta la possibilità di movimento
+     */
     public boolean getMLeft()
     {return (!verCol(-dx,0)&& mLeft);}
+    /**
+     * Metodo che ritorna se il Player può muoversi in alto
+     * @return boolean che rappresenta la possibilità di movimento
+     */
     public boolean getMUp()
     {return (!verCol(0,-dy)&& mUp);}
 
-    public void setPlayer(Player pl)
-    {this.pl = pl;}
-    public void setObjColl(ArrayList<GameObject> o)
-    {this.objColl = o;}
+    /**
+     * Metodo setPlayer che serve a settare il Player, Successivamente si uttilizzerà il player per verificare la sua collisione con altri oggetti o con la Base
+     * Il Rapporto tra Controller e Player è 1 a 1, esiste una istanza di Player nel Controller e d eesiste una istanza di Controller nel Player.
+     * Questo perchè il controller ha bisogno delle coordinate di Player per verificare la sua collisione, e decidere i suoi possibili movimenti.
+     * Questo perchè il Player ha bisogno delle decisioni del Controller, per effetuare i movimenti.
+     * @param pl Player di gioco.
+     */
+    public void setPlayer(Player pl) {this.pl = pl;}
+    /**
+     * Metodo che setta gli objCol, questo metodo serve a settare tutti gli oggetti con cui il Player si potrà collidere.
+     * Una volta memorizzati nel Controller gli Oggetti con cui si potrà collidere , successivi controlli verificheranno le collisioni con essi.
+     * @param o ArrayList di GameObject, Lista di Oggetti con cui si potrà collidere il Player
+     */
+    public void setObjColl(ArrayList<GameObject> o) {this.objColl = o;}
+    /**
+     * Metodo set Base, il metodo serve per settare la Base con cui fare successivamente il ocntrollo di collisione
+     * @param b Base del EngineGame
+     */
     public void setBase(Base b){this.b = b;}
-
     /**
      * Metodo che confronta due Oggetti Rect e verifica se è avvenuta una collisione fra i due.
      * Il metodo ritorna un valore booleano che specifica se è avvenuta una collisione tra i due.
@@ -77,7 +145,6 @@ public class Controller {
     private boolean collision(GameObject a, GameObject b)
     {
         if(Rect.intersects(a.getRectangle(), b.getRectangle())) {
-            Log.i("RTA","Collisione con: "+b.toString());
             return true;
         }
         return false;
@@ -95,29 +162,34 @@ public class Controller {
      */
     private boolean verCol(int dx, int dy)
     {
-        Log.i("RTA", String.valueOf(objColl.size()));
-        for(GameObject g : objColl)
-        {
-            Player pl2 = new Player(pl);
-            pl2.setX(pl.getX()+dx);
-            pl2.setY(pl.getY()+dy);
-            pl2.setWidth(pl.getWidth()+dx);
-            pl2.setHeight(pl.getHeight()+dy);
-            return(collision(pl2,g));
+        boolean ret = false;
+        for(GameObject g : objColl) {
+            if (g.getX() < EngineGame.WIDTH && g.getY() < EngineGame.HEIGHT)
+            {
+                ret = (collision(new Ostacolo(null,pl.getX() + dx,pl.getY() + dy,pl.getHeight(),pl.getWidth(),0), g));
+                if (ret)break;
+            }
         }
-        return false;
+        return ret;
     }
-
+    /**
+     * Metodo che verifica se il Player collide con la base oppure no.
+     * Il metodo è autonomo e non è integrato dentro verCol() perchè la collisione con la Base è una cosa assestante, inanzitutto se non collidesse
+     * con la base si creerebbe un Bug grande e per questo motivo si da priorità alla base, controllando il palyer ed esse univocamente insieme.
+     * @return
+     */
     private boolean verColBase()
     {
-        Log.i("RTA","Collisione base");
         Player pl2 = new Player(pl);
         pl2.setY(pl.getY()+dy);
         pl2.setHeight(pl.getHeight()+dDown);
         return(collision(pl2,b));
     }
-
-
-    public String toString()
-    {return "bool: "+moving+mLeft+mRight+mUp;}
+    /**
+     * Metodo to String che restituisce in formato stringa tutte le informazioni principali di Controller
+     * Principalmente dove e dove non si può effetuare un movimento
+     * Oltre che i parametri di movimento del Player.
+     * @return
+     */
+    public String toString() {return "m Left: "+mLeft+"\tm Right: "+mRight+"\tm Up: "+mUp+"\ndx: "+dx+"\tdy: "+dy+"\tdDown: "+dDown;}
 }

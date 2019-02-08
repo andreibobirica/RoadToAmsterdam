@@ -21,8 +21,8 @@ public class Background {
         this.dx = 0;
         this.dy = 0;
         image = res;
-        y=-1000;
-        x=-1000;
+        y=-EngineGame.HEIGHT;
+        x=-EngineGame.WIDTH/2;
     }
     /**
      Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
@@ -34,7 +34,7 @@ public class Background {
     {
 
         Rect src = new Rect(0,0,image.getWidth(), image.getHeight());
-        Rect dest = new Rect(x,y,x+5000, EngineGame.HEIGHT+y+1000);
+        Rect dest = new Rect(x,y,x+EngineGame.WIDTH*8, EngineGame.HEIGHT*2+y);
         canvas.drawBitmap(image, src, dest, null);
     }
     /**

@@ -236,9 +236,16 @@ public class DataGraber {
             Node lv = livelli.item(i);
             if(lv.getAttributes().getNamedItem("name").getNodeValue().equals(lvName)) {
                 Node pl = lv.getFirstChild().getNextSibling().getNextSibling().getNextSibling();
+                //Estrapolazione immagini
+                //Immagine di base
                 String imgName = pl.getFirstChild().getTextContent();
                 int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
                 Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+                //IMMAGINI LEFT E RIGHT
+                int resIdL = context.getResources().getIdentifier(imgName+"left", "drawable", context.getPackageName());
+                Bitmap imgL = BitmapFactory.decodeResource(context.getResources(), resIdL);
+                int resIdR = context.getResources().getIdentifier(imgName+"right", "drawable", context.getPackageName());
+                Bitmap imgR = BitmapFactory.decodeResource(context.getResources(), resIdR);
                 //Posizione
                 int x = Integer.parseInt(pl.getAttributes().getNamedItem("x").getNodeValue());
                 int y = Integer.parseInt(pl.getAttributes().getNamedItem("y").getNodeValue());
@@ -252,20 +259,13 @@ public class DataGraber {
                 x = positionAdapter(x,y)[0];
                 y = positionAdapter(x,y)[1];
                 //CREATING ANIMATION GIF
-                Bitmap leftAnim,rightAnim,jumpLAnim,jumpRAnim;
 
-                leftAnim = Bitmap.createBitmap(img, 0, 0, img.getWidth()/4, img.getHeight());
-                rightAnim = Bitmap.createBitmap(img, img.getWidth()/4, 0, img.getWidth()/2, img.getHeight());
-                Log.i("RTA", "  Player");
-                jumpLAnim = Bitmap.createBitmap(img, img.getWidth()/4, 0, img.getWidth()/2, img.getHeight());
-                Log.i("RTA", "  Player");
-                jumpRAnim = Bitmap.createBitmap(img, img.getWidth()/4, 0, img.getWidth()/2, img.getHeight());
                 //Creazione Player
-                play = new Player(jumpLAnim,x,y,height,width,nFrame);
-                play.setJumpLAnim(jumpLAnim);
-                play.setJumpRAnim(jumpRAnim);
-                play.setLeftAnim(leftAnim);
-                play.setRightAnim(rightAnim);
+                play = new Player(img,x,y,height,width,nFrame);
+                play.setJumpLAnim(imgL);
+                play.setJumpRAnim(imgR);
+                play.setLeftAnim(imgL);
+                play.setRightAnim(imgR);
                 break;
             }
         }

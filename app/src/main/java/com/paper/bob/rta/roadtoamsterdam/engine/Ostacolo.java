@@ -2,6 +2,7 @@ package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class Ostacolo extends GameObject {
     //Campi che definiscono l'ostacolo
@@ -42,14 +43,11 @@ public class Ostacolo extends GameObject {
         this.nframe = nframe;
         //Animazione se presente
         if(nframe>1) {
-            Bitmap[] gif = new Bitmap[nframe];
-            for (int i = 0; i < gif.length; i++) {
-                gif[i] = Bitmap.createBitmap(img, i * (img.getWidth()/nframe), 0, img.getWidth()/nframe, img.getHeight());
-            }
+            Bitmap[] gif = getGif(img);
             animation.setFrames(gif);
             //Se 2 frame = 100 delay - Se 6 frame = 200 delay
             //Per ogni frame 25 di delay in più
-            int delay = 50+nframe*50;
+            int delay = 50+nframe*40;
             animation.setDelay(delay);
         }
     }
@@ -88,7 +86,7 @@ public class Ostacolo extends GameObject {
      * Nel caso la propietà fisico della classe è true, l'ostacolo può collidere con il Player.
      * Nel caso la propietà fisico della classe è false, l'ostacolo rimane inmateriale, e non collide, rimane semplicemente alle
      * spalle del Player al suo passaggio.
-     * @param p valore boleano che spiega se l'ostacolo è fisico, cioè collide, oppure è immateriale, cioè rimane alle Spalle del Player
+     * @param f valore boleano che spiega se l'ostacolo è fisico, cioè collide, oppure è immateriale, cioè rimane alle Spalle del Player
      */
     public void setFisico(boolean f){fisico = f;}
     /**
@@ -120,7 +118,6 @@ public class Ostacolo extends GameObject {
     public String toString() {
         String info = super.toString();
         info += "\nnFrame: "+nframe+"\tanimation: "+animation.toString();
-        info += "\nIMG: \t"+img.toString();
         return info;
     }
     /**
@@ -129,7 +126,20 @@ public class Ostacolo extends GameObject {
      */
     public Bitmap getImage()
     {return img;}
-    public void setImage(Bitmap img){this.img = img;}
+
+    private Bitmap[] getGif(Bitmap img)
+    {
+        Bitmap[] gif = new Bitmap[nframe];
+        for (int i = 0; i < gif.length; i++) {
+            gif[i] = Bitmap.createBitmap(img, i * (img.getWidth()/nframe), 0, img.getWidth()/nframe, img.getHeight());
+        }
+        return gif;
+    }
+
+    public void setImage(Bitmap img){
+            this.img = img;
+            animation.setFrames(getGif(img));
+    }
     /**
      * Metodo che ritorna il numero di frame
      * @return numero int di frame
