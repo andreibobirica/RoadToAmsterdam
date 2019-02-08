@@ -1,8 +1,9 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
@@ -11,6 +12,7 @@ public class Background {
     private Bitmap image;
     private int x, y, dx, dy;
     private Player pl;
+    private Paint coloreSfondo;
 
     /**
      * Costruttore della classe Background, questo costruttore inizializza un background ricevendo come parametro una img Bitmap
@@ -23,6 +25,10 @@ public class Background {
         image = res;
         y=-EngineGame.HEIGHT;
         x=-EngineGame.WIDTH/2;
+
+        coloreSfondo= new Paint();
+        coloreSfondo.setColor(Color.WHITE);
+        coloreSfondo.setStyle(Paint.Style.FILL);
     }
     /**
      Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
@@ -32,9 +38,9 @@ public class Background {
      */
     public void draw(Canvas canvas)
     {
-
         Rect src = new Rect(0,0,image.getWidth(), image.getHeight());
         Rect dest = new Rect(x,y,x+EngineGame.WIDTH*8, EngineGame.HEIGHT*2+y);
+        canvas.drawPaint(coloreSfondo);
         canvas.drawBitmap(image, src, dest, null);
     }
     /**
@@ -66,9 +72,9 @@ public class Background {
         else { dx=0;}
 
         int ym = ((pl.getY()+pl.getHeight())+pl.getY())/2;
-        if(ym > (EngineGame.HEIGHT/4)*3)
+        if(ym > (EngineGame.HEIGHT/3)*2)
         {dy = -pl.getDY();}
-        else if(ym<(EngineGame.HEIGHT/4))
+        else if(ym<(EngineGame.HEIGHT/3))
         {dy = pl.getDY();}
         else { dy=0;}
 

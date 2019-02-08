@@ -2,6 +2,7 @@
 package com.paper.bob.rta.roadtoamsterdam.engine.Person;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Controller;
 
@@ -13,7 +14,7 @@ public class Player extends Personaggio {
     private Bitmap jumpLAnim;
     private Bitmap jumpRAnim;
     private Bitmap img;
-    //0 normal ; 1 left ; 2 right ;
+    //0 normal ; 1 left ; 2 right ; 3updown Left; 4 updown Right;
     private int cambioImg = 0;
 
     private Controller control;
@@ -39,33 +40,41 @@ public class Player extends Personaggio {
     public void update()
     {
         super.update();
-
+        boolean up = false;
+        boolean down = false;
         //Controllo se in basso o in alto
-        //In più per variare le animazioni se verifica se si salta a destra o a sinistra
         if(control.getMDown())
-        {
-            y+=dDown;
-        }
+        {y+=dDown;down=true;}
         else if(control.getMUp())
-        {
-            y+=-dy;
-        }
+        {y+=-dy;up = true;}
 
         //CONTROLLO  se a destra o a sinistra
         if (control.getMRight())
         {
             x += dx;
-            if(cambioImg != 2) {
-                cambioImg=2;
+            if (up && cambioImg!=3) {
+                cambioImg = 3;
+                this.setImage(jumpRAnim);
+            } else if(cambioImg!=1 && !down && !up) {
+                cambioImg = 1;
                 this.setImage(rightAnim);
+            }else if (down && cambioImg!=3) {
+                cambioImg = 3;
+                this.setImage(jumpRAnim);
             }
         }
         else if (control.getMLeft())
         {
             x += -dx;
-            if(cambioImg != 1) {
+            if (up && cambioImg!=3) {
+                cambioImg = 3;
+                this.setImage(jumpLAnim);
+            } else if(cambioImg!=1 && !down && !up) {
                 cambioImg = 1;
                 this.setImage(leftAnim);
+            }else if (down && cambioImg!=3) {
+            cambioImg = 3;
+            this.setImage(jumpLAnim);
             }
         }
         else
@@ -79,9 +88,7 @@ public class Player extends Personaggio {
     }
 
     public void draw(Canvas canvas)
-    {
-        super.draw(canvas);
-    }
+    {super.draw(canvas);}
 
     public void setController(Controller control)
     {

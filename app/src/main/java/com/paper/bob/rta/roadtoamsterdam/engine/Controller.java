@@ -18,7 +18,7 @@ public class Controller {
     //VETTORI DI MOVIMENTO Player
     private final int dx = 15;
     private final int dy = 15;
-    private final int dDown = 15;
+    private final int dDown = 10;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabile uping che indica se si sta ancora effetuando l'azione di salto oppure no
@@ -164,10 +164,9 @@ public class Controller {
     {
         boolean ret = false;
         for(GameObject g : objColl) {
-            if (g.getX() < EngineGame.WIDTH && g.getY() < EngineGame.HEIGHT)
-            {
-                ret = (collision(new Ostacolo(null,pl.getX() + dx,pl.getY() + dy,pl.getHeight(),pl.getWidth(),0), g));
-                if (ret)break;
+            if(g.getWidth()>-50 && g.getX()<EngineGame.WIDTH && g.getHeight()>-50 && g.getY()<EngineGame.HEIGHT+50) {
+                ret = (collision(new Ostacolo(null, pl.getX() + dx, pl.getY() + dy, pl.getHeight(), pl.getWidth(), 0), g));
+                if (ret) break;
             }
         }
         return ret;

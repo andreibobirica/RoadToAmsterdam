@@ -62,7 +62,7 @@ public class Ostacolo extends GameObject {
         if(nframe>1) {
            img = animation.getImage();
         }
-        if(x<EngineGame.WIDTH && y <EngineGame.HEIGHT)
+        if(width>0 && x<EngineGame.WIDTH && height>0 && y <EngineGame.HEIGHT)
         {
             Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
             Rect dest = new Rect(x,y,x+width, y+height);
