@@ -2,6 +2,7 @@ package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,11 @@ public class PlatformMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("RTA","ONCREATE");
+        //settaggio del PlatformActivitify per il Controller
+        control.setPlActivity(this);
 
+        //SCREEN BIGHTNESS
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
         this.mWakeLock.acquire();
@@ -78,9 +83,29 @@ public class PlatformMainActivity extends AppCompatActivity {
                 control.setMUp(true);
             }
         });
+    }
+
+    protected void onStart()
+    {
+        super.onStart();
+        Log.i("RTA","ONSTART");
+    }
+
+    protected void onPause()
+    {
+        super.onPause();
+        Log.i("RTA","ONPause");
+    }
+    protected void onStop()
+    {
+        super.onStop();
+        Log.i("RTA","onsTOP");
+    }
 
 
-
+    public void avviaDialogo(String d)
+    {
+        startActivity(new Intent(PlatformMainActivity.this, DialogoActivity.class));
     }
     @Override
     public void onDestroy() {

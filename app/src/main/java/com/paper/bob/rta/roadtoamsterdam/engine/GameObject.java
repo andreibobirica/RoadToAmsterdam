@@ -7,6 +7,7 @@ public abstract class GameObject {
     protected int y;
     protected int width;
     protected int height;
+    protected String tipo;
 
     /**
      * set Coordinata X
@@ -75,6 +76,21 @@ public abstract class GameObject {
      */
     public void setHeight(int h)
     {this.height = h;}
+
+    /**
+     * Metodo che setta il tipo della classe
+     * @param s
+     */
+    public void setTipo(String s)
+    {tipo = s;}
+
+    /**
+     * Metodo che ritorna il tipo della classe, nelle future estensioni cambiano
+     * @return Tipo della classe
+     */
+    public String getTipo()
+    {return tipo;}
+
     /**
      * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
      * @return info info Oggetto

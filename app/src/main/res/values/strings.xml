@@ -15,4 +15,9 @@
         completions."
     </string>
     <string name="titolo">Road To Amsterdam</string>
+    <string name="title_activity_dialogo_acitivy">DialogoAcitivy</string>
+
+    <string name="title_activity_dialogo">DialogoActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

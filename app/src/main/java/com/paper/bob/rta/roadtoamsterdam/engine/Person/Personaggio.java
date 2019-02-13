@@ -22,11 +22,14 @@ public class Personaggio extends Ostacolo {
     public Personaggio(Bitmap img, int x, int y, int height, int width, int nframe,String dialogo, boolean notify)
     {
         super(img,x,y,height,width,nframe);
+        //tipo
+        this.setTipo("Personaggio");
+        //Dialogo
         this.dialogo = dialogo;
         //Se è Notified, allora è anche fisico, se non è Notified, non è fisico
         if(notify) {
-            this.notify = notify;
-            this.setFisico(notify);
+            this.setNotify(true);
+            this.setFisico(true);
             not = new Notify(img, getX(), getY(), getWidth(), getHeight());
         }
     }
@@ -44,4 +47,10 @@ public class Personaggio extends Ostacolo {
     }
 
     public void setNotify(boolean n) {notify = n;}
+
+    public boolean getNotify()
+    {return notify;}
+
+    public String getDialogo()
+    {return dialogo;}
 }

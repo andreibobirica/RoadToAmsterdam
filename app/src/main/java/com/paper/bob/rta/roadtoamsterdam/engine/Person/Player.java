@@ -26,6 +26,7 @@ public class Player extends Personaggio {
 
     public Player(Bitmap img, int x, int y, int height, int width, int nframe) {
         super(img, x, y, height, width, nframe, null, false);
+        setTipo("Player");
         this.img = img;
         setFisico(true);
         setNotify(false);
@@ -33,6 +34,7 @@ public class Player extends Personaggio {
 
     public Player(Player pl){
         super(pl.getImage(),pl.getX(),pl.getY(),pl.getHeight(),pl.getWidth(),pl.getNFrame(),null,false);
+        setTipo("Player");
         setFisico(true);
         setNotify(false);
     }

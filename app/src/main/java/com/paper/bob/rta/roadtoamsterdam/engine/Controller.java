@@ -1,9 +1,13 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.util.Log;
 
+import com.paper.bob.rta.roadtoamsterdam.activity.DialogoActivity;
+import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
+import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ public class Controller {
     private Player pl;
     private ArrayList<GameObject> objColl;
     private Base b;
+    private PlatformMainActivity plActivity;
 
     //VETTORI DI MOVIMENTO Player
     private final int dx = 15;
@@ -166,7 +171,18 @@ public class Controller {
         for(GameObject g : objColl) {
             if(g.getWidth()>-50 && g.getX()<EngineGame.WIDTH && g.getHeight()>-50 && g.getY()<EngineGame.HEIGHT+50) {
                 ret = (collision(new Ostacolo(null, pl.getX() + dx, pl.getY() + dy, pl.getHeight(), pl.getWidth(), 0), g));
-                if (ret) break;
+                if (ret){
+                    if(g.getTipo().equals("Personaggio"))
+                    {
+                        Personaggio p = (Personaggio) g;
+                        Log.i("RTA","Not: "+p.getNotify());
+                        this.avviaDialogo(p.getDialogo());
+                        p.setFisico(false);
+                        p.setNotify(false);
+                        objColl.remove(g);
+                    }
+                    break;
+                }
             }
         }
         return ret;
@@ -184,6 +200,15 @@ public class Controller {
         pl2.setHeight(pl.getHeight()+dDown);
         return(collision(pl2,b));
     }
+
+    public void setPlActivity(PlatformMainActivity pl)
+    {plActivity = pl;}
+
+    private void avviaDialogo(String d)
+    {
+        plActivity.avviaDialogo(d);
+    }
+
     /**
      * Metodo to String che restituisce in formato stringa tutte le informazioni principali di Controller
      * Principalmente dove e dove non si può effetuare un movimento

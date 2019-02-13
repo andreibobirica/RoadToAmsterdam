@@ -14,9 +14,6 @@ public class Ostacolo extends GameObject {
     //Campo bgCoord, cioè riferimento al Background per seguirne i movimenti e le sue coordinate
     private static Background bgCoord;
 
-    //Campi contatore per tenere traccia di quanti Ostacoli ci sono
-    private static int n = 0;
-    private int contatore;
     /**
     Costruttore della classe Ostacolo.
     L'oggetto ostacolo contiene tutte le informazioni di GameObject ed in più contiene l'immagine Bitmap che rapresenta la sua grafica.
@@ -29,9 +26,8 @@ public class Ostacolo extends GameObject {
      */
     public Ostacolo(Bitmap img, int x, int y, int height, int width,int nframe)
     {
-        //Contatore Ostacoli
-        n++;
-        contatore = n;
+        //Tipo
+        setTipo("Ostacolo");
         //Grandezza
         this.height =height;
         this.width = width;
@@ -117,7 +113,7 @@ public class Ostacolo extends GameObject {
     @Override
     public String toString() {
         String info = super.toString();
-        info += "\nnFrame: "+nframe+"\tanimation: "+animation.toString();
+        info += "\nnFrame: "+nframe+"\tanimation: "+animation.toString()+"\nTipo: "+tipo;
         return info;
     }
     /**
@@ -135,6 +131,12 @@ public class Ostacolo extends GameObject {
         }
         return gif;
     }
+
+    public void setTipo(String s)
+    {tipo = s;}
+
+    public String getTipo()
+    {return tipo;}
 
     public void setImage(Bitmap img){
             this.img = img;
