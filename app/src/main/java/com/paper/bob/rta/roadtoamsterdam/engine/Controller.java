@@ -3,6 +3,8 @@ package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.DialogoActivity;
@@ -10,9 +12,10 @@ import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Controller {
+public class Controller implements Parcelable {
 
     //Variabili con cui verificare le collisioni
     private Player pl;
@@ -21,16 +24,23 @@ public class Controller {
     private PlatformMainActivity plActivity;
 
     //VETTORI DI MOVIMENTO Player
-    private final int dx = 15;
-    private final int dy = 15;
-    private final int dDown = 10;
+    private final int dx = 35;
+    private final int dy = 35;
+    private final int dDown = 20;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabile uping che indica se si sta ancora effetuando l'azione di salto oppure no
-     * inolte la variabile dTiime indica il dELAY TIME con cui il salto deve essere interroto*/
+     * inolte la variabile dTiime indica il dELAY TIME con cui il salto deve essere interroto*
+     * La variabile numSalti indica il numero massimo di salti che il player può fare
+     * La variabile alreadyUp serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
-    private int dTime = 500;
+    private final int dTime = 300;
+    private final int numSalti = 2;
+    private int alreadyUp = numSalti;
 
+    private boolean debugMode = true;
+
+    public Controller(){}
     /**
      * Metodo che ritorna il valore di dX
      * Il valore di dX è il vettore di movimento verso  destra e sinistra, cioè di movimento
@@ -49,25 +59,21 @@ public class Controller {
      * @return vettore di movimento
      */
     public int getDDown(){return dDown;}
-
     /**
      * Metodo che serve per settare la possibilità di movimento del Player a destra
      * @param m boolean che rappresenta la possibilità di movimento
      */
-    public void setMRight(boolean m)
-    {mRight = m;}
+    public void setMRight(boolean m) {mRight = m;}
     /**
      * Metodo che serve per settare la possibilità di movimento del Player a sinistra
      * @param m boolean che rappresenta la possibilità di movimento
      */
-    public void setMLeft(boolean m)
-    {mLeft = m;}
+    public void setMLeft(boolean m) {mLeft = m;}
     /**
      * Metodo che serve per settare la possibilità di movimento del Player in basso
      * @param m boolean che rappresenta la possibilità di movimento
      */
-    public void setMDown(boolean m)
-    {mDown = m;}
+    public void setMDown(boolean m) {mDown = m;}
     /**
      * Metodo che serve per settare la possibilità di movimento del Player in alto
      * A differenza di tutti gli altri metodo set Movimento, questo ha un algoritmo che interferisce con la
@@ -80,7 +86,9 @@ public class Controller {
      */
     public void setMUp(boolean m)
     {
-        if(!uping) {
+        if(!uping  &&  alreadyUp<numSalti) {
+            if(!debugMode)
+                alreadyUp++;
             mUp = m;
             mDown=false;
             uping = true;
@@ -94,13 +102,17 @@ public class Controller {
             }, dTime);
         }
     }
-
     /**
      * Metodo che ritorna se il Player può muoversi in basso
      * @return boolean che rappresenta la possibilità di movimento
      */
     public boolean getMDown()
-    {return (!verCol(0,dDown)&& mDown && !verColBase());}
+    {
+        boolean col = verCol(0,dDown);
+        boolean colBase = verColBase();
+        if(col || colBase){alreadyUp=numSalti-1;}
+        return (!col&& mDown && !colBase);
+    }
     /**
      * Metodo che ritorna se il Player può muoversi a destra
      * @return boolean che rappresenta la possibilità di movimento
@@ -216,4 +228,38 @@ public class Controller {
      * @return
      */
     public String toString() {return "m Left: "+mLeft+"\tm Right: "+mRight+"\tm Up: "+mUp+"\ndx: "+dx+"\tdy: "+dy+"\tdDown: "+dDown;}
+    ////////////////////////////////////////////////////////////
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable((Parcelable) this.pl, flags);
+        dest.writeList(this.objColl);
+        dest.writeParcelable((Parcelable) this.b, flags);
+        dest.writeParcelable((Parcelable) this.plActivity, flags);
+    }
+
+    protected Controller(Parcel in) {
+        this.pl = in.readParcelable(Player.class.getClassLoader());
+        this.objColl = new ArrayList<GameObject>();
+        in.readList(this.objColl, GameObject.class.getClassLoader());
+        this.b = in.readParcelable(Base.class.getClassLoader());
+        this.plActivity = in.readParcelable(PlatformMainActivity.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Controller> CREATOR = new Parcelable.Creator<Controller>() {
+        @Override
+        public Controller createFromParcel(Parcel source) {
+            return new Controller(source);
+        }
+
+        @Override
+        public Controller[] newArray(int size) {
+            return new Controller[size];
+        }
+    };
 }

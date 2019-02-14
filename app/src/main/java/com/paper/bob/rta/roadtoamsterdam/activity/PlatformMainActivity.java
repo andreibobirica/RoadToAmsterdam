@@ -26,6 +26,12 @@ public class PlatformMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("RTA","ONCREATE");
+
+        if (savedInstanceState != null)
+        {
+            control = (Controller) savedInstanceState.getSerializable("control");
+        }
+
         //settaggio del PlatformActivitify per il Controller
         control.setPlActivity(this);
 
@@ -84,28 +90,37 @@ public class PlatformMainActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
 
+        //outState.putParcelable("control", control);
+        super.onSaveInstanceState(outState);
+    }
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null)
+        {
+            //control = savedInstanceState.getParcelable("control");
+        }
+    }
+    @Override
     protected void onStart()
     {
         super.onStart();
         Log.i("RTA","ONSTART");
     }
-
+    @Override
     protected void onPause()
     {
         super.onPause();
         Log.i("RTA","ONPause");
     }
+    @Override
     protected void onStop()
     {
         super.onStop();
         Log.i("RTA","onsTOP");
-    }
-
-
-    public void avviaDialogo(String d)
-    {
-        startActivity(new Intent(PlatformMainActivity.this, DialogoActivity.class));
     }
     @Override
     public void onDestroy() {
@@ -114,7 +129,12 @@ public class PlatformMainActivity extends AppCompatActivity {
         Log.i("RTA", "applicazione finita");
     }
 
-    public static Controller getController()
-    {return control;}
+    public void avviaDialogo(String d)
+    {
+        startActivity(new Intent(PlatformMainActivity.this, DialogoActivity.class));
+    }
+
+
+    public static Controller getController() {return control;}
 
 }

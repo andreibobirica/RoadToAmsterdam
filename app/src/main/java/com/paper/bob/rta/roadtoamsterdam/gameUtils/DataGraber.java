@@ -105,6 +105,14 @@ public class DataGraber {
                 width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_grande_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_grande_height);
                 break;
+            case "piattaforma_normale":
+                width = context.getResources().getDimensionPixelSize(R.dimen.piattaforma_normale_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.piattaforma_normale_height);
+                break;
+            case "muro":
+                width = context.getResources().getDimensionPixelSize(R.dimen.muro_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.muro_height);
+                break;
             default:
                 width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_height);

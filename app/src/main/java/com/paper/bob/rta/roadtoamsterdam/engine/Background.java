@@ -23,7 +23,7 @@ public class Background {
         this.dx = 0;
         this.dy = 0;
         image = res;
-        y=-EngineGame.HEIGHT;
+        y=-EngineGame.HEIGHT*2;
         x=-EngineGame.WIDTH/2;
 
         coloreSfondo= new Paint();
@@ -39,7 +39,7 @@ public class Background {
     public void draw(Canvas canvas)
     {
         Rect src = new Rect(0,0,image.getWidth(), image.getHeight());
-        Rect dest = new Rect(x,y,x+EngineGame.WIDTH*8, EngineGame.HEIGHT*2+y);
+        Rect dest = new Rect(x,y,x+EngineGame.WIDTH*8, EngineGame.HEIGHT*3+y);
         canvas.drawPaint(coloreSfondo);
         canvas.drawBitmap(image, src, dest, null);
     }
@@ -49,21 +49,6 @@ public class Background {
      */
     public void update()
     {
-        /*
-        //Parametri provisori Movimento Di Crociera di DEBUG
-        int limite = 4000;
-        int limiteY = 200;
-        //Controllo sul movimento provisorio
-        if(x==-(limite))
-        {this.dx = -(this.dx);}
-        else if(x == 0)
-        {this.dx = -(this.dx);}
-        if(y==-(limiteY))
-        {this.dy = -(this.dy);}
-        else if(y == 0)
-        {this.dy = -(this.dy);}
-        */
-
         int xm = ((pl.getX()+pl.getWidth())+pl.getX())/2;
         if(xm>(EngineGame.WIDTH/4)*3)
         {dx = -pl.getDX();}

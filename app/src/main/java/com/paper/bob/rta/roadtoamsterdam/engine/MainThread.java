@@ -6,7 +6,7 @@ import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 public class MainThread extends Thread
 {
     //Campo che definisce il numero di FPS
-    public static final int FPS = 60;
+    public static final int FPS = 24;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private EngineGame engGame;
