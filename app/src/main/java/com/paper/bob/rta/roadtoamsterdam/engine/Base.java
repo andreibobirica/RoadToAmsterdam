@@ -8,7 +8,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-public class Base extends Ostacolo implements Parcelable {
+public class Base extends Ostacolo{
     private Bitmap img;
     private static Background bgCoord;
 
@@ -54,37 +54,4 @@ public class Base extends Ostacolo implements Parcelable {
                 "img=" + img +
                 '}';
     }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.getX());
-        dest.writeInt(this.getY());
-        dest.writeInt(this.getWidth());
-        dest.writeInt(this.getHeight());
-        dest.writeInt(this.getNFrame());
-        dest.writeParcelable(this.img, flags);
-    }
-
-    protected Base(Parcel in) {
-        super(null,in.readInt(),in.readInt(),in.readInt(),in.readInt(),in.readInt());
-        this.img = in.readParcelable(Bitmap.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<Base> CREATOR = new Parcelable.Creator<Base>() {
-        @Override
-        public Base createFromParcel(Parcel source) {
-            return new Base(source);
-        }
-
-        @Override
-        public Base[] newArray(int size) {
-            return new Base[size];
-        }
-    };
 }

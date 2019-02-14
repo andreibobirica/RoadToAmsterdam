@@ -2,8 +2,6 @@ package com.paper.bob.rta.roadtoamsterdam.engine;
 
 import android.graphics.Rect;
 import android.os.Handler;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
@@ -12,7 +10,7 @@ import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
 import java.util.ArrayList;
 
-public class Controller implements Parcelable {
+public class Controller{
 
     //Variabili con cui verificare le collisioni
     private Player play;
@@ -257,36 +255,4 @@ public class Controller implements Parcelable {
                 '}';
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.play, flags);
-        dest.writeList(this.objColl);
-        dest.writeParcelable(this.base, flags);
-        dest.writeParcelable(this.plActivity, flags);
-    }
-
-    protected Controller(Parcel in) {
-        this.play = in.readParcelable(Player.class.getClassLoader());
-        this.objColl = new ArrayList<GameObject>();
-        in.readList(this.objColl, GameObject.class.getClassLoader());
-        this.base = in.readParcelable(Base.class.getClassLoader());
-        this.plActivity = in.readParcelable(PlatformMainActivity.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<Controller> CREATOR = new Parcelable.Creator<Controller>() {
-        @Override
-        public Controller createFromParcel(Parcel source) {
-            return new Controller(source);
-        }
-
-        @Override
-        public Controller[] newArray(int size) {
-            return new Controller[size];
-        }
-    };
 }

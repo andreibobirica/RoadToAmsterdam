@@ -32,7 +32,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     private Background bg;
     private Base base;
     private Player pl;
-    private ArrayList<GameObject> objColl = new ArrayList<>();
+    private ArrayList<GameObject> objColl;
     private Controller control;
     public static int WIDTH;
     public static int HEIGHT;
@@ -71,6 +71,9 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
 
+        objColl = new ArrayList<>();
+
+        Log.e("RTA","Created");
         //OPERAZIONI ch edefiniscono un LIVELLO, Creazione LevelComposer
         LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
         //Background
@@ -104,7 +107,9 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         gameLoop.start();
     }
     @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {}
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+        Log.e("RTA","CHANGED");
+    }
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         boolean retry = true;
@@ -119,6 +124,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
                 gameLoop = null;
             }catch(InterruptedException e){e.printStackTrace();}
         }
+        Log.e("RTA","Destroyed");
     }
     /**
     Metodo Update senza parametri e senza valori di return

@@ -19,21 +19,21 @@ import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engine.Controller;
 import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 
-public class PlatformMainActivity extends AppCompatActivity implements Parcelable {
+public class PlatformMainActivity extends AppCompatActivity{
 
     protected PowerManager.WakeLock mWakeLock;
-    protected static Controller control = new Controller();
+    protected static Controller control  = new Controller();
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("RTA","ONCREATE");
 
-        if (savedInstanceState != null)
-        {
-            control = (Controller) savedInstanceState.getSerializable("control");
-        }
+        control= new Controller();
+
+        Log.i("RTA","Costruttore PlatformainActivity");
+        Log.i("RTA","ONCREATE");
 
         //settaggio del PlatformActivitify per il Controller
         control.setPlActivity(this);
@@ -50,7 +50,7 @@ public class PlatformMainActivity extends AppCompatActivity implements Parcelabl
         //Activity del PLatform Game
         setContentView(R.layout.activity_platform_main);
     }
-
+    /*
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
@@ -68,6 +68,8 @@ public class PlatformMainActivity extends AppCompatActivity implements Parcelabl
             control = savedInstanceState.getParcelable("control");
         }
     }
+
+    */
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onStart()
@@ -142,36 +144,8 @@ public class PlatformMainActivity extends AppCompatActivity implements Parcelabl
     }
 
 
-    public static Controller getController() {return control;}
-
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public static Controller getController() {
+        return control;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
-
-    public PlatformMainActivity() {
-
-    }
-
-    protected PlatformMainActivity(Parcel in) {
-
-    }
-
-    public static final Parcelable.Creator<PlatformMainActivity> CREATOR = new Parcelable.Creator<PlatformMainActivity>() {
-        @Override
-        public PlatformMainActivity createFromParcel(Parcel source) {
-            return new PlatformMainActivity(source);
-        }
-
-        @Override
-        public PlatformMainActivity[] newArray(int size) {
-            return new PlatformMainActivity[size];
-        }
-    };
 }
