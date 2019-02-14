@@ -2,12 +2,14 @@
 package com.paper.bob.rta.roadtoamsterdam.engine.Person;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Controller;
 
 
-public class Player extends Personaggio {
+public class Player extends Personaggio implements Parcelable {
 
     private Bitmap leftAnim;
     private Bitmap rightAnim;
@@ -135,4 +137,56 @@ public class Player extends Personaggio {
                 ", dDown=" + dDown +
                 '}';
     }
+
+    /////////////////////////////////////
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.getX());
+        dest.writeInt(this.getY());
+        dest.writeInt(this.getWidth());
+        dest.writeInt(this.getHeight());
+        dest.writeInt(this.getNFrame());
+        dest.writeParcelable(this.leftAnim, flags);
+        dest.writeParcelable(this.rightAnim, flags);
+        dest.writeParcelable(this.jumpLAnim, flags);
+        dest.writeParcelable(this.jumpRAnim, flags);
+        dest.writeParcelable(this.img, flags);
+        dest.writeInt(this.cambioImg);
+        dest.writeParcelable(this.control, flags);
+        dest.writeInt(this.dx);
+        dest.writeInt(this.dy);
+        dest.writeInt(this.dDown);
+    }
+
+    protected Player(Parcel in) {
+        super(null,in.readInt(),in.readInt(),in.readInt(),in.readInt(),in.readInt(),null,false);
+        this.leftAnim = in.readParcelable(Bitmap.class.getClassLoader());
+        this.rightAnim = in.readParcelable(Bitmap.class.getClassLoader());
+        this.jumpLAnim = in.readParcelable(Bitmap.class.getClassLoader());
+        this.jumpRAnim = in.readParcelable(Bitmap.class.getClassLoader());
+        this.img = in.readParcelable(Bitmap.class.getClassLoader());
+        this.cambioImg = in.readInt();
+        this.control = in.readParcelable(Controller.class.getClassLoader());
+        this.dx = in.readInt();
+        this.dy = in.readInt();
+        this.dDown = in.readInt();
+    }
+
+    public static final Parcelable.Creator<Player> CREATOR = new Parcelable.Creator<Player>() {
+        @Override
+        public Player createFromParcel(Parcel source) {
+            return new Player(source);
+        }
+
+        @Override
+        public Player[] newArray(int size) {
+            return new Player[size];
+        }
+    };
 }

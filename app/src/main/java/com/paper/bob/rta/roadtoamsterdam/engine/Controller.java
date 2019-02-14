@@ -256,7 +256,6 @@ public class Controller implements Parcelable {
                 ", debugMode=" + debugMode +
                 '}';
     }
-    ////////////////////////////////////////////////////////////
 
     @Override
     public int describeContents() {
@@ -265,15 +264,15 @@ public class Controller implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable((Parcelable) this.play, flags);
+        dest.writeParcelable(this.play, flags);
         dest.writeList(this.objColl);
-        dest.writeParcelable((Parcelable) this.base, flags);
-        dest.writeParcelable((Parcelable) this.plActivity, flags);
+        dest.writeParcelable(this.base, flags);
+        dest.writeParcelable(this.plActivity, flags);
     }
 
     protected Controller(Parcel in) {
         this.play = in.readParcelable(Player.class.getClassLoader());
-        this.objColl = new ArrayList<>();
+        this.objColl = new ArrayList<GameObject>();
         in.readList(this.objColl, GameObject.class.getClassLoader());
         this.base = in.readParcelable(Base.class.getClassLoader());
         this.plActivity = in.readParcelable(PlatformMainActivity.class.getClassLoader());

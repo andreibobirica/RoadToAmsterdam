@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,8 +17,9 @@ import android.widget.Button;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engine.Controller;
+import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 
-public class PlatformMainActivity extends AppCompatActivity {
+public class PlatformMainActivity extends AppCompatActivity implements Parcelable {
 
     protected PowerManager.WakeLock mWakeLock;
     protected static Controller control = new Controller();
@@ -46,7 +49,31 @@ public class PlatformMainActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //Activity del PLatform Game
         setContentView(R.layout.activity_platform_main);
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        outState.putParcelable("control", control);
+        Log.i("RTA","onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null)
+        {
+            Log.i("RTA","onRestoreInstanceState");
+            control = savedInstanceState.getParcelable("control");
+        }
+    }
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        Log.i("RTA","ONSTART");
         //GESTION HANDLER PER MOVIMENTO PLAYER, GESTION EVENTI CLICK BUTTON
         Button btn_right = findViewById(R.id.btn_right);
         Button btn_left = findViewById(R.id.btn_left);
@@ -91,26 +118,6 @@ public class PlatformMainActivity extends AppCompatActivity {
         });
     }
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-
-        //outState.putParcelable("control", control);
-        super.onSaveInstanceState(outState);
-    }
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null)
-        {
-            //control = savedInstanceState.getParcelable("control");
-        }
-    }
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        Log.i("RTA","ONSTART");
-    }
-    @Override
     protected void onPause()
     {
         super.onPause();
@@ -137,4 +144,34 @@ public class PlatformMainActivity extends AppCompatActivity {
 
     public static Controller getController() {return control;}
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
+
+    public PlatformMainActivity() {
+
+    }
+
+    protected PlatformMainActivity(Parcel in) {
+
+    }
+
+    public static final Parcelable.Creator<PlatformMainActivity> CREATOR = new Parcelable.Creator<PlatformMainActivity>() {
+        @Override
+        public PlatformMainActivity createFromParcel(Parcel source) {
+            return new PlatformMainActivity(source);
+        }
+
+        @Override
+        public PlatformMainActivity[] newArray(int size) {
+            return new PlatformMainActivity[size];
+        }
+    };
 }
