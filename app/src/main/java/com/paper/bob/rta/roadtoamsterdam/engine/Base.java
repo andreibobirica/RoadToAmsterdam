@@ -45,4 +45,11 @@ public class Base extends Ostacolo{
     }
     public static void setBgCoord(Background bg)
     {bgCoord = bg;}
+
+    @Override
+    public String toString() {
+        return "Base{" +
+                "img=" + img +
+                '}';
+    }
 }

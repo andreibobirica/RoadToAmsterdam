@@ -2,6 +2,8 @@ package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import java.util.Arrays;
+
 public class Animation {
     private Bitmap[] frames;
     private int currentFrame;
@@ -36,4 +38,15 @@ public class Animation {
     }
     public int getFrame(){return currentFrame;}
     public boolean playedOnce(){return playedOnce;}
+
+    @Override
+    public String toString() {
+        return "Animation{" +
+                "frames=" + Arrays.toString(frames) +
+                ", currentFrame=" + currentFrame +
+                ", startTime=" + startTime +
+                ", delay=" + delay +
+                ", playedOnce=" + playedOnce +
+                '}';
+    }
 }

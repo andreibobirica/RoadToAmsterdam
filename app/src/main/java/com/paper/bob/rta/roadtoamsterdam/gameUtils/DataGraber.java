@@ -266,4 +266,11 @@ public class DataGraber {
         return base;
     }
 
+    @Override
+    public String toString() {
+        return "DataGraber{" +
+                "radice=" + radice +
+                ", context=" + context +
+                '}';
+    }
 }

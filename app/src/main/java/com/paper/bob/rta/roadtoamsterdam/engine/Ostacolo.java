@@ -106,16 +106,7 @@ public class Ostacolo extends GameObject {
      * @return bgCoord Oggetto background che ritorna per le sue coordinate
      */
     public static Background getBgCoord() {return bgCoord;}
-    /**
-     * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
-     * @return info info Oggetto
-     */
-    @Override
-    public String toString() {
-        String info = super.toString();
-        info += "\nnFrame: "+nframe+"\tanimation: "+animation.toString()+"\nTipo: "+tipo;
-        return info;
-    }
+
     /**
      * Metodo che ritorna l'immagine, serve principalmente per costruttori di copia
      * @return img Bitmap con l'immagine dell'ostacolo
@@ -148,4 +139,18 @@ public class Ostacolo extends GameObject {
      */
     public int getNFrame()
     {return nframe;}
+
+    /**
+     * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
+     * @return info info Oggetto
+     */
+    @Override
+    public String toString() {
+        return "Ostacolo{" +
+                "img=" + img +
+                ", nframe=" + nframe +
+                ", animation=" + animation +
+                ", fisico=" + fisico +
+                '}';
+    }
 }

@@ -53,4 +53,13 @@ public class Personaggio extends Ostacolo {
 
     public String getDialogo()
     {return dialogo;}
+
+    @Override
+    public String toString() {
+        return "Personaggio{" +
+                "dialogo='" + dialogo + '\'' +
+                ", notify=" + notify +
+                ", not=" + not +
+                '}';
+    }
 }

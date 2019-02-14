@@ -93,15 +93,17 @@ public abstract class GameObject {
 
     /**
      * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
+     *
      * @return info info Oggetto
      */
     @Override
     public String toString() {
-        String info = "";
-        info += "x = "+x+"\t";
-        info += "y = "+y+"\t";
-        info += "width = "+width+"\t";
-        info += "height = "+height+"\t";
-        return info;
+        return "GameObject{" +
+                "x=" + x +
+                ", y=" + y +
+                ", width=" + width +
+                ", height=" + height +
+                ", tipo='" + tipo + '\'' +
+                '}';
     }
 }

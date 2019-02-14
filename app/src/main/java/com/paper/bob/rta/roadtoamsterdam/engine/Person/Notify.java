@@ -75,4 +75,18 @@ public class Notify{
 
     public static void setBgCoord(Background bg)
     {bgCoord = bg;}
+
+    @Override
+    public String toString() {
+        return "Notify{" +
+                "height=" + height +
+                ", width=" + width +
+                ", y=" + y +
+                ", x=" + x +
+                ", img=" + img +
+                ", imgNot=" + imgNot +
+                ", anim=" + anim +
+                ", prima=" + prima +
+                '}';
+    }
 }

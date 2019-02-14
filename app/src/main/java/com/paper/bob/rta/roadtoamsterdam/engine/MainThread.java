@@ -91,4 +91,14 @@ public class MainThread extends Thread
     {
         running=b;
     }
+
+    @Override
+    public String toString() {
+        return "MainThread{" +
+                "averageFPS=" + averageFPS +
+                ", surfaceHolder=" + surfaceHolder +
+                ", engGame=" + engGame +
+                ", running=" + running +
+                '}';
+    }
 }

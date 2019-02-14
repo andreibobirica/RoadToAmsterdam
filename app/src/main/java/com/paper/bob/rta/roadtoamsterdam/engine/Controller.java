@@ -232,9 +232,30 @@ public class Controller implements Parcelable {
      * Metodo to String che restituisce in formato stringa tutte le informazioni principali di Controller
      * Principalmente dove e dove non si può effetuare un movimento
      * Oltre che i parametri di movimento del Player.
+     *
      * @return ret Stringa toString
      */
-    public String toString() {return "m Left: "+mLeft+"\tm Right: "+mRight+"\tm Up: "+mUp+"\ndx: "+dx+"\tdy: "+dy+"\tdDown: "+dDown;}
+    @Override
+    public String toString() {
+        return "Controller{" +
+                "play=" + play +
+                ", objColl=" + objColl +
+                ", base=" + base +
+                ", plActivity=" + plActivity +
+                ", dx=" + dx +
+                ", dy=" + dy +
+                ", dDown=" + dDown +
+                ", mRight=" + mRight +
+                ", mLeft=" + mLeft +
+                ", mUp=" + mUp +
+                ", mDown=" + mDown +
+                ", uping=" + uping +
+                ", dTime=" + dTime +
+                ", numSalti=" + numSalti +
+                ", alreadyUp=" + alreadyUp +
+                ", debugMode=" + debugMode +
+                '}';
+    }
     ////////////////////////////////////////////////////////////
 
     @Override
