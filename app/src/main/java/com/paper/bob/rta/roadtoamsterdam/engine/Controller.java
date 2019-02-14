@@ -1,32 +1,29 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 
-import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.paper.bob.rta.roadtoamsterdam.activity.DialogoActivity;
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Controller implements Parcelable {
 
     //Variabili con cui verificare le collisioni
-    private Player pl;
+    private Player play;
     private ArrayList<GameObject> objColl;
-    private Base b;
+    private Base base;
     private PlatformMainActivity plActivity;
 
     //VETTORI DI MOVIMENTO Player
-    private final int dx = 35;
-    private final int dy = 35;
-    private final int dDown = 20;
+    private final int dx = 22;
+    private final int dy = 20;
+    private final int dDown = 18;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabile uping che indica se si sta ancora effetuando l'azione di salto oppure no
@@ -34,13 +31,18 @@ public class Controller implements Parcelable {
      * La variabile numSalti indica il numero massimo di salti che il player può fare
      * La variabile alreadyUp serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
-    private final int dTime = 300;
+    private final int dTime = 400;
     private final int numSalti = 2;
     private int alreadyUp = numSalti;
 
-    private boolean debugMode = true;
+    private boolean debugMode = false;
 
-    public Controller(){}
+    /**
+     * Costruttore di Default
+     */
+    public Controller(){
+        play =null;objColl=null;
+        base =null;plActivity=null;}
     /**
      * Metodo che ritorna il valore di dX
      * Il valore di dX è il vettore di movimento verso  destra e sinistra, cioè di movimento
@@ -109,29 +111,43 @@ public class Controller implements Parcelable {
     public boolean getMDown()
     {
         boolean col = verCol(0,dDown);
-        boolean colBase = verColBase();
-        if(col || colBase){alreadyUp=numSalti-1;}
-        return (!col&& mDown && !colBase);
+        if(col){alreadyUp=numSalti-1;}
+        return (!col && mDown);
+
+        //boolean colPerfect = verCol(0,dDown-1);
+        //if(colPerfect){play.setY(play.getY()+(dDown-1));}
+    }
+    /**
+     * Metodo che ritorna se il Player può muoversi in basso IN MANIERA perfetta, senza lasciare pixel tra esso e il ostacolo
+     * @return int vettore con cui il Player si deve spostare sull'asse Y per ridurre al minimo la distanza tra esso e l'ostacolo
+     */
+    public int getMDownPerfect()
+    {
+        int ret= 0;
+        if(!uping) {
+            ret = dDown;
+            while (verCol(0, ret)) {
+                ret--;
+            }
+        }
+        if(ret>0)return ret;
+        return 0;
     }
     /**
      * Metodo che ritorna se il Player può muoversi a destra
      * @return boolean che rappresenta la possibilità di movimento
      */
-    public boolean getMRight()
-    {return (!verCol(dx,0)&& mRight);}
+    public boolean getMRight() {return (!verCol(dx,0)&& mRight);}
     /**
      * Metodo che ritorna se il Player può muoversi a sinistra
      * @return boolean che rappresenta la possibilità di movimento
      */
-    public boolean getMLeft()
-    {return (!verCol(-dx,0)&& mLeft);}
+    public boolean getMLeft() {return (!verCol(-dx,0)&& mLeft);}
     /**
      * Metodo che ritorna se il Player può muoversi in alto
      * @return boolean che rappresenta la possibilità di movimento
      */
-    public boolean getMUp()
-    {return (!verCol(0,-dy)&& mUp);}
-
+    public boolean getMUp() {return (!verCol(0,-dy)&& mUp);}
     /**
      * Metodo setPlayer che serve a settare il Player, Successivamente si uttilizzerà il player per verificare la sua collisione con altri oggetti o con la Base
      * Il Rapporto tra Controller e Player è 1 a 1, esiste una istanza di Player nel Controller e d eesiste una istanza di Controller nel Player.
@@ -139,7 +155,7 @@ public class Controller implements Parcelable {
      * Questo perchè il Player ha bisogno delle decisioni del Controller, per effetuare i movimenti.
      * @param pl Player di gioco.
      */
-    public void setPlayer(Player pl) {this.pl = pl;}
+    public void setPlayer(Player pl) {this.play = pl;}
     /**
      * Metodo che setta gli objCol, questo metodo serve a settare tutti gli oggetti con cui il Player si potrà collidere.
      * Una volta memorizzati nel Controller gli Oggetti con cui si potrà collidere , successivi controlli verificheranno le collisioni con essi.
@@ -147,16 +163,11 @@ public class Controller implements Parcelable {
      */
     public void setObjColl(ArrayList<GameObject> o) {this.objColl = o;}
     /**
-     * Metodo set Base, il metodo serve per settare la Base con cui fare successivamente il ocntrollo di collisione
-     * @param b Base del EngineGame
-     */
-    public void setBase(Base b){this.b = b;}
-    /**
      * Metodo che confronta due Oggetti Rect e verifica se è avvenuta una collisione fra i due.
      * Il metodo ritorna un valore booleano che specifica se è avvenuta una collisione tra i due.
      * Non specifica su che lato o da che parte, solo che le aree dei due rettangoli si sono sovrapposte.
-     * @param a GameObject a da confrontare con b
-     * @param b GameObject b da confrontare con a
+     * @param a GameObject a da confrontare con base
+     * @param b GameObject base da confrontare con a
      * @return valore booleano, se true significa che è avvenuta una collisione, se false non è avvenuta una collisione
      */
     private boolean collision(GameObject a, GameObject b)
@@ -182,7 +193,7 @@ public class Controller implements Parcelable {
         boolean ret = false;
         for(GameObject g : objColl) {
             if(g.getWidth()>-50 && g.getX()<EngineGame.WIDTH && g.getHeight()>-50 && g.getY()<EngineGame.HEIGHT+50) {
-                ret = (collision(new Ostacolo(null, pl.getX() + dx, pl.getY() + dy, pl.getHeight(), pl.getWidth(), 0), g));
+                ret = (collision(new Ostacolo(null, play.getX() + dx, play.getY() + dy, play.getHeight(), play.getWidth(), 0), g));
                 if (ret){
                     if(g.getTipo().equals("Personaggio"))
                     {
@@ -200,32 +211,28 @@ public class Controller implements Parcelable {
         return ret;
     }
     /**
-     * Metodo che verifica se il Player collide con la base oppure no.
-     * Il metodo è autonomo e non è integrato dentro verCol() perchè la collisione con la Base è una cosa assestante, inanzitutto se non collidesse
-     * con la base si creerebbe un Bug grande e per questo motivo si da priorità alla base, controllando il palyer ed esse univocamente insieme.
-     * @return
+     * Metodo che Setta l'activity principale dei livelli platform
+     * L'activity si chiama PlatformMainActivity, la si viene settata dentro questa classe perchè si potrebbe aver bisogno
+     * di richiamare alcuni metodo della activity, legati al cambio delle activity, e lo spostamento su un'altra activity.
+     * @param pl PlayerMainACtivity Activity sa settare sulla classe Controller
      */
-    private boolean verColBase()
-    {
-        Player pl2 = new Player(pl);
-        pl2.setY(pl.getY()+dy);
-        pl2.setHeight(pl.getHeight()+dDown);
-        return(collision(pl2,b));
-    }
-
     public void setPlActivity(PlatformMainActivity pl)
     {plActivity = pl;}
-
+    /**
+     * Metodo Avvia dialogo, richiama la medesima funzione di PlayerMainActivity, e richiamandola gli passa anche il parametro String d
+     * Che serve per individuare quale dialogo avviare.
+     * PlayerMainAcitivty successivamente avvia un'altra Activity con il dialogo impostato.
+     * @param d Nome del dialogo
+     */
     private void avviaDialogo(String d)
     {
         plActivity.avviaDialogo(d);
     }
-
     /**
      * Metodo to String che restituisce in formato stringa tutte le informazioni principali di Controller
      * Principalmente dove e dove non si può effetuare un movimento
      * Oltre che i parametri di movimento del Player.
-     * @return
+     * @return ret Stringa toString
      */
     public String toString() {return "m Left: "+mLeft+"\tm Right: "+mRight+"\tm Up: "+mUp+"\ndx: "+dx+"\tdy: "+dy+"\tdDown: "+dDown;}
     ////////////////////////////////////////////////////////////
@@ -237,17 +244,17 @@ public class Controller implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable((Parcelable) this.pl, flags);
+        dest.writeParcelable((Parcelable) this.play, flags);
         dest.writeList(this.objColl);
-        dest.writeParcelable((Parcelable) this.b, flags);
+        dest.writeParcelable((Parcelable) this.base, flags);
         dest.writeParcelable((Parcelable) this.plActivity, flags);
     }
 
     protected Controller(Parcel in) {
-        this.pl = in.readParcelable(Player.class.getClassLoader());
-        this.objColl = new ArrayList<GameObject>();
+        this.play = in.readParcelable(Player.class.getClassLoader());
+        this.objColl = new ArrayList<>();
         in.readList(this.objColl, GameObject.class.getClassLoader());
-        this.b = in.readParcelable(Base.class.getClassLoader());
+        this.base = in.readParcelable(Base.class.getClassLoader());
         this.plActivity = in.readParcelable(PlatformMainActivity.class.getClassLoader());
     }
 

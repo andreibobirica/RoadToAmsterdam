@@ -6,23 +6,19 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
-public class Base extends GameObject{
+public class Base extends Ostacolo{
     private Bitmap img;
     private static Background bgCoord;
-    private Rect dest;
+
     public Base(Bitmap res)
     {
-        x=0;
-        y=EngineGame.HEIGHT-100;
-        width = (EngineGame.WIDTH*2);
-        height = (EngineGame.HEIGHT+200);
+        super(res,0,EngineGame.HEIGHT-100,(EngineGame.HEIGHT+200),(EngineGame.WIDTH*2),1);
         img = res;
     }
-
     public void draw(Canvas canvas)
     {
         Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
-        dest = new Rect(x, y, width+x, height+y);
+        Rect dest = new Rect(x, y, width + x, height + y);
         canvas.drawBitmap(img, src, dest, null);
         if(x<-EngineGame.WIDTH)
         {
@@ -47,10 +43,6 @@ public class Base extends GameObject{
             x=-EngineGame.WIDTH;
         }
     }
-
-    public Rect getRect()
-    {return dest;}
-
     public static void setBgCoord(Background bg)
     {bgCoord = bg;}
 }

@@ -35,6 +35,7 @@ public class Player extends Personaggio {
     public Player(Player pl){
         super(pl.getImage(),pl.getX(),pl.getY(),pl.getHeight(),pl.getWidth(),pl.getNFrame(),null,false);
         setTipo("Player");
+        this.img = pl.getImage();
         setFisico(true);
         setNotify(false);
     }
@@ -46,9 +47,20 @@ public class Player extends Personaggio {
         boolean down = false;
         //Controllo se in basso o in alto
         if(control.getMDown())
-        {y+=dDown;down=true;}
+        {   /*Se in down*/
+            y+=dDown;
+            down=true;
+        }
         else if(control.getMUp())
-        {y+=-dy;up = true;}
+        {   /*Se in UP*/
+            y+=-dy;
+            up = true;
+        }
+        else
+        {
+            y+=control.getMDownPerfect();
+        }
+
 
         //CONTROLLO  se a destra o a sinistra
         if (control.getMRight())

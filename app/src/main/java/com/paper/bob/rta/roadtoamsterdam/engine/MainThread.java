@@ -1,12 +1,12 @@
 package com.paper.bob.rta.roadtoamsterdam.engine;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
-import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 
 public class MainThread extends Thread
 {
     //Campo che definisce il numero di FPS
-    public static final int FPS = 24;
+    public static final int FPS = 60;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
     private EngineGame engGame;
@@ -79,7 +79,7 @@ public class MainThread extends Thread
                 averageFPS = 1000/((totalTime/frameCount)/1000000);
                 frameCount =0;
                 totalTime = 0;
-                System.out.println(averageFPS);
+                Log.i("FPS", String.valueOf(averageFPS));
             }
         }
     }
