@@ -3,9 +3,11 @@ package com.paper.bob.rta.roadtoamsterdam.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,12 +19,16 @@ import android.widget.Button;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engine.Controller;
-import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
 
-public class PlatformMainActivity extends AppCompatActivity{
+public class PlatformMainActivity extends AppCompatActivity implements SensorEventListener
+{
 
     protected PowerManager.WakeLock mWakeLock;
     protected static Controller control  = new Controller();
+    private SensorManager mSensorManager;
+    private Sensor sensor;
+    private float lastSensorUpdate = System.currentTimeMillis();
+    private Sensor accelerometer;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -42,6 +48,11 @@ public class PlatformMainActivity extends AppCompatActivity{
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
         this.mWakeLock.acquire();
+
+        //Inizializzazione Sensori
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mSensorManager.registerListener(this,accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
 
         //Avvio della Main Activity in FullScrean
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -120,12 +131,6 @@ public class PlatformMainActivity extends AppCompatActivity{
         });
     }
     @Override
-    protected void onPause()
-    {
-        super.onPause();
-        Log.i("RTA","ONPause");
-    }
-    @Override
     protected void onStop()
     {
         super.onStop();
@@ -137,15 +142,39 @@ public class PlatformMainActivity extends AppCompatActivity{
         super.onDestroy();
         Log.i("RTA", "applicazione finita");
     }
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("RTA","ONPause");
+        mSensorManager.unregisterListener(this);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, sensor,SensorManager.SENSOR_DELAY_NORMAL);
+    }
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        Sensor mySensor = sensorEvent.sensor;
+        if(mySensor.getType()==Sensor.TYPE_ACCELEROMETER)
+        {
+            long currentTime = System.currentTimeMillis();
+            if((lastSensorUpdate-currentTime)<200) {
+                lastSensorUpdate = currentTime;
+                Log.i("RTA","onSensorChanged");
+                control.setSensorX(sensorEvent.values[0]);
+                control.setSensorY(sensorEvent.values[1]);
+                control.setSensorZ(sensorEvent.values[2]);
+            }
+        }
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {}
     public void avviaDialogo(String d)
     {
         startActivity(new Intent(PlatformMainActivity.this, DialogoActivity.class));
     }
-
-
     public static Controller getController() {
         return control;
     }
-
 }

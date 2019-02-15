@@ -73,7 +73,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
 
         objColl = new ArrayList<>();
 
-        Log.e("RTA","Created");
         //OPERAZIONI ch edefiniscono un LIVELLO, Creazione LevelComposer
         LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
         //Background
@@ -107,9 +106,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         gameLoop.start();
     }
     @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-        Log.e("RTA","CHANGED");
-    }
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {}
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         boolean retry = true;

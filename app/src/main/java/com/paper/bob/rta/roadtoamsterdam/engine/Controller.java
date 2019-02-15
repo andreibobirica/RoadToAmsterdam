@@ -18,6 +18,12 @@ public class Controller{
     private Base base;
     private PlatformMainActivity plActivity;
 
+    //Vettori sensore accelerometro
+    private float sensorX = 0;
+    private float sensorY = 0;
+    private float sensorZ = 0;
+
+
     //VETTORI DI MOVIMENTO Player
     private final int dx = 22;
     private final int dy = 20;
@@ -255,4 +261,27 @@ public class Controller{
                 '}';
     }
 
+    public void setSensorX(float sensorX) {
+        this.sensorX = sensorX;
+    }
+
+    public void setSensorY(float sensorY) {
+        this.sensorY = sensorY;
+    }
+
+    public void setSensorZ(float sensorZ) {
+        this.sensorZ = sensorZ;
+    }
+
+    public float getSensorZ() {
+        return sensorZ;
+    }
+
+    public float getSensorY() {
+        return sensorY;
+    }
+
+    public float getSensorX() {
+        return sensorX;
+    }
 }

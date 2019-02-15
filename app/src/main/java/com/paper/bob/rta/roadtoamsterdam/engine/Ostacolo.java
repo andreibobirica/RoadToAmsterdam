@@ -60,9 +60,7 @@ public class Ostacolo extends GameObject {
         }
         if(width>0 && x<EngineGame.WIDTH && height>0 && y <EngineGame.HEIGHT)
         {
-            Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
-            Rect dest = new Rect(x,y,x+width, y+height);
-            canvas.drawBitmap(img, src, dest, null);
+            canvas.drawBitmap(img, new Rect(0,0,img.getWidth()-1, img.getHeight()-1), new Rect(x,y,x+width, y+height), null);
         }
     }
     /**
