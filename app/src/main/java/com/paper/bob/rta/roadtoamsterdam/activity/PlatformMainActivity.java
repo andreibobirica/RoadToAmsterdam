@@ -161,7 +161,6 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
             long currentTime = System.currentTimeMillis();
             if((lastSensorUpdate-currentTime)<200) {
                 lastSensorUpdate = currentTime;
-                Log.i("RTA","onSensorChanged");
                 control.setSensorX(sensorEvent.values[0]);
                 control.setSensorY(sensorEvent.values[1]);
                 control.setSensorZ(sensorEvent.values[2]);
@@ -170,10 +169,24 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     }
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {}
+
+    /**
+     * Metodo che richiamato dal Controller fa avviare un'altra activity con le informazioni che le servono.
+     * In particolare avvia l'activity del dialogo e lo fa scegliere passandogli un parametro stringa
+     * @param d parametro che indica il nome del dialogo , il suo identificativo
+     */
     public void avviaDialogo(String d)
     {
         startActivity(new Intent(PlatformMainActivity.this, DialogoActivity.class));
     }
+    /**
+     * Metodo getController(), metodo che serve a restituire il controller.
+     * Siccome il controller è istanziato su questa activity, altri parte del gioco non possono accedervi in quanto sono istanziate
+     * dal Activity ma dal SurfaceEngine, cioè dal EngineGame, che è instanziato dal documento xml manifest.
+     * Detta la doppia provenieneza delle classsi Acitivy ed EngineGame, per comunicare tra di loro usano la classe Controller, la quale
+     * Per essere raggiunta dal Enginegame Utilizza questo metodo statico
+     * @return Controller
+     */
     public static Controller getController() {
         return control;
     }

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
 
@@ -13,6 +14,9 @@ public class Background {
     private int x, y, dx, dy;
     private Player pl;
     private Paint coloreSfondo;
+    private Controller controller;
+    //Variabile per gestire movimento sfondo in base al sensore
+    private float moved = 0;
 
     /**
      * Costruttore della classe Background, questo costruttore inizializza un background ricevendo come parametro una img Bitmap
@@ -49,6 +53,13 @@ public class Background {
      */
     public void update()
     {
+        //Movimento del Background in base al Sensore
+        float[] datiMoveSensor = moveBySensor(controller.getSensorY(),moved);
+        moved= datiMoveSensor[1];
+        //Modifica
+        x+=datiMoveSensor[0];
+
+        //Movimento del Background in base al Player
         int xm = ((pl.getX()+pl.getWidth())+pl.getX())/2;
         if(xm>(EngineGame.WIDTH/4)*3)
         {dx = -pl.getDX();}
@@ -69,17 +80,68 @@ public class Background {
 
     }
 
+    /**
+     * Metodo moveBySesnsor che implementa il movimento dello sfondo in base al sensore accelerometro
+     * Tramire i due parametri, il metodo capisce di quanto lo sfondo si è già spostato all'inclinazione e di quanto lo deve spostare ancora.
+     * l'algoritmo fa in modo che lo sfondo si possa muovere solo leggermente a destra e a sinistra, di poco e in base all'inclinazione
+     * con una velocità differente.
+     * @param sensorY parametro che indica di quanto è l'inclinazione sull'asse Y del cellulare(Corrisponde all'asse X del gioco)
+     * @param moved parametro che indica di quanto si + già spostato il background, in questo modo il suo movimento non è infinito
+     * @return array contenente nel primo valore il vettore di movimento, se possibile ancora il movimento un valore numerico, se non possibile 0
+     * Nel secondo valore invece è contenuto la variabile moved aggiornata con l'effettiva distanza che il backgrond ha fatto.
+     */
+    private float[] moveBySensor(float sensorY, float moved)
+    {
+        float ret[] = new float[2];
+        ret[0] = 0;//Di quanto si deve muovere
+        ret[1] = moved;//Di quanto si è già mosso
+        int vettore = (EngineGame.WIDTH/600)*(int) Math.abs(sensorY);
+        int movMax = EngineGame.WIDTH/15;
+
+        if(moved < movMax && moved > -movMax)
+        {
+            if(sensorY<0)
+            {
+                ret[0]=+vettore;
+                ret[1]+=vettore;
+            }
+            else
+            {
+                ret[0]=-vettore;
+                ret[1]-=vettore;
+            }
+        }
+        else if(moved>=movMax)
+        {
+            if(sensorY>0)
+            {
+                ret[0]=-vettore;
+                ret[1]-=vettore;
+            }
+        }
+        else
+        {
+            if(sensorY<0)
+            {
+                ret[0]=+vettore;
+                ret[1]+=vettore;
+            }
+        }
+        return ret;
+    }
+
     public int getDX()
     {return dx;}
     public int getDY()
     {return dy;}
-
-    public void setPlayer(Player pl){this.pl = pl;}
-
     public int getY()
     {return y;}
     public int getX()
     {return x;}
 
 
+    public void setPlayer(Player pl){this.pl = pl;}
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
 }

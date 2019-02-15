@@ -25,8 +25,8 @@ public class Controller{
 
 
     //VETTORI DI MOVIMENTO Player
-    private final int dx = 22;
-    private final int dy = 20;
+    private final int dx = 18;
+    private final int dy = 22;
     private final int dDown = 18;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
@@ -35,7 +35,7 @@ public class Controller{
      * La variabile numSalti indica il numero massimo di salti che il player può fare
      * La variabile alreadyUp serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
-    private final int dTime = 400;
+    private final int dTime = 550;
     private final int numSalti = 2;
     private int alreadyUp = numSalti;
 
