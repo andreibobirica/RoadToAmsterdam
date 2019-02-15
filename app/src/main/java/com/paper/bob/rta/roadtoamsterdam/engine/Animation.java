@@ -39,14 +39,5 @@ public class Animation {
     public int getFrame(){return currentFrame;}
     public boolean playedOnce(){return playedOnce;}
 
-    @Override
-    public String toString() {
-        return "Animation{" +
-                "frames=" + Arrays.toString(frames) +
-                ", currentFrame=" + currentFrame +
-                ", startTime=" + startTime +
-                ", delay=" + delay +
-                ", playedOnce=" + playedOnce +
-                '}';
-    }
+
 }

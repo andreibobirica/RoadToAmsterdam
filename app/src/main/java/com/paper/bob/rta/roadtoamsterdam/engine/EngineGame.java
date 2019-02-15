@@ -160,17 +160,4 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         pl.draw(canvas);
     }
 
-    @Override
-    public String toString() {
-        return "EngineGame{" +
-                "gameLoop=" + gameLoop +
-                ", ostacoli=" + ostacoli +
-                ", personaggi=" + personaggi +
-                ", bg=" + bg +
-                ", base=" + base +
-                ", pl=" + pl +
-                ", objColl=" + objColl +
-                ", control=" + control +
-                '}';
-    }
 }

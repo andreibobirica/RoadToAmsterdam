@@ -122,21 +122,6 @@ public class Player extends Personaggio{
     public void setJumpLAnim(Bitmap i){jumpLAnim = i;}
     public void setJumpRAnim(Bitmap i){jumpRAnim = i;}
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "leftAnim=" + leftAnim +
-                ", rightAnim=" + rightAnim +
-                ", jumpLAnim=" + jumpLAnim +
-                ", jumpRAnim=" + jumpRAnim +
-                ", img=" + img +
-                ", cambioImg=" + cambioImg +
-                ", control=" + control +
-                ", dx=" + dx +
-                ", dy=" + dy +
-                ", dDown=" + dDown +
-                '}';
-    }
 
     public Controller getController() {
         return control;

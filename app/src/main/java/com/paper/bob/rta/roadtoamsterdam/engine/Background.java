@@ -81,16 +81,5 @@ public class Background {
     public int getX()
     {return x;}
 
-    @Override
-    public String toString() {
-        return "Background{" +
-                "image=" + image +
-                ", x=" + x +
-                ", y=" + y +
-                ", dx=" + dx +
-                ", dy=" + dy +
-                ", pl=" + pl +
-                ", coloreSfondo=" + coloreSfondo +
-                '}';
-    }
+
 }

@@ -138,17 +138,5 @@ public class Ostacolo extends GameObject {
     public int getNFrame()
     {return nframe;}
 
-    /**
-     * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
-     * @return info info Oggetto
-     */
-    @Override
-    public String toString() {
-        return "Ostacolo{" +
-                "img=" + img +
-                ", nframe=" + nframe +
-                ", animation=" + animation +
-                ", fisico=" + fisico +
-                '}';
-    }
+
 }

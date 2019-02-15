@@ -91,19 +91,4 @@ public abstract class GameObject {
     public String getTipo()
     {return tipo;}
 
-    /**
-     * Metodo toString() che ritorna una stringa con tutte le informazioni principali e le propietà dell'oggetto.
-     *
-     * @return info info Oggetto
-     */
-    @Override
-    public String toString() {
-        return "GameObject{" +
-                "x=" + x +
-                ", y=" + y +
-                ", width=" + width +
-                ", height=" + height +
-                ", tipo='" + tipo + '\'' +
-                '}';
-    }
 }

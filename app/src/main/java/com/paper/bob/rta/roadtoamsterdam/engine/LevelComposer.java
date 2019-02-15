@@ -56,11 +56,5 @@ public class LevelComposer {
         return p;
     }
 
-    @Override
-    public String toString() {
-        return "LevelComposer{" +
-                "dtGraber=" + dtGraber +
-                ", infoLevel='" + infoLevel + '\'' +
-                '}';
-    }
+
 }
