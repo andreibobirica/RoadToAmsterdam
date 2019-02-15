@@ -12,7 +12,7 @@ public class Ostacolo extends GameObject {
     private Animation animation = new Animation();
     private boolean fisico = false;
 
-    //Campo bgCoord, cioè riferimento al Background per seguirne i movimenti e le sue coordinate
+    //Campo bgCoord,    cioè riferimento al Background per seguirne i movimenti e le sue coordinate
     private static Background bgCoord;
 
     /**
