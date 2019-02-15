@@ -16,33 +16,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_up"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="18dp"
-            android:layout_marginEnd="20dp" />
+            android:background="@drawable/up"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_right"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_alignBaseline="@+id/btn_left"
-            android:layout_alignBottom="@+id/btn_left"
+            android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/btn_left"
-            />
+            android:background="@drawable/right"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_left"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_alignBaseline="@+id/btn_up"
-            android:layout_alignBottom="@+id/btn_up"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp"
-            />
+            android:background="@drawable/left"/>
 
     </RelativeLayout>
 

@@ -16,4 +16,13 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editText"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="53dp"
+        app:srcCompat="@drawable/matte" />
 </RelativeLayout>

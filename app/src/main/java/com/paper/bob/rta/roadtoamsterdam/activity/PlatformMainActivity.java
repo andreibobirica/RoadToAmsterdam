@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
@@ -94,9 +95,9 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         super.onStart();
         Log.i("RTA","ONSTART");
         //GESTION HANDLER PER MOVIMENTO PLAYER, GESTION EVENTI CLICK BUTTON
-        Button btn_right = findViewById(R.id.btn_right);
-        Button btn_left = findViewById(R.id.btn_left);
-        Button btn_up = findViewById(R.id.btn_up);
+        ImageButton btn_right = findViewById(R.id.btn_right);
+        ImageButton btn_left = findViewById(R.id.btn_left);
+        ImageButton btn_up = findViewById(R.id.btn_up);
         btn_right.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){

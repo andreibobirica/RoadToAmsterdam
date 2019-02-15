@@ -30,7 +30,7 @@ public class Controller{
     //VETTORI DI MOVIMENTO Player
     private final int dx = 18;
     private final int dy = 22;
-    private final int dDown = 18;
+    private final int dDown = 20;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabile uping che indica se si sta ancora effetuando l'azione di salto oppure no
