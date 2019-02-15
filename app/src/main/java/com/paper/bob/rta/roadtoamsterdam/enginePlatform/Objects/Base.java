@@ -1,20 +1,19 @@
-package com.paper.bob.rta.roadtoamsterdam.engine;
+package com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects;
 
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 
-public class Base extends Ostacolo{
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
+
+public class Base extends Ostacolo {
     private Bitmap img;
     private static Background bgCoord;
 
     public Base(Bitmap res)
     {
-        super(res,0,EngineGame.HEIGHT-100,(EngineGame.HEIGHT+200),(EngineGame.WIDTH*2),1);
+        super(res,0, EngineGame.HEIGHT-100,(EngineGame.HEIGHT+200),(EngineGame.WIDTH*2),1);
         img = res;
     }
     public void draw(Canvas canvas)

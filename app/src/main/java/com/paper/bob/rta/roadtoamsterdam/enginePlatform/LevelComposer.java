@@ -1,23 +1,27 @@
-package com.paper.bob.rta.roadtoamsterdam.engine;
+package com.paper.bob.rta.roadtoamsterdam.enginePlatform;
 
 import android.content.Context;
 
-import com.paper.bob.rta.roadtoamsterdam.engine.Person.Notify;
-import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
-import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataGraber;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Background;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Base;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Notify;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataXMLGraber;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataXMLGraberPlatform;
 
 import java.util.ArrayList;
 
 
 public class LevelComposer {
 
-    private DataGraber dtGraber;//Campo che si occupa di Prelevare tutti i dati neccessari al Game, incluse le sue Istanze
+    private DataXMLGraberPlatform dtGraber;//Campo che si occupa di Prelevare tutti i dati neccessari al Game, incluse le sue Istanze
     private String infoLevel;//Informazioni del livello
 
     public LevelComposer(String infoLevel,Context context)
     {
-        dtGraber = new DataGraber("datalevels.xml",context);
+        dtGraber = new DataXMLGraberPlatform("datalevels.xml",context);
         this.infoLevel = infoLevel;
     }
 
@@ -34,13 +38,13 @@ public class LevelComposer {
     public Background getBackGround() {return dtGraber.getBackground(infoLevel);}
 
     /**
-     * Metodo che si occupa di prelevare il Player dal DataGraber
+     * Metodo che si occupa di prelevare il Player dal DataXMLGraber
      * @return Player
      */
     public Player getPlayer() {return dtGraber.getPlayer(infoLevel);}
 
     /**
-     * Metodo che si occupa di prelevare la Base Dal DataGraber
+     * Metodo che si occupa di prelevare la Base Dal DataXMLGraber
      * @return Base
      */
     public Base getBase() {return dtGraber.getBase(infoLevel);}

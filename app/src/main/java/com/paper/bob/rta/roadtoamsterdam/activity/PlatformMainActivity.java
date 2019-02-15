@@ -18,35 +18,32 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
-import com.paper.bob.rta.roadtoamsterdam.engine.Controller;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
 
 public class PlatformMainActivity extends AppCompatActivity implements SensorEventListener
 {
 
+    //Sensori
     protected PowerManager.WakeLock mWakeLock;
-    protected static Controller control  = new Controller();
     private SensorManager mSensorManager;
-    private Sensor sensor;
     private float lastSensorUpdate = System.currentTimeMillis();
     private Sensor accelerometer;
+    //Campi
+    private Controller control;
+    private EngineGame engineGame;
 
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        control= new Controller();
-
-        Log.i("RTA","Costruttore PlatformainActivity");
-        Log.i("RTA","ONCREATE");
-
-        //settaggio del PlatformActivitify per il Controller
-        control.setPlActivity(this);
-
+        /*
+        INIZIALIZZAZIONE Sensori e opzioni per l'hardware del dispositivo
+         */
         //SCREEN BIGHTNESS
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
+        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "RTA");
         this.mWakeLock.acquire();
 
         //Inizializzazione Sensori
@@ -58,29 +55,38 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //Eliminazione Title BAR
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //Activity del PLatform Game
+        //set Activity con layout platformgame visibile
         setContentView(R.layout.activity_platform_main);
+        /*
+        INIZIALIZZAZIONE Campi del PatformMainActivity
+         */
+        //Individuazione del EngineGame con ID dal LayoutXML
+        engineGame = findViewById(R.id.enginegame);
+        /*
+         * Creo il controller, lo inizializzo, gli passo questa activity, così avra il riferimento
+         * e passo il controller al EngineGame, che si occuperà di uttilizzarlo.
+         */
+        control= new Controller();
+        control.setPlActivity(this);
+        engineGame.setController(control);
     }
-    /*
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-        outState.putParcelable("control", control);
+        outState.putParcelable("sv", engineGame.getSaveInstance());
         Log.i("RTA","onSaveInstanceState");
         super.onSaveInstanceState(outState);
     }
-
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        Log.i("RTA","onRestoreInstanceState");
         if (savedInstanceState != null)
         {
             Log.i("RTA","onRestoreInstanceState");
-            control = savedInstanceState.getParcelable("control");
+            engineGame = (EngineGame) savedInstanceState.getSerializable("enginegame");
         }
     }
-
-    */
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onStart()
@@ -146,12 +152,17 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     protected void onPause() {
         super.onPause();
         Log.i("RTA","ONPause");
+        engineGame.stopView();
+        //Eliminazione Listener per accelerometro
         mSensorManager.unregisterListener(this);
     }
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, sensor,SensorManager.SENSOR_DELAY_NORMAL);
+        Log.i("RTA","ONResume");
+        engineGame.startView();
+        //Registro Listener per Accelerometro
+        mSensorManager.registerListener(this, accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
     }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -178,16 +189,5 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     public void avviaDialogo(String d)
     {
         startActivity(new Intent(PlatformMainActivity.this, DialogoActivity.class));
-    }
-    /**
-     * Metodo getController(), metodo che serve a restituire il controller.
-     * Siccome il controller è istanziato su questa activity, altri parte del gioco non possono accedervi in quanto sono istanziate
-     * dal Activity ma dal SurfaceEngine, cioè dal EngineGame, che è instanziato dal documento xml manifest.
-     * Detta la doppia provenieneza delle classsi Acitivy ed EngineGame, per comunicare tra di loro usano la classe Controller, la quale
-     * Per essere raggiunta dal Enginegame Utilizza questo metodo statico
-     * @return Controller
-     */
-    public static Controller getController() {
-        return control;
     }
 }

@@ -1,8 +1,5 @@
-package com.paper.bob.rta.roadtoamsterdam.engine;
+package com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects;
 import android.graphics.Bitmap;
-import android.util.Log;
-
-import java.util.Arrays;
 
 public class Animation {
     private Bitmap[] frames;

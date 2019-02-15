@@ -1,8 +1,9 @@
-package com.paper.bob.rta.roadtoamsterdam.engine;
+package com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.Log;
+
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
 
 public class Ostacolo extends GameObject {
     //Campi che definiscono l'ostacolo
@@ -43,7 +44,7 @@ public class Ostacolo extends GameObject {
             animation.setFrames(gif);
             //Se 2 frame = 100 delay - Se 6 frame = 200 delay
             //Per ogni frame 25 di delay in più
-            int delay = 50+nframe*40;
+            int delay = 50+nframe*20;
             animation.setDelay(delay);
         }
     }
@@ -58,7 +59,7 @@ public class Ostacolo extends GameObject {
         if(nframe>1) {
            img = animation.getImage();
         }
-        if(width>0 && x<EngineGame.WIDTH && height>0 && y <EngineGame.HEIGHT)
+        if(width>0 && x< EngineGame.WIDTH && height>0 && y <EngineGame.HEIGHT)
         {
             canvas.drawBitmap(img, new Rect(0,0,img.getWidth()-1, img.getHeight()-1), new Rect(x,y,x+width, y+height), null);
         }

@@ -1,12 +1,9 @@
 
-package com.paper.bob.rta.roadtoamsterdam.engine.Person;
+package com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 
-import com.paper.bob.rta.roadtoamsterdam.engine.Controller;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
 
 
 public class Player extends Personaggio{

@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.paper.bob.rta.roadtoamsterdam.engine.EngineGame
-        android:id="@+id/myView"
+    <com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame
+        android:id="@+id/enginegame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:keepScreenOn="true"/>

@@ -1,16 +1,15 @@
-package com.paper.bob.rta.roadtoamsterdam.engine.Person;
+package com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
-import com.paper.bob.rta.roadtoamsterdam.engine.Animation;
-import com.paper.bob.rta.roadtoamsterdam.engine.Background;
-import com.paper.bob.rta.roadtoamsterdam.engine.EngineGame;
-import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataGraber;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Animation;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Background;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataXMLGraber;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataXMLGraberPlatform;
 
 public class Notify{
 
@@ -22,7 +21,7 @@ public class Notify{
     private Bitmap imgNot;
     private Animation anim = new Animation();
 
-    private static DataGraber dg;
+    private static DataXMLGraberPlatform dg;
     private static Background bgCoord;
     private boolean prima =true;
     private static final int nframe = 1;
@@ -70,7 +69,7 @@ public class Notify{
         //if(nframe>1)anim.update();
     }
 
-    public static void setDG(DataGraber datag)
+    public static void setDG(DataXMLGraberPlatform datag)
     {dg = datag;}
 
     public static void setBgCoord(Background bg)

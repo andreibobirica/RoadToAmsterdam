@@ -1,12 +1,15 @@
-package com.paper.bob.rta.roadtoamsterdam.engine;
+package com.paper.bob.rta.roadtoamsterdam.enginePlatform;
 
 import android.graphics.Rect;
 import android.os.Handler;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
-import com.paper.bob.rta.roadtoamsterdam.engine.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Base;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.GameObject;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
 
 import java.util.ArrayList;
 

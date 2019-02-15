@@ -1,12 +1,13 @@
-package com.paper.bob.rta.roadtoamsterdam.engine;
+package com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
-import com.paper.bob.rta.roadtoamsterdam.engine.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
 
 public class Background {
 
