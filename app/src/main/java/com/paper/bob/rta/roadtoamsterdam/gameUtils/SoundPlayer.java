@@ -7,75 +7,67 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
 
+import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
+
 public class SoundPlayer{
+
 
     //Campi di configurazione
     private SoundPool soundPool;
-    private boolean loaded;
     private AudioManager audioManager;
-    // Maximumn sound stream.
-    private static final int MAX_STREAMS = 5;
-    // Stream type.
-    private static final int streamType = AudioManager.STREAM_MUSIC;
-    //Volume
+    private final int MAX_STREAMS = 5;
+    private final int streamType = AudioManager.STREAM_MUSIC;
     private float volume;
 
     //Campi
     private Context c;
+    private boolean loop;
     private int mainSound;
+    private String soundName;
+    private boolean loaded = false;
 
-    public SoundPlayer(Context c, Activity ac) {
+    public SoundPlayer(String soundName, boolean loop)
+    {this.soundName = soundName; this.loop=loop;}
+
+    public void setSoundPlayer(Context c) {
         this.c = c;
-        // AudioManager audio settings for adjusting the volume
         audioManager = (AudioManager) c.getSystemService(c.AUDIO_SERVICE);
-        // Current volumn Index of particular stream type.
         float currentVolumeIndex = (float) audioManager.getStreamVolume(streamType);
-        // Get the maximum volume index for a particular stream type.
         float maxVolumeIndex  = (float) audioManager.getStreamMaxVolume(streamType);
-        // Volumn (0 --> 1)
         this.volume = currentVolumeIndex / maxVolumeIndex;
-        // Suggests an audio stream whose volume should be changed by
-        // the hardware volume controls.
-        ac.setVolumeControlStream(streamType);
-        //Configuration Audio Atributes
-        AudioAttributes audioAttrib = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
+        PlatformMainActivity plat = (PlatformMainActivity)c;
+        plat.setVolumeControlStream(streamType);
+        AudioAttributes audioAttrib = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
         SoundPool.Builder builder= new SoundPool.Builder();
         builder.setAudioAttributes(audioAttrib).setMaxStreams(MAX_STREAMS);
         //Inizializzazione SoundPool
         this.soundPool = builder.build();
-        // When Sound Pool load complete.
         this.soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                loaded = true;
-
+                if(!loaded)
+                {
+                    int nLoop = loop ? -1 : 0;
+                    soundPool.play(mainSound,volume, volume, 1, nLoop, 1f);
+                    loaded = true;
+                }
             }
         });
     }
 
-    public void setSound(String nomeSound)
-    {
-        int resId = c.getResources().getIdentifier(nomeSound, "raw", c.getPackageName());
-        // Load sound file into SoundPool.
-        this.mainSound = this.soundPool.load(c,resId,1);
-    }
+    public void setContext(Context c)
+    {this.c=c;}
 
-    public int playSound(boolean loop)
+    public void play()
     {
-        if(loaded)  {
-            float leftVolumn = volume;
-            float rightVolumn = volume;
-            //Decisione se in loop o no
-            int nLoop = loop ? -1 : 0;
-            // Play sound. Returns the ID of the new stream.
-            return this.soundPool.play(this.mainSound,leftVolumn, rightVolumn, 1, nLoop, 1f);
+        if(!loaded)  {
+            int resId = c.getResources().getIdentifier(soundName, "raw", c.getPackageName());
+            // Load sound file into SoundPool.
+            this.mainSound = this.soundPool.load(c,resId,1);
         }
-        return 0;
     }
 
-    public void stopSound(int soundId) {
-        this.soundPool.stop(soundId);
+    public void stop() {
+        this.soundPool.stop(mainSound);
     }
 }

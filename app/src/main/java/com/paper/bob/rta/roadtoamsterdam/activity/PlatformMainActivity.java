@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
@@ -62,6 +61,11 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         /*
         INIZIALIZZAZIONE Campi del PatformMainActivity
          */
+        //Creo la classe Sound per la gestione dei suoni
+        SoundPlayer s = new SoundPlayer("gallo",true);
+        s.setSoundPlayer(this);
+        s.play();
+
         //Individuazione del EngineGame con ID dal LayoutXML
         engineGame = findViewById(R.id.enginegame);
         /*
@@ -162,10 +166,6 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         engineGame.startView();
         //Registro Listener per Accelerometro
         mSensorManager.registerListener(this, accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
-
-        //Prova Audio
-        SoundPlayer s = new SoundPlayer(this,this);
-        s.setSound("background");
     }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {

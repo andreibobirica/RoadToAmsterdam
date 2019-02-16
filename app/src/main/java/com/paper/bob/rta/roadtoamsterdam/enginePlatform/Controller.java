@@ -120,9 +120,6 @@ public class Controller{
         boolean col = verCol(0,dDown);
         if(col){alreadyUp=numSalti-1;}
         return (!col && mDown);
-
-        //boolean colPerfect = verCol(0,dDown-1);
-        //if(colPerfect){play.setY(play.getY()+(dDown-1));}
     }
     /**
      * Metodo che ritorna se il Player può muoversi in basso IN MANIERA perfetta, senza lasciare pixel tra esso e il ostacolo

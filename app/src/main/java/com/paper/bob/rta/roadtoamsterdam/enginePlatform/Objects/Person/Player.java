@@ -42,6 +42,7 @@ public class Player extends Personaggio{
     public void update()
     {
         super.update();
+
         boolean up = false;
         boolean down = false;
         //Controllo se in basso o in alto
