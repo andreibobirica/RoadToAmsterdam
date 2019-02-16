@@ -21,6 +21,7 @@ import android.widget.ImageButton;
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundPlayer;
 
 public class PlatformMainActivity extends AppCompatActivity implements SensorEventListener
 {
@@ -74,6 +75,7 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
+        //SaveGame in caso il dispositivo necessiti di memoria
         outState.putParcelable("sv", engineGame.getSaveInstance());
         Log.i("RTA","onSaveInstanceState");
         super.onSaveInstanceState(outState);
@@ -101,12 +103,11 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         btn_right.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    Log.i("RTA","RIGHT RIGHT RIGHT false");
+                    //Log.i("RTA","RIGHT RIGHT RIGHT false");
                     control.setMRight(false);
                 }
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-
-                    Log.i("RTA","RIGHT RIGHT RIGHT true");
+                    //Log.i("RTA","RIGHT RIGHT RIGHT true");
                     control.setMRight(true);
                 }
                 return false;
@@ -116,15 +117,12 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         btn_left.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    Log.i("RTA","LEFT LEFT LEFT false");
+                    //Log.i("RTA","LEFT LEFT LEFT false");
                     control.setMLeft(false);
-
                 }
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-
-                    Log.i("RTA","LEFT LEFT LEFT true");
+                    //Log.i("RTA","LEFT LEFT LEFT true");
                     control.setMLeft(true);
-
                 }
                 return false;
             }
@@ -132,7 +130,7 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
 
         btn_up.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
-                Log.i("RTA","UP UP UP");
+                //Log.i("RTA","UP UP UP");
                 control.setMUp(true);
             }
         });
@@ -164,6 +162,10 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         engineGame.startView();
         //Registro Listener per Accelerometro
         mSensorManager.registerListener(this, accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
+
+        //Prova Audio
+        SoundPlayer s = new SoundPlayer(this,this);
+        s.setSound("background");
     }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -189,6 +191,8 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
      */
     public void avviaDialogo(String d)
     {
-        startActivity(new Intent(PlatformMainActivity.this, DialogoActivity.class));
+        Intent dialogo = new Intent(PlatformMainActivity.this, DialogoActivity.class);
+        dialogo.putExtra("nomeDialogo", d);
+        startActivity(dialogo);
     }
 }
