@@ -20,7 +20,6 @@ import android.widget.ImageButton;
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
-import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundPlayer;
 
 public class PlatformMainActivity extends AppCompatActivity implements SensorEventListener
 {
@@ -61,10 +60,6 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         /*
         INIZIALIZZAZIONE Campi del PatformMainActivity
          */
-        //Creo la classe Sound per la gestione dei suoni
-        SoundPlayer s = new SoundPlayer("gallo",true);
-        s.setSoundPlayer(this);
-        s.play();
 
         //Individuazione del EngineGame con ID dal LayoutXML
         engineGame = findViewById(R.id.enginegame);

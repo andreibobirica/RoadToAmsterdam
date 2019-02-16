@@ -216,6 +216,22 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
         Log.i("RTA", "- Base");
         return base;
     }
+
+    public ArrayList<Sound> getSounds(String lvName)
+    {
+        ArrayList<Sound> sounds = new ArrayList<>();
+        NodeList Nodesounds = getLevel(lvName).getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getChildNodes();
+        for (int i = 0; i< Nodesounds.getLength();i++)
+        {
+            String tipoSound =  Nodesounds.item(i).getAttributes().getNamedItem("tipo").getNodeValue();
+            boolean loop = Boolean.parseBoolean(Nodesounds.item(i).getAttributes().getNamedItem("loop").getNodeValue());
+            String nomeSound = Nodesounds.item(i).getFirstChild().getTextContent();
+            Sound s = new Sound(nomeSound,loop,tipoSound);
+            s.setSoundPlayer(context);
+            sounds.add(s);
+        }
+        return sounds;
+    }
 }
 
 

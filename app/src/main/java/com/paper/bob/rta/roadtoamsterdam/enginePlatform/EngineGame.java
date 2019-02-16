@@ -19,6 +19,7 @@ import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Notify;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     private Player pl;
     private ArrayList<GameObject> objColl;
     private Controller control;
+    private ArrayList<Sound> sounds;
     public static int WIDTH;
     public static int HEIGHT;
     //Propietà che indica la visualizzazione
@@ -147,6 +149,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
              * Inizio operazioni della VIEW
              */
             objColl = new ArrayList<>();
+            sounds = new ArrayList<>();
             Log.i("RTA", "EngineGame: startView()");
             //OPERAZIONI ch edefiniscono un LIVELLO, Creazione LevelComposer
             LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
@@ -158,23 +161,24 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             ostacoli = lvComposer.getOstacoli();
             //Personaggi
             personaggi = lvComposer.getPersonaggi();
-            //Player & Movement Player
+            //Suoni
+            sounds = lvComposer.getSounds();
+            //Player
             pl = lvComposer.getPlayer();
+
+            //Configurazione del Livello
+            //Player & Movement Player
             bg.setPlayer(pl);
-            //Coordinate Background
+            //Coordinate a tutti dal Background
             Ostacolo.setBgCoord(bg);
             Notify.setBgCoord(bg);
             Base.setBgCoord(bg);
             //Gestione Collisioni
             for (Ostacolo o : ostacoli) {
-                if (o.getFisico()) {
-                    objColl.add(o);
-                }
+                if (o.getFisico()) {objColl.add(o);}
             }
             for (Personaggio p : personaggi) {
-                if (p.getFisico()) {
-                    objColl.add(p);
-                }
+                if (p.getFisico()) {objColl.add(p);}
             }
             objColl.add(base);
             Log.i("RTA", String.valueOf(objColl.size()));
@@ -183,6 +187,10 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             bg.setController(control);
             control.setPlayer(pl);
             control.setObjColl(objColl);
+            //Setto al controller
+            control.setSounds(sounds);
+
+            //INIZIO GAME
             //THREAD Game
             gameLoop = new MainThread(getHolder(), this);
             gameLoop.setRunning(true);
@@ -190,9 +198,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         }else if(!viewIsRunning && pl!=null)
         {
             viewIsRunning=true;//Setto la View ora visibile
-            /**
-             * Inizio operazioni della VIEW
-             */
             //THREAD Game
             gameLoop = new MainThread(getHolder(), this);
             gameLoop.setRunning(true);

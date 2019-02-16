@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
 
-public class SoundPlayer{
+public class Sound {
 
 
     //Campi di configurazione
@@ -25,11 +25,13 @@ public class SoundPlayer{
     private int mainSound;
     private String soundName;
     private boolean loaded = false;
+    private String tipoSound;
 
-    public SoundPlayer(String soundName, boolean loop)
-    {this.soundName = soundName; this.loop=loop;}
+    public Sound(String soundName, boolean loop, String tipoSound)
+    {this.soundName = soundName; this.loop=loop;this.tipoSound=tipoSound;}
 
     public void setSoundPlayer(Context c) {
+        Log.i("RTA","----setSouondPlayer");
         this.c = c;
         audioManager = (AudioManager) c.getSystemService(c.AUDIO_SERVICE);
         float currentVolumeIndex = (float) audioManager.getStreamVolume(streamType);
@@ -45,11 +47,11 @@ public class SoundPlayer{
         this.soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                if(!loaded)
+                if(loaded)
                 {
+                    Log.i("RTA","----setSouondPlayer Play");
                     int nLoop = loop ? -1 : 0;
                     soundPool.play(mainSound,volume, volume, 1, nLoop, 1f);
-                    loaded = true;
                 }
             }
         });
@@ -61,9 +63,11 @@ public class SoundPlayer{
     public void play()
     {
         if(!loaded)  {
+            Log.i("RTA","----2Play");
             int resId = c.getResources().getIdentifier(soundName, "raw", c.getPackageName());
             // Load sound file into SoundPool.
             this.mainSound = this.soundPool.load(c,resId,1);
+            loaded=true;
         }
     }
 

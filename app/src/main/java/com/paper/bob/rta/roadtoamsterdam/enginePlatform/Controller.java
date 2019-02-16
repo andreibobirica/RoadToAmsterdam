@@ -10,6 +10,7 @@ import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.GameObject;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class Controller{
     private ArrayList<GameObject> objColl;
     private Base base;
     private PlatformMainActivity plActivity;
+    private ArrayList<Sound> sounds;
 
     //Vettori sensore accelerometro
     private float sensorX = 0;
@@ -117,6 +119,7 @@ public class Controller{
      */
     public boolean getMDown()
     {
+        sounds.get(0).play();
         boolean col = verCol(0,dDown);
         if(col){alreadyUp=numSalti-1;}
         return (!col && mDown);
@@ -256,5 +259,9 @@ public class Controller{
 
     public float getSensorX() {
         return sensorX;
+    }
+
+    public void setSounds(ArrayList<Sound> sounds) {
+        this.sounds = sounds;
     }
 }
