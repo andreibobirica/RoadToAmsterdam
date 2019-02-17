@@ -10,6 +10,8 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +34,7 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     private SensorManager mSensorManager;
     private float lastSensorUpdate = System.currentTimeMillis();
     private Sensor accelerometer;
+    private PhoneStateListener phoneStateListener;
     //Campi
     private Controller control;
     private EngineGame engineGame;
@@ -160,6 +163,11 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         ArrayList<Sound> sounds =engineGame.getSounds();
         for (Sound s: sounds) {s.pause();}
         engineGame.getSoundBG().stop();
+        //Gestione chiamata coi suoni
+        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if(mgr != null) {
+            mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+        }
 
     }
     @Override
@@ -171,6 +179,30 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         mSensorManager.registerListener(this, accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
         //Play dei suoni
         engineGame.getSoundBG().play();
+        //Nel caso di chiamata gestiosco l'audio
+        phoneStateListener = new PhoneStateListener() {
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                if (state == TelephonyManager.CALL_STATE_RINGING) {
+                    //Pausa dei suoni
+                    ArrayList<Sound> sounds =engineGame.getSounds();
+                    for (Sound s: sounds) {s.pause();}
+                    engineGame.getSoundBG().stop();
+                } else if(state == TelephonyManager.CALL_STATE_IDLE) {
+                    engineGame.getSoundBG().play();
+                } else if(state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                    //Pausa dei suoni
+                    ArrayList<Sound> sounds =engineGame.getSounds();
+                    for (Sound s: sounds) {s.pause();}
+                    engineGame.getSoundBG().stop();
+                }
+                super.onCallStateChanged(state, incomingNumber);
+            }
+        };
+        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if(mgr != null) {
+            mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+        }
 
     }
     @Override

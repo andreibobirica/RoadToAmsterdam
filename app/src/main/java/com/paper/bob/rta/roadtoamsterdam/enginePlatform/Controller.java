@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Base;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.GameObject;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
@@ -24,6 +23,7 @@ public class Controller{
 
     //SUONI
     private ArrayList<Sound> sounds;
+    private SoundBG soundBG;
 
     //Vettori sensore accelerometro
     private float sensorX = 0;
@@ -38,7 +38,7 @@ public class Controller{
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabili che indicano se le azioni sono state concluse ed eseguite, o sono in corso d'opera.*/
-    private boolean alredyStop =true, alreadyUp=false, alreadyDown=false;
+    private boolean alredyStop =true, alreadyUp=false, alreadyDown=false, alreadyCrush=false;
     /**Variabile uping che indica se si sta ancora effetuando l'azione di salto oppure no
      * inolte la variabile dTiime indica il dELAY TIME con cui il salto deve essere interroto*
      * La variabile numSalti indica il numero massimo di salti che il player può fare
@@ -49,7 +49,7 @@ public class Controller{
     private int jumpedNumber = numSalti;
 
     private boolean debugMode = false;
-    private SoundBG soundBG;
+
 
     /**
      * Costruttore di Default
@@ -129,7 +129,10 @@ public class Controller{
     public boolean getMDown()
     {
         boolean col = verCol(0,dDown);
-        if(col){jumpedNumber =numSalti-1;alreadyDown=true;}
+        if(col){
+            jumpedNumber =numSalti-1;
+            alreadyDown=true;
+            playSoundCrush();}
         if(mDown){alreadyUp=false;}
         return (!col && mDown);
     }
@@ -181,7 +184,7 @@ public class Controller{
 
         boolean ret = (!verCol(0,-dy)&& mUp);
         if(ret)
-        {playSoundUp();pauseSoundRL();alreadyDown=false;}
+        {playSoundUp();pauseSoundRL();alreadyCrush=false;alreadyDown=false;}
         return ret;
     }
     /**
@@ -345,6 +348,17 @@ public class Controller{
             alreadyUp=true;
             for (Sound s: sounds) {
                 if(s.getTipoSound().equals("salto"))
+                {s.replay();break;}
+            }
+        }
+    }
+
+    private void playSoundCrush()
+    {
+        if(!alreadyCrush) {
+            alreadyCrush=true;
+            for (Sound s: sounds) {
+                if(s.getTipoSound().equals("caduta"))
                 {s.replay();break;}
             }
         }

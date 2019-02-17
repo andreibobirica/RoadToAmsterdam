@@ -96,8 +96,8 @@ public class Background {
         float ret[] = new float[2];
         ret[0] = 0;//Di quanto si deve muovere
         ret[1] = moved;//Di quanto si è già mosso
-        int vettore = (EngineGame.WIDTH/600)*(int) Math.abs(sensorY);
-        int movMax = EngineGame.WIDTH/15;
+        int vettore = (EngineGame.WIDTH/300)*(int) Math.abs(sensorY);
+        int movMax = EngineGame.WIDTH/20;
 
         if(moved < movMax && moved > -movMax)
         {
