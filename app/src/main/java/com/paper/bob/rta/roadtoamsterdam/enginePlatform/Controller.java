@@ -11,6 +11,7 @@ import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundBG;
 
 import java.util.ArrayList;
 
@@ -19,8 +20,9 @@ public class Controller{
     //Variabili con cui verificare le collisioni
     private Player play;
     private ArrayList<GameObject> objColl;
-    private Base base;
     private PlatformMainActivity plActivity;
+
+    //SUONI
     private ArrayList<Sound> sounds;
 
     //Vettori sensore accelerometro
@@ -35,23 +37,28 @@ public class Controller{
     private final int dDown = 20;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
+    /**Variabili che indicano se le azioni sono state concluse ed eseguite, o sono in corso d'opera.*/
+    private boolean alredyStop =true, alreadyUp=false, alreadyDown=false;
     /**Variabile uping che indica se si sta ancora effetuando l'azione di salto oppure no
      * inolte la variabile dTiime indica il dELAY TIME con cui il salto deve essere interroto*
      * La variabile numSalti indica il numero massimo di salti che il player può fare
-     * La variabile alreadyUp serve per capire se il numero di salti sono stati completati*/
+     * La variabile jumpedNumber serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
     private final int dTime = 550;
     private final int numSalti = 2;
-    private int alreadyUp = numSalti;
+    private int jumpedNumber = numSalti;
 
     private boolean debugMode = false;
+    private SoundBG soundBG;
 
     /**
      * Costruttore di Default
      */
     public Controller(){
         play =null;objColl=null;
-        base =null;plActivity=null;}
+        plActivity=null;}
+
+    //COLLISIONI
     /**
      * Metodo che ritorna il valore di dX
      * Il valore di dX è il vettore di movimento verso  destra e sinistra, cioè di movimento
@@ -97,9 +104,9 @@ public class Controller{
      */
     public void setMUp(boolean m)
     {
-        if(!uping  &&  alreadyUp<numSalti) {
+        if(!uping  &&  jumpedNumber <numSalti) {
             if(!debugMode)
-                alreadyUp++;
+                jumpedNumber++;
             mUp = m;
             mDown=false;
             uping = true;
@@ -115,13 +122,15 @@ public class Controller{
     }
     /**
      * Metodo che ritorna se il Player può muoversi in basso
+     * Il metodo oltre a questo fa anche play al suono di caduta, per l'algoritmo dei suoni imposta l'azione alreadyUp su false,
+     * perchè non si sta più saltando
      * @return boolean che rappresenta la possibilità di movimento
      */
     public boolean getMDown()
     {
-        sounds.get(0).play();
         boolean col = verCol(0,dDown);
-        if(col){alreadyUp=numSalti-1;}
+        if(col){jumpedNumber =numSalti-1;alreadyDown=true;}
+        if(mDown){alreadyUp=false;}
         return (!col && mDown);
     }
     /**
@@ -142,19 +151,51 @@ public class Controller{
     }
     /**
      * Metodo che ritorna se il Player può muoversi a destra
+     * Metodo che per l'algoritmo dei suoni imposta play al suono della camminata
      * @return boolean che rappresenta la possibilità di movimento
      */
-    public boolean getMRight() {return (!verCol(dx,0)&& mRight);}
+    public boolean getMRight() {
+        boolean ret = (!verCol(dx,0)&& mRight);
+        if (ret && !uping && alreadyDown)
+        {playSoundRL();}
+        return ret;
+    }
     /**
      * Metodo che ritorna se il Player può muoversi a sinistra
+     * Metodo che per l'algoritmo dei suoni imposta play al suono della camminata
      * @return boolean che rappresenta la possibilità di movimento
      */
-    public boolean getMLeft() {return (!verCol(-dx,0)&& mLeft);}
+    public boolean getMLeft() {
+        boolean ret = (!verCol(-dx,0)&& mLeft);
+        if (ret && !uping && alreadyDown)
+        {playSoundRL();}
+        return ret;
+    }
     /**
      * Metodo che ritorna se il Player può muoversi in alto
+     * Metodo che per l'algoritmo dei suoni fa play al suono del salto, mette in pausa il suono della camminata e imposta
+     * l'azione alreadyDown su false, perchè se salta non tocca terra, non è giù.
      * @return boolean che rappresenta la possibilità di movimento
      */
-    public boolean getMUp() {return (!verCol(0,-dy)&& mUp);}
+    public boolean getMUp() {
+
+        boolean ret = (!verCol(0,-dy)&& mUp);
+        if(ret)
+        {playSoundUp();pauseSoundRL();alreadyDown=false;}
+        return ret;
+    }
+    /**
+     * Metodo che serve principalmente per l'algoritmo dei suoni
+     * nel caso non ci sia nessuna intenzione di muoversi, e non si stia muovendo, mette in pausa il suono della camminata
+     * @return ritorna vero nel caso in cui sia stoppato, falso nel caso in cui sia in movimento
+     */
+    public boolean getRLStop(){
+        if(!(mUp && alreadyDown && mLeft && mRight)) {
+            pauseSoundRL();
+            return alredyStop;
+        }
+        return false;
+    }
     /**
      * Metodo setPlayer che serve a settare il Player, Successivamente si uttilizzerà il player per verificare la sua collisione con altri oggetti o con la Base
      * Il Rapporto tra Controller e Player è 1 a 1, esiste una istanza di Player nel Controller e d eesiste una istanza di Controller nel Player.
@@ -217,6 +258,8 @@ public class Controller{
         }
         return ret;
     }
+
+    //ACTIVITY
     /**
      * Metodo che Setta l'activity principale dei livelli platform
      * L'activity si chiama PlatformMainActivity, la si viene settata dentro questa classe perchè si potrebbe aver bisogno
@@ -233,10 +276,11 @@ public class Controller{
      */
     private void avviaDialogo(String d)
     {
+        soundBG.stop();
         plActivity.avviaDialogo(d);
     }
 
-
+    //SENSORI
     public void setSensorX(float sensorX) {
         this.sensorX = sensorX;
     }
@@ -261,7 +305,52 @@ public class Controller{
         return sensorX;
     }
 
+    //SUONI
+    /**
+     * Metodo set che setta i suoni del Livello
+     * @param sounds
+     */
     public void setSounds(ArrayList<Sound> sounds) {
         this.sounds = sounds;
+    }
+    /**
+     * Metodo che fa partire il suono della camminata
+     */
+    private void playSoundRL()
+    {
+        for (Sound s: sounds) {
+            if(s.getTipoSound().equals("camminata"))
+            {s.play();break;}
+        }
+        alredyStop=false;
+    }
+    /**
+     * Metodo che mette in pausa il suono della camminata
+     */
+    private void pauseSoundRL()
+    {
+        if(!alredyStop) {
+            for (Sound s: sounds) {
+                if(s.getTipoSound().equals("camminata"))
+                {s.pause();break;}
+            }
+            alredyStop = true;
+        }
+    }
+    /**
+     * Metodo che fa partire il suono del salto
+     */
+    private void playSoundUp() {
+        if(!alreadyUp) {
+            alreadyUp=true;
+            for (Sound s: sounds) {
+                if(s.getTipoSound().equals("salto"))
+                {s.replay();break;}
+            }
+        }
+    }
+
+    public void setSoundBG(SoundBG soundBG) {
+        this.soundBG = soundBG;
     }
 }

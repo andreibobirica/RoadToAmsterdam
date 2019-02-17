@@ -1,6 +1,5 @@
 package com.paper.bob.rta.roadtoamsterdam.gameUtils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -14,64 +13,82 @@ public class Sound {
 
     //Campi di configurazione
     private SoundPool soundPool;
-    private AudioManager audioManager;
-    private final int MAX_STREAMS = 5;
-    private final int streamType = AudioManager.STREAM_MUSIC;
     private float volume;
+    private boolean loaded = false;
+    private Context context;
 
     //Campi
-    private Context c;
     private boolean loop;
     private int mainSound;
     private String soundName;
-    private boolean loaded = false;
     private String tipoSound;
+    private boolean paused = true;
 
     public Sound(String soundName, boolean loop, String tipoSound)
     {this.soundName = soundName; this.loop=loop;this.tipoSound=tipoSound;}
 
     public void setSoundPlayer(Context c) {
-        Log.i("RTA","----setSouondPlayer");
-        this.c = c;
-        audioManager = (AudioManager) c.getSystemService(c.AUDIO_SERVICE);
-        float currentVolumeIndex = (float) audioManager.getStreamVolume(streamType);
-        float maxVolumeIndex  = (float) audioManager.getStreamMaxVolume(streamType);
-        this.volume = currentVolumeIndex / maxVolumeIndex;
+        context = c;
+        AudioManager audioManager = (AudioManager) c.getSystemService(c.AUDIO_SERVICE);
+        int streamType = AudioManager.STREAM_MUSIC;
+        float currentVolumeIndex = (float) (audioManager != null ? audioManager.getStreamVolume(streamType) : 0);
+        float maxVolumeIndex  = (float) (audioManager != null ? audioManager.getStreamMaxVolume(streamType) : 0);
+        volume = currentVolumeIndex / maxVolumeIndex;
         PlatformMainActivity plat = (PlatformMainActivity)c;
         plat.setVolumeControlStream(streamType);
         AudioAttributes audioAttrib = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
         SoundPool.Builder builder= new SoundPool.Builder();
+        int MAX_STREAMS = 5;
         builder.setAudioAttributes(audioAttrib).setMaxStreams(MAX_STREAMS);
         //Inizializzazione SoundPool
-        this.soundPool = builder.build();
-        this.soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+        soundPool = builder.build();
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                if(loaded)
-                {
-                    Log.i("RTA","----setSouondPlayer Play");
-                    int nLoop = loop ? -1 : 0;
-                    soundPool.play(mainSound,volume, volume, 1, nLoop, 1f);
-                }
+            if(loaded)
+            {
+                int nLoop = loop ? -1 : 0;
+                soundPool.play(mainSound,volume, volume, 1, nLoop, 1f);
+            }
             }
         });
     }
 
-    public void setContext(Context c)
-    {this.c=c;}
-
-    public void play()
+    public boolean play()
     {
-        if(!loaded)  {
-            Log.i("RTA","----2Play");
-            int resId = c.getResources().getIdentifier(soundName, "raw", c.getPackageName());
+
+        if (!loaded) {
+            int resId = context.getResources().getIdentifier(soundName, "raw", context.getPackageName());
             // Load sound file into SoundPool.
-            this.mainSound = this.soundPool.load(c,resId,1);
-            loaded=true;
+            this.mainSound = soundPool.load(context, resId, 1);
+            loaded = true;
+            paused = false;
+            Log.i("RTA","Loaded Play");
+            return true;
+        } else if (paused) {
+            paused=false;
+            soundPool.resume(mainSound);
+            Log.i("RTA","resume");
+            return true;
         }
+        return false;
     }
 
-    public void stop() {
-        this.soundPool.stop(mainSound);
+    public boolean replay()
+    {
+        if(play()){return true;}
+        soundPool.play(mainSound,volume, volume, 1,0, 1f);
+        Log.i("RTA","replay");
+        return false;
+    }
+
+    public void pause() {
+        paused=true;
+        soundPool.pause(mainSound);
+        Log.i("RTA","pause");
+    }
+
+    public String getTipoSound() {
+        return tipoSound;
     }
 }

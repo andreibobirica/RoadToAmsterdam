@@ -93,6 +93,7 @@ public class Player extends Personaggio{
         }
         else
         {
+            control.getRLStop();
             if(cambioImg != 0) {
                 cambioImg = 0;
                 this.setImage(img);

@@ -11,6 +11,7 @@ import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataXMLGraber;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataXMLGraberPlatform;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundBG;
 
 import java.util.ArrayList;
 
@@ -64,5 +65,9 @@ public class LevelComposer {
 
     public ArrayList<Sound> getSounds() {
         return dtGraber.getSounds(infoLevel);
+    }
+
+    public SoundBG getSoundBG() {
+        return dtGraber.getSoundBG(infoLevel);
     }
 }

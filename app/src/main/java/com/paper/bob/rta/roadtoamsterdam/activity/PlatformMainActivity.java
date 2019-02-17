@@ -20,6 +20,9 @@ import android.widget.ImageButton;
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
+
+import java.util.ArrayList;
 
 public class PlatformMainActivity extends AppCompatActivity implements SensorEventListener
 {
@@ -153,6 +156,11 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         engineGame.stopView();
         //Eliminazione Listener per accelerometro
         mSensorManager.unregisterListener(this);
+        //Pausa dei suoni
+        ArrayList<Sound> sounds =engineGame.getSounds();
+        for (Sound s: sounds) {s.pause();}
+        engineGame.getSoundBG().stop();
+
     }
     @Override
     protected void onResume() {
@@ -161,6 +169,9 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         engineGame.startView();
         //Registro Listener per Accelerometro
         mSensorManager.registerListener(this, accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
+        //Play dei suoni
+        engineGame.getSoundBG().play();
+
     }
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {

@@ -20,6 +20,7 @@ import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Notify;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundBG;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,10 +37,12 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     private ArrayList<GameObject> objColl;
     private Controller control;
     private ArrayList<Sound> sounds;
+    private SoundBG sbg;
     public static int WIDTH;
     public static int HEIGHT;
     //Propietà che indica la visualizzazione
     private boolean viewIsRunning = false;
+
 
     //Costruttori
     //Implementazione di Costruttori per essere leggibile anche da XML Layout
@@ -163,6 +166,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             personaggi = lvComposer.getPersonaggi();
             //Suoni
             sounds = lvComposer.getSounds();
+            sbg = lvComposer.getSoundBG();
+            control.setSoundBG(sbg);
             //Player
             pl = lvComposer.getPlayer();
 
@@ -174,12 +179,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             Notify.setBgCoord(bg);
             Base.setBgCoord(bg);
             //Gestione Collisioni
-            for (Ostacolo o : ostacoli) {
-                if (o.getFisico()) {objColl.add(o);}
-            }
-            for (Personaggio p : personaggi) {
-                if (p.getFisico()) {objColl.add(p);}
-            }
+            for (Ostacolo o : ostacoli) {if (o.getFisico()) {objColl.add(o);}}
+            for (Personaggio p : personaggi) {if (p.getFisico()) {objColl.add(p);}}
             objColl.add(base);
             Log.i("RTA", String.valueOf(objColl.size()));
             //Controller//Collision per il Player//Movimento per altri
@@ -187,7 +188,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             bg.setController(control);
             control.setPlayer(pl);
             control.setObjColl(objColl);
-            //Setto al controller
+            //Setto al controller i suoni
             control.setSounds(sounds);
 
             //INIZIO GAME
@@ -198,6 +199,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         }else if(!viewIsRunning && pl!=null)
         {
             viewIsRunning=true;//Setto la View ora visibile
+            //SUONI
+            sbg.play();
             //THREAD Game
             gameLoop = new MainThread(getHolder(), this);
             gameLoop.setRunning(true);
@@ -249,5 +252,13 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
      */
     public void setController(Controller c) {
         control = c;
+    }
+
+    public ArrayList<Sound> getSounds() {
+        return sounds;
+    }
+
+    public SoundBG getSoundBG() {
+        return sbg;
     }
 }

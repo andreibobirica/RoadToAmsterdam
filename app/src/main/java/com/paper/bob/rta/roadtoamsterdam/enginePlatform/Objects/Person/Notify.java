@@ -46,7 +46,6 @@ public class Notify{
                 for (int i = 0; i < gif.length; i++) {
                     gif[i] = Bitmap.createBitmap(img, i * (img.getWidth()/nframe), 0, img.getWidth()/nframe, img.getHeight());
                 }
-                Log.i("RTA", String.valueOf(gif.length));
                 anim.setFrames(gif);
                 //Se 2 frame = 100 delay - Se 6 frame = 200 delay
                 //Per ogni frame 25 di delay in più

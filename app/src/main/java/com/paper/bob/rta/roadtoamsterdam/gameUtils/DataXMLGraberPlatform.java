@@ -232,6 +232,23 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
         }
         return sounds;
     }
+
+    public SoundBG getSoundBG(String lvName)
+    {
+        NodeList Nodesounds = getLevel(lvName).getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getNextSibling().getChildNodes();
+        for (int i = 0; i< Nodesounds.getLength();i++)
+        {
+            String tipoSound =  Nodesounds.item(i).getAttributes().getNamedItem("tipo").getNodeValue();
+            if(tipoSound.equals("background"))
+            {
+                String nomeBgSound = Nodesounds.item(i).getFirstChild().getTextContent();
+                int resId =context.getResources().getIdentifier(nomeBgSound, "raw", context.getPackageName());
+                SoundBG sbg = new SoundBG(resId,context);
+                return sbg;
+            }
+        }
+        return null;
+    }
 }
 
 
