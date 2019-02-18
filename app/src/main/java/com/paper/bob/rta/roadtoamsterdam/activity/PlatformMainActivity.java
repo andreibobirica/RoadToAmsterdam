@@ -1,6 +1,8 @@
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -8,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
@@ -173,6 +176,8 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     @Override
     protected void onResume() {
         super.onResume();
+
+
         Log.i("RTA","ONResume");
         engineGame.startView();
         //Registro Listener per Accelerometro
@@ -231,6 +236,8 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     {
         Intent dialogo = new Intent(PlatformMainActivity.this, DialogoActivity.class);
         dialogo.putExtra("nomeDialogo", d);
+
         startActivity(dialogo);
     }
+
 }

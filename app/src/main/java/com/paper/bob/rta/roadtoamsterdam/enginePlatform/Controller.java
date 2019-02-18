@@ -33,22 +33,22 @@ public class Controller{
 
     //VETTORI DI MOVIMENTO Player
     private final int dx = 18;
-    private final int dy = 22;
+    private final int dy = 19;
     private final int dDown = 20;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabili che indicano se le azioni sono state concluse ed eseguite, o sono in corso d'opera.*/
-    private boolean alredyStop =true, alreadyUp=false, alreadyDown=false, alreadyCrush=false;
+    private boolean alredyStop =true, alreadyUp=false, alreadyDown=false, alreadyCrush=true;
     /**Variabile uping che indica se si sta ancora effetuando l'azione di salto oppure no
      * inolte la variabile dTiime indica il dELAY TIME con cui il salto deve essere interroto*
      * La variabile numSalti indica il numero massimo di salti che il player può fare
      * La variabile jumpedNumber serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
-    private final int dTime = 550;
+    private final int dTime = 450;
     private final int numSalti = 2;
     private int jumpedNumber = numSalti;
 
-    private boolean debugMode = false;
+    private boolean debugMode = true;
 
 
     /**
@@ -129,7 +129,7 @@ public class Controller{
     public boolean getMDown()
     {
         boolean col = verCol(0,dDown);
-        if(col){
+        if(col && mDown){
             jumpedNumber =numSalti-1;
             alreadyDown=true;
             playSoundCrush();}
@@ -184,7 +184,20 @@ public class Controller{
 
         boolean ret = (!verCol(0,-dy)&& mUp);
         if(ret)
-        {playSoundUp();pauseSoundRL();alreadyCrush=false;alreadyDown=false;}
+        {
+            playSoundUp();
+            pauseSoundRL();
+            alreadyCrush=false;
+            alreadyDown=false;
+        }
+        else if(mUp)
+        {
+            playSoundCrush();
+            alreadyCrush=false;
+            mUp = false;
+            mDown=true;
+            uping= false;
+        }
         return ret;
     }
     /**
