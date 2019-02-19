@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //Start Acivity Principale
-        startActivity(new Intent(this, PlatformMainActivity.class));
+        startActivity(new Intent(this, VideoActivity.class));
         finish();
     }
 }

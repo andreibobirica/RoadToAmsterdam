@@ -50,6 +50,7 @@ public class DialogoActivity extends AppCompatActivity {
     private boolean switchScelta = false;
     private View btn_avanti;
     private DialogComposer dc;
+    private String nomeDialogo;
 
 
     @Override
@@ -67,7 +68,7 @@ public class DialogoActivity extends AppCompatActivity {
 
         //set Activity con layout platformgame visibile
         setContentView(R.layout.activity_dialogo);
-        String nomeDialogo = getIntent().getExtras().getString("nomeDialogo");
+        nomeDialogo = getIntent().getExtras().getString("nomeDialogo");
         Log.i("RTA",nomeDialogo);
     }
     @Override
@@ -104,7 +105,7 @@ public class DialogoActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
-        dc = new DialogComposer("a1b2",this);
+        dc = new DialogComposer(nomeDialogo,this);
         setDialoghi(dc.getDialoghi());
         applyDialog(dialoghi);
     }
