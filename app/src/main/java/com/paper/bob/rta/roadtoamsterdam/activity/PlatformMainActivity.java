@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -105,32 +107,36 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         super.onStart();
         Log.i("RTA","ONSTART");
         //GESTION HANDLER PER MOVIMENTO PLAYER, GESTION EVENTI CLICK BUTTON
-        ImageButton btn_right = findViewById(R.id.btn_right);
-        ImageButton btn_left = findViewById(R.id.btn_left);
-        ImageButton btn_up = findViewById(R.id.btn_up);
+        final ImageButton btn_right = findViewById(R.id.btn_right);
+        final ImageButton btn_left = findViewById(R.id.btn_left);
+        final ImageButton btn_up = findViewById(R.id.btn_up);
         btn_right.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
                     //Log.i("RTA","RIGHT RIGHT RIGHT false");
                     control.setMRight(false);
+                    btn_right.setBackgroundResource(R.drawable.right);
                 }
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     //Log.i("RTA","RIGHT RIGHT RIGHT true");
                     control.setMRight(true);
+                    btn_right.setBackgroundResource(R.drawable.rightclick);
                 }
                 return false;
             }
         });
 
-        btn_left.setOnTouchListener(new View.OnTouchListener() {
+         btn_left.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
                     //Log.i("RTA","LEFT LEFT LEFT false");
                     control.setMLeft(false);
+                    btn_left.setBackgroundResource(R.drawable.left);
                 }
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     //Log.i("RTA","LEFT LEFT LEFT true");
                     control.setMLeft(true);
+                    btn_left.setBackgroundResource(R.drawable.leftclick);
                 }
                 return false;
             }
@@ -141,6 +147,10 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     //Log.i("RTA","UP UP UP UP up");
                     control.setMUp(true);
+                    btn_up.setBackgroundResource(R.drawable.upclick);
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    btn_up.setBackgroundResource(R.drawable.up);
                 }
                 return false;
             }
