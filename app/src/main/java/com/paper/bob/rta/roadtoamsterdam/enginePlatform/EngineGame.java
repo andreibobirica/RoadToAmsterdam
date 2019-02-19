@@ -3,8 +3,13 @@ package com.paper.bob.rta.roadtoamsterdam.enginePlatform;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
@@ -115,6 +120,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         for(Personaggio p : personaggi) {p.update();}
         //Player
         pl.update();
+        //Controlle
+        control.update();
     }
     @SuppressLint("MissingSuperCall")
     @Override
@@ -132,6 +139,20 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         {p.draw(canvas);}
         //PLAYER
         pl.draw(canvas);
+        if(Controller.debugMode)
+        {
+            String info = "DebugMode-> FPS: "+MainThread.FPS+" - AverageFPS: "+MainThread.averageFPS+" - dx:"+control.getDX()+" - dy: "+control.getDY()+" - dDown: "+control.getDDown();
+            info += "\n\t - x: "+pl.getX()+" -  y:"+pl.getY();
+            info += "\n\t - dTime: "+control.getDTime();
+            TextPaint textPaint = new TextPaint();
+            textPaint.setAntiAlias(true);
+            textPaint.setTextSize(16 * getResources().getDisplayMetrics().density);
+            textPaint.setColor(0xFF000000);
+            int width = (int) textPaint.measureText(info);
+            StaticLayout staticLayout = new StaticLayout(info, textPaint, (int) width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0, false);
+            staticLayout.draw(canvas);
+
+        }
     }
     /**
      * Metodo startView() che inizializza la vista con le cose da vedere e lo start del Thred dedicato alla gestione degli FPS.

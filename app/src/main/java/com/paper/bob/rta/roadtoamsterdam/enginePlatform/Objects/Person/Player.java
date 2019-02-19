@@ -43,6 +43,10 @@ public class Player extends Personaggio{
     {
         super.update();
 
+        dx = control.getDX();
+        dy = control.getDY();
+        dDown = control.getDDown();
+
         boolean up = false;
         boolean down = false;
         //Controllo se in basso o in alto
@@ -108,9 +112,6 @@ public class Player extends Personaggio{
     public void setController(Controller control)
     {
         this.control = control;
-        dx = control.getDX();
-        dy = control.getDY();
-        dDown = control.getDDown();
     }
 
     public int getDX(){return dx;}

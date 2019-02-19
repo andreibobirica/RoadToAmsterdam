@@ -32,9 +32,12 @@ public class Controller{
 
 
     //VETTORI DI MOVIMENTO Player
-    private final int dx = 18;
-    private final int dy = 19;
-    private final int dDown = 20;
+    private int dx,dy,dDown;
+    private final int vx = 15;
+    private final int vy = 17;
+    private final int vDown = 18;
+
+
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabili che indicano se le azioni sono state concluse ed eseguite, o sono in corso d'opera.*/
@@ -44,11 +47,11 @@ public class Controller{
      * La variabile numSalti indica il numero massimo di salti che il player può fare
      * La variabile jumpedNumber serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
-    private final int dTime = 450;
+    private int dTime = 450;
     private final int numSalti = 2;
     private int jumpedNumber = numSalti;
 
-    private boolean debugMode = true;
+    public static boolean debugMode = true;
 
 
     /**
@@ -128,6 +131,7 @@ public class Controller{
      */
     public boolean getMDown()
     {
+        //Verifica MDOwn
         boolean col = verCol(0,dDown);
         if(col && mDown){
             jumpedNumber =numSalti-1;
@@ -181,7 +185,6 @@ public class Controller{
      * @return boolean che rappresenta la possibilità di movimento
      */
     public boolean getMUp() {
-
         boolean ret = (!verCol(0,-dy)&& mUp);
         if(ret)
         {
@@ -273,6 +276,14 @@ public class Controller{
             }
         }
         return ret;
+    }
+
+    public void update()
+    {
+        //Verifica valori Dy,Dx,Ddown corretti
+        dx = (int) MainThread.getDiffAverageFPS(vx);
+        dy = (int) MainThread.getDiffAverageFPS(vy);
+        dDown = (int) MainThread.getDiffAverageFPS(vDown);
     }
 
     //ACTIVITY
@@ -379,5 +390,9 @@ public class Controller{
 
     public void setSoundBG(SoundBG soundBG) {
         this.soundBG = soundBG;
+    }
+
+    public int getDTime() {
+        return dTime;
     }
 }

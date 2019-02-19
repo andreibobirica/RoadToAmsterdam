@@ -6,7 +6,7 @@ public class MainThread extends Thread
 {
     //Campo che definisce il numero di FPS
     public static final int FPS = 60;
-    private double averageFPS;
+    public static double averageFPS;
     private SurfaceHolder surfaceHolder;
     private EngineGame engGame;
     private boolean running;
@@ -78,9 +78,15 @@ public class MainThread extends Thread
                 averageFPS = 1000/((totalTime/frameCount)/1000000);
                 frameCount =0;
                 totalTime = 0;
-                //Log.i("FPS", String.valueOf(averageFPS));
             }
         }
+    }
+
+    public static double getDiffAverageFPS(int n)
+    {
+        int ret = (int) (n*FPS/averageFPS);
+        if(ret>20)return 20;
+        return ret;
     }
 
     /**
