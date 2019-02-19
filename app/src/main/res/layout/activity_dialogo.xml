@@ -8,15 +8,17 @@
     tools:context="com.paper.bob.rta.roadtoamsterdam.activity.DialogoActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/sfondoDialogo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:scaleType="fitXY"
         app:srcCompat="?attr/colorControlActivated" />
-
     <RelativeLayout
-        android:id="@+id/relativeLayout7"
+        android:id="@+id/layoutDialogo2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
@@ -24,11 +26,10 @@
         android:layout_marginTop="130dp">
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/sfondoDialogo2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:layout_below="@+id/relativeLayout6"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,22 +39,37 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+            <TextView
+                android:id="@+id/nomePersDialogo2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="32dp"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:layout_constraintBottom_toTopOf="@+id/fotoPersDialogo2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/fotoPersDialogo2"
                 android:layout_width="180dp"
                 android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="52dp"
                 android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/relativeLayout4"
+                app:layout_constraintStart_toStartOf="@+id/layoutButton"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.49"
                 app:srcCompat="@mipmap/ic_launcher" />
 
             <RelativeLayout
-                android:id="@+id/relativeLayout3"
+                android:id="@+id/layoutTextDialogo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="210dp"
@@ -61,29 +77,33 @@
                 android:visibility="invisible"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:text="TextView"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-                <TextView
-                    android:id="@+id/textView2"
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textView3"
-                    android:contentDescription="testo"
-                    android:text="TextView"
-                    tools:text="@string/error_incorrect_password" />
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textDialogo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="100dp"
+                            android:layout_marginTop="20dp"
+                            android:contentDescription="testo"
+                            android:text="TextView"
+                            android:textSize="24sp"
+                            tools:text="@string/error_incorrect_password" />
+                    </LinearLayout>
+                </ScrollView>
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relativeLayout3"
+                android:id="@+id/layoutScelte"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="210dp"
@@ -92,52 +112,35 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/textScelta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:text="TextView"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/radioButton4"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginTop="44dp"
-                    android:text="TextView" />
+                    android:layout_marginRight="50dp"
+                    android:layout_marginTop="20dp"
+                    android:text="TextView"
+                    android:textSize="24sp" />
 
                 <RadioGroup
+                    android:id="@+id/radioGroupScelte"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@+id/textView5">
-
-                    <RadioButton
-                        android:id="@+id/radioButton4"
-                        android:layout_width="200dp"
-                        android:layout_height="50dp"
-                        android:layout_above="@+id/radioButton3"
-                        android:layout_alignParentStart="true"
-                        android:layout_weight="1"
-                        android:scaleY="1.5"
-                        android:text="RadioButton" />
+                    android:layout_below="@+id/textScelta">
 
                     <RadioButton
                         android:id="@+id/radioButton3"
                         style="@android:style/Widget.Holo.Light.CompoundButton.RadioButton"
-                        android:layout_width="200dp"
+                        android:layout_width="300dp"
                         android:layout_height="50dp"
                         android:layout_above="@+id/radioButton2"
                         android:layout_alignParentStart="true"
                         android:layout_weight="1"
                         android:duplicateParentState="false"
-                        android:scaleY="1.5"
+                        android:scaleY="1.2"
                         android:text="RadioButton" />
 
                     <RadioButton
@@ -148,20 +151,18 @@
                         android:layout_alignParentStart="true"
                         android:layout_marginBottom="55dp"
                         android:layout_weight="1"
-                        android:scaleY="1.5"
+                        android:scaleY="1.2"
                         android:text="RadioButton" />
                 </RadioGroup>
-
             </RelativeLayout>
-
             <RelativeLayout
-                android:id="@+id/relativeLayout4"
+                android:id="@+id/layoutButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btn_avanti"
                     style="@android:style/Widget.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -171,21 +172,18 @@
                     android:layout_marginEnd="16dp"
                     android:text="Button" />
             </RelativeLayout>
-
         </android.support.constraint.ConstraintLayout>
 
     </RelativeLayout>
-
     <RelativeLayout
-        android:id="@+id/relativeLayout6"
+        android:id="@+id/layoutDialogo1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="240dp">
-
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/nomePersDialogo1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -194,9 +192,8 @@
             android:layout_marginTop="13dp"
             android:text="TextView"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/fotoPersDialogo1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"

@@ -136,10 +136,13 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
             }
         });
 
-        btn_up.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v){
-                //Log.i("RTA","UP UP UP");
-                control.setMUp(true);
+        btn_up.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    //Log.i("RTA","UP UP UP UP up");
+                    control.setMUp(true);
+                }
+                return false;
             }
         });
     }

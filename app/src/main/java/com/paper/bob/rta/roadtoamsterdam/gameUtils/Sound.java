@@ -63,12 +63,12 @@ public class Sound {
             this.mainSound = soundPool.load(context, resId, 1);
             loaded = true;
             paused = false;
-            Log.i("RTA","Loaded Play");
+            //Log.i("RTA","Loaded Play");
             return true;
         } else if (paused) {
             paused=false;
             soundPool.resume(mainSound);
-            Log.i("RTA","resume");
+            //Log.i("RTA","resume");
             return true;
         }
         return false;
@@ -78,14 +78,14 @@ public class Sound {
     {
         if(play()){return true;}
         soundPool.play(mainSound,volume, volume, 1,0, 1f);
-        Log.i("RTA","replay");
+        //Log.i("RTA","replay");
         return false;
     }
 
     public void pause() {
         paused=true;
         soundPool.pause(mainSound);
-        Log.i("RTA","pause");
+        //Log.i("RTA","pause");
     }
 
     public String getTipoSound() {
