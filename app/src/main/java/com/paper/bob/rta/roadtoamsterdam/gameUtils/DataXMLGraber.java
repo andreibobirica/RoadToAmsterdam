@@ -15,7 +15,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class DataXMLGraber {
 
-    Element radice;
+    public Element radice;
     Context context;
     /**
      *Costruttore completo

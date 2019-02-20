@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -43,6 +44,8 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     //Campi
     private Controller control;
     private EngineGame engineGame;
+    private String nomeLevel;
+    private String scelta;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -77,28 +80,24 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         /*
          * Creo il controller, lo inizializzo, gli passo questa activity, così avra il riferimento
          * e passo il controller al EngineGame, che si occuperà di uttilizzarlo.
+         * Insieme setto anche il nome del livello
          */
         control= new Controller();
+        nomeLevel = getIntent().getExtras().getString("platform");
+        Log.i("RTA", "@PLATFORM\nOnCreate\t@"+nomeLevel);
+        engineGame.setLevelName(nomeLevel);
         control.setPlActivity(this);
         engineGame.setController(control);
+
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
-        //SaveGame in caso il dispositivo necessiti di memoria
-        outState.putParcelable("sv", engineGame.getSaveInstance());
-        Log.i("RTA","onSaveInstanceState");
         super.onSaveInstanceState(outState);
     }
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.i("RTA","onRestoreInstanceState");
-        if (savedInstanceState != null)
-        {
-            Log.i("RTA","onRestoreInstanceState");
-            engineGame = (EngineGame) savedInstanceState.getSerializable("enginegame");
-        }
     }
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -164,9 +163,7 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     }
     @Override
     public void onDestroy() {
-
         super.onDestroy();
-        Log.i("RTA", "applicazione finita");
     }
     @Override
     protected void onPause() {
@@ -189,8 +186,6 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     @Override
     protected void onResume() {
         super.onResume();
-
-
         Log.i("RTA","ONResume");
         engineGame.startView();
         //Registro Listener per Accelerometro
@@ -249,8 +244,44 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     {
         Intent dialogo = new Intent(PlatformMainActivity.this, DialogoActivity.class);
         dialogo.putExtra("nomeDialogo", d);
+        startActivityForResult(dialogo,2);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            if(resultCode == RESULT_OK) {
+                scelta = data.getStringExtra("scelta");
+                Log.i("RTA","Il valore scelto è: "+scelta);
+            }
+        }
+    }
 
-        startActivity(dialogo);
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        super.onKeyDown(keyCode,event);
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("RTA", "onBackPressed Called");
+        Intent intent = new Intent();
+        intent.putExtra("scelta", scelta);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 }
+
+/*
+Intent setIntent = new Intent(Intent.ACTION_MAIN);
+        setIntent.addCategory(Intent.CATEGORY_HOME);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+ */

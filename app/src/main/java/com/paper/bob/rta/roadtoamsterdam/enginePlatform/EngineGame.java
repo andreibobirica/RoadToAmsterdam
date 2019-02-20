@@ -47,6 +47,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     public static int HEIGHT;
     //Propietà che indica la visualizzazione
     private boolean viewIsRunning = false;
+    private String levelName;
 
 
     //Costruttori
@@ -91,15 +92,12 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        Log.i("RTA","EngineGame: surfaceCreated");
         startView();
     }
     @Override
-    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-        Log.i("RTA","EngineGame: SurfaceChanged");}
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {}
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        Log.i("RTA","EngineGame: SurfaceDestroyed");
         stopView();
     }
     /**
@@ -174,9 +172,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
              */
             objColl = new ArrayList<>();
             sounds = new ArrayList<>();
-            Log.i("RTA", "EngineGame: startView()");
             //OPERAZIONI ch edefiniscono un LIVELLO, Creazione LevelComposer
-            LevelComposer lvComposer = new LevelComposer("benzinaio", getContext());
+            LevelComposer lvComposer = new LevelComposer(levelName, getContext());
             //Background
             bg = lvComposer.getBackGround();
             //Base
@@ -203,7 +200,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             for (Ostacolo o : ostacoli) {if (o.getFisico()) {objColl.add(o);}}
             for (Personaggio p : personaggi) {if (p.getFisico()) {objColl.add(p);}}
             objColl.add(base);
-            Log.i("RTA", String.valueOf(objColl.size()));
+            Log.i("RTA", String.valueOf("\tTot:"+objColl.size()));
             //Controller//Collision per il Player//Movimento per altri
             pl.setController(control);
             bg.setController(control);
@@ -241,7 +238,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             /**
              * Fine operazioni della VIEW
              */
-            Log.i("RTA", "EngineGame: stopView()");
             boolean retry = true;
             int counter = 0;
             while (retry && counter < 1000) {
@@ -257,15 +253,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             }
         }
     }
-    /**
-     * Metodo che restituisce l'istanza salvata del livello con le informazioni principali quali le posizioni degli elementi e
-     * quali personaggi sono ancora Notify o meno
-     */
-    public SavedEngineGame getSaveInstance()
-    {
-       SavedEngineGame sv = new SavedEngineGame(bg,pl,objColl);
-       return sv;
-    }
+
 
     /**
      * Metodo setController() che serve a settare il controller, il campo
@@ -281,5 +269,9 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
 
     public SoundBG getSoundBG() {
         return sbg;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
     }
 }

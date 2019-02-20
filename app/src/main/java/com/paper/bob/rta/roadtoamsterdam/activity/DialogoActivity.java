@@ -1,12 +1,14 @@
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -69,7 +71,7 @@ public class DialogoActivity extends AppCompatActivity {
         //set Activity con layout platformgame visibile
         setContentView(R.layout.activity_dialogo);
         nomeDialogo = getIntent().getExtras().getString("nomeDialogo");
-        Log.i("RTA",nomeDialogo);
+        Log.i("RTA","@DIALOGO\t"+nomeDialogo);
     }
     @Override
     public void onStart()
@@ -110,9 +112,24 @@ public class DialogoActivity extends AppCompatActivity {
         applyDialog(dialoghi);
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            //Log.d("RTA", "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Log.d("RTA", "onBackPressed Called");
+    }
+
     public boolean applyDialog(Stack<Dialogo> dialoghi)
     {
-        Log.i("RTA","DIALOGHISIZE"+dialoghi.size());
+        //Log.i("RTA","DIALOGHISIZE"+dialoghi.size());
         if(dialoghi.size()>0) {
             Dialogo d = dialoghi.pop();
             layoutScelte.setVisibility(View.INVISIBLE);
@@ -138,7 +155,10 @@ public class DialogoActivity extends AppCompatActivity {
         }else
         {
 
-            Log.i("RTA","Finish"+dialoghi.size());
+            //Log.i("RTA","Finish"+dialoghi.size());
+            Intent intent = new Intent();
+            intent.putExtra("scelta", "true");
+            setResult(RESULT_OK, intent);
             finish();
         }
         return false;

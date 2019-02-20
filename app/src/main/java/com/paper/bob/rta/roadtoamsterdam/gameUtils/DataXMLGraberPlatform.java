@@ -230,6 +230,7 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
             s.setSoundPlayer(context);
             sounds.add(s);
         }
+        Log.i("RTA", "- Sound");
         return sounds;
     }
 
@@ -247,6 +248,7 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
                 return sbg;
             }
         }
+        Log.i("RTA", "- SoundBG");
         return null;
     }
 }

@@ -32,8 +32,8 @@
         <activity
             android:name=".activity.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".activity.GameComposerActivity"></activity>
     </application>
 
 </manifest>
