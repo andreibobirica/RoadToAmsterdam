@@ -2,6 +2,9 @@ package com.paper.bob.rta.roadtoamsterdam.engineGame;
 
 
 public class EnvironmentContainer {
+    //Cambi per il conteggio dei EnvirinmenteContainer
+    private static int nEC;
+    private int ECId;
 
     private String video;
     private String dialogo;
@@ -9,9 +12,9 @@ public class EnvironmentContainer {
     private Boolean scelta;//IF True A Else False B
     private EnvironmentContainer contA;
     private EnvironmentContainer contB;
-    private EnvironmentContainer contPrec;
 
     public EnvironmentContainer(EnvironmentContainer cont) {
+        ECId = cont.getId();
         this.video = cont.getVideo();
         this.dialogo = cont.getDialogo();
         this.platform = cont.getPlatform();
@@ -20,15 +23,13 @@ public class EnvironmentContainer {
         this.contB = cont.getContB();
     }
 
-    public EnvironmentContainer(String video, String dialogo, String platform, Boolean scelta, EnvironmentContainer contA, EnvironmentContainer contB,EnvironmentContainer contPrec)
+    public EnvironmentContainer(String video, String dialogo, String platform)
     {
+        ECId = nEC++;
+
         this.video = video;
         this.dialogo = dialogo;
         this.platform = platform;
-        this.scelta = scelta;
-        this.contA = contA;
-        this.contB = contB;
-        this.contPrec = contPrec;
     }
 
     public void setVideo(String video) {
@@ -82,16 +83,29 @@ public class EnvironmentContainer {
         this.contB = contB;
     }
 
-    public void setContPrec(EnvironmentContainer cont)
-    {
-        this.contPrec = cont;
+    public boolean verifyScelta() {
+        return (contA!=null&&contB!=null&&scelta!=null);
     }
 
-    public EnvironmentContainer getPrev() {
-        return contPrec;
+    public int getId() {
+        return ECId;
     }
-    public EnvironmentContainer getNext(boolean scelta) {
-        if(scelta)return contA;
-        return contB;
+
+    public static int getTotalEC()
+    {
+        return nEC;
+    }
+
+    @Override
+    public String toString() {
+        return "EnvironmentContainer{" +
+                "ECId=" + ECId +
+                ", video='" + video + '\'' +
+                ", dialogo='" + dialogo + '\'' +
+                ", platform='" + platform + '\'' +
+                ", scelta=" + (scelta!=null?scelta:"null") +
+                ", contA=" + (contA!=null?contA.getId():"null") +
+                ", contB=" + (contB!=null?contB.getId():"null") +
+                '}';
     }
 }

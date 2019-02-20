@@ -5,22 +5,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.EnvironmentContainer;
+
+import java.util.ArrayList;
 
 public class GameComposerActivity extends AppCompatActivity {
 
     private EnvironmentContainer contPrincipale;
     private boolean checkVideo, checkDialogo, checkPlatform = false;
-    private EnvironmentContainer cont2;
-    private EnvironmentContainer cont3;
-    private EnvironmentContainer cont4;
-
+    ArrayList<EnvironmentContainer> conts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cont2 = new EnvironmentContainer("dam420",null,"benzinaio",null,null,null,null);
-        contPrincipale = new EnvironmentContainer("dam420",null,"benzi",null,cont2,null,null);
-        cont2.setContPrec(contPrincipale);
+        //set Activity con layout platformgame visibile
+        setContentView(R.layout.activity_game_composer);
+        createEnviroments();
+    }
+
+    private void createEnviroments() {
+        conts = new ArrayList<>();
+        conts.add(new EnvironmentContainer("dam420",null,"benzinaio")); //0
+        conts.add(new EnvironmentContainer(null,null,"naio"));          //1
+        conts.add(new EnvironmentContainer("dam420",null,"benzi"));     //2
+        conts.add(new EnvironmentContainer(null,null,"benzinaio"));     //3
+        for(int i = 0; i < conts.size(); i++)
+        {
+            if(conts.get(i).getId() == 0)
+            {conts.get(i).setNext(conts.get(1),conts.get(2));}
+            if(conts.get(i).getId() == 1)
+            {conts.get(i).setNext(conts.get(2),conts.get(3));}
+            if(conts.get(i).getId() == 2)
+            {conts.get(i).setNext(conts.get(3),conts.get(3));}
+        }
+        for(int i = 0; i < conts.size(); i++)
+        {Log.i("RTA",conts.get(i).toString());}
+
+        //Si parte dal primo Enviroment
+        contPrincipale = conts.get(0);
     }
 
     @Override
@@ -47,41 +69,35 @@ public class GameComposerActivity extends AppCompatActivity {
 
     public void startGame()
     {
-        if(contPrincipale.getDialogo() != null && !checkDialogo)
-        {
-            checkDialogo=true;
-            Intent i = new Intent(this, DialogoActivity.class);
-            i.putExtra("dialogo", contPrincipale.getDialogo());
-            startActivity(i);
-        }
-        else if(!checkVideo)
+        if(!checkVideo && contPrincipale.getVideo() != null)
         {
             checkVideo=true;
             Intent i = new Intent(this, VideoActivity.class);
             i.putExtra("video", contPrincipale.getVideo());
             startActivity(i);
         }
-        else if (!checkPlatform)
+        else if(!checkDialogo && contPrincipale.getDialogo() != null)
+        {
+            checkDialogo=true;
+            Intent i = new Intent(this, DialogoActivity.class);
+            i.putExtra("dialogo", contPrincipale.getDialogo());
+            startActivity(i);
+        }
+        else if (!checkPlatform && contPrincipale.getPlatform() != null)
         {
             checkPlatform=true;
             Intent i = new Intent(this, PlatformMainActivity.class);
             i.putExtra("platform", contPrincipale.getPlatform());
             startActivityForResult(i,1);
-
         }
         else
         {
             contPrincipale.setScelta(true);
             Log.i("RTA","Scelte e cambio di livello");
-            if(contPrincipale.getScelta() != null && contPrincipale.getContA() != null && contPrincipale.getScelta())
+            if(contPrincipale.verifyScelta())
             {
-                contPrincipale = new EnvironmentContainer(contPrincipale.getContA());
-                checkPlatform = checkDialogo = checkVideo = false;
-                startGame();
-            }
-            else if (contPrincipale.getScelta() != null && contPrincipale.getContA() != null  && !contPrincipale.getScelta())
-            {
-                contPrincipale = new EnvironmentContainer(contPrincipale.getContB());
+                Log.i("RTA",contPrincipale.toString());
+                contPrincipale = new EnvironmentContainer(contPrincipale.getNext());
                 checkPlatform = checkDialogo = checkVideo = false;
                 startGame();
             }
