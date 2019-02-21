@@ -26,14 +26,17 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".activity.DialogoActivity"
+            android:name=".activity.DialogActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
             android:name=".activity.VideoActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="landscape"></activity>
-        <activity android:name=".activity.GameComposerActivity"></activity>
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activity.GameComposerActivity"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
     </application>
 
 </manifest>

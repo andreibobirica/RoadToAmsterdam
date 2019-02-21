@@ -2,7 +2,6 @@ package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -15,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,37 +21,45 @@ import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engineDialog.DialogComposer;
 import com.paper.bob.rta.roadtoamsterdam.engineDialog.Dialogo;
 
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Stack;
 
-public class DialogoActivity extends AppCompatActivity {
+/**Activity del dialogo, questa activity fa in modo di far apparire un dialogo animato a schermo.
+ * Il suo obbiettivo è prendere da parametro Itent un valore, passarlo al DataGraberDialog, estrapolarne una pila di Oggetti dialogo,
+ * e sistematicamente mostrarli all'utente in fila.
+ * Per ultimo nella scelta da effettuare, se presente, registra la scelta, e la manda tramite parametro Intent alla Activity Precedente.
+ * Sarà richiamata sempre Dalla PlatformMainActivity, Opzionalmente dal DialogActivity, e mai da altre Activity.
+ * Porterà sempre alla PlatformMainActivity, Opzionalmente alla DialogActivity, e mai ad altre activity.
+ * */
+public class DialogActivity extends AppCompatActivity {
 
-    private PowerManager.WakeLock mWakeLock;
+    //CAMPI XML
 
+    /**Foto del Player*/
     private ImageView fotoPers2;
-    private TextView nomePersDialogo2;
+    /**Foto del Dialogante con noi*/
     private ImageView fotoPers1;
+    /**Nome del Player*/
+    private TextView nomePersDialogo2;
+    /**Nome del Dialogante con noi*/
     private TextView nomePersDialogo1;
-
+    /**Casella di testo dove apparre il dialogo*/
     private TextView textDialogo;
+    /**Casella di testo dove appare il riassunto delle scelte da fare*/
     private TextView textScelta;
-    private RadioGroup radioGroupScelte;
-    private RadioButton radioButton2;
-    private RadioButton radioButton3;
-    private RadioButton radioButton4;
-
-    private RelativeLayout layoutScelte;
-    private RelativeLayout layoutTextDialogo;
-    private RelativeLayout layoutButton;
-
-
-    private Stack<Dialogo> dialoghi;
-    private boolean switchScelta = false;
+    private RadioButton radioSceltaTrue,radioSceltaFalse;
+    /**Layout da nascondere o mostrare In base al momento del dialogo*/
+    private RelativeLayout layoutScelte,layoutTextDialogo,layoutButton;
+    /**Button Avnti con il quale si avanza nel dialogo*/
     private View btn_avanti;
-    private DialogComposer dc;
-    private String nomeDialogo;
 
+    //CAMPI PROPRI
+
+    /**Stack di battute di un dialogo*/
+    private Stack<Dialogo> dialoghi;
+    /**Scelta ipotetica del dialogo*/
+    private boolean switchScelta;
+    /**Nome del dialogo, passato tra le activity*/
+    private String nomeDialogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +67,8 @@ public class DialogoActivity extends AppCompatActivity {
         /*INIZIALIZZAZIONE Sensori e opzioni per l'hardware del dispositivo*/
         //SCREEN BIGHTNESS
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "RTA");
-        this.mWakeLock.acquire();
+        PowerManager.WakeLock mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "RTA");
+        mWakeLock.acquire(10*60*1000L /*10 minutes*/);
         //Avvio della Main Activity in FullScrean
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //Eliminazione Title BAR
@@ -70,13 +76,17 @@ public class DialogoActivity extends AppCompatActivity {
 
         //set Activity con layout platformgame visibile
         setContentView(R.layout.activity_dialogo);
+        //Recupero del nome del dialogo passato con gli intent tra le activity
         nomeDialogo = getIntent().getExtras().getString("nomeDialogo");
         Log.i("RTA","@DIALOGO\t"+nomeDialogo);
     }
+
     @Override
     public void onStart()
     {
         super.onStart();
+
+        //Individuazione elementi XML identificati tramite l'ID
         fotoPers2 = findViewById(R.id.fotoPersDialogo2);
         nomePersDialogo2 = findViewById(R.id.nomePersDialogo2);
         fotoPers1 = findViewById(R.id.fotoPersDialogo1);
@@ -84,15 +94,15 @@ public class DialogoActivity extends AppCompatActivity {
 
         textDialogo = findViewById(R.id.textDialogo);
         textScelta = findViewById(R.id.textScelta);
-        radioGroupScelte = findViewById(R.id.radioGroupScelte);
-        radioButton2 = findViewById(R.id.radioButton2);
-        radioButton3 = findViewById(R.id.radioButton3);
+        radioSceltaTrue = findViewById(R.id.radioButton2);
+        radioSceltaFalse = findViewById(R.id.radioButton3);
 
         layoutScelte = findViewById(R.id.layoutScelte);
         layoutTextDialogo = findViewById(R.id.layoutTextDialogo);
         layoutButton = findViewById(R.id.layoutButton);
         btn_avanti = findViewById(R.id.btn_avanti);
 
+        //Assegnazione al btn_avanti il listener event per il quale si fa avanzare le battute del dialogo
         btn_avanti.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
@@ -107,29 +117,40 @@ public class DialogoActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
-        dc = new DialogComposer(nomeDialogo,this);
+        /*Compositore di dialoghi che crea e restituisce i dialoghi*/
+        DialogComposer dc = new DialogComposer(nomeDialogo, this);
         setDialoghi(dc.getDialoghi());
         applyDialog(dialoghi);
     }
 
+    /**Overiding del metodo onKeyDown per non farlgi eseguire nessuna azione del caso in cui venga premuto
+     * il pulsante indietro all'interno del gioco*/
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
         if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            //Log.d("RTA", "onKeyDown Called");
             onBackPressed();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
-
+    /**Overiding del metodo onBackPressed per non farlgi eseguire nessuna azione del caso in cui venga premuto
+     * il pulsante indietro all'interno del gioco*/
     @Override
-    public void onBackPressed() {
-        //Log.d("RTA", "onBackPressed Called");
-    }
+    public void onBackPressed() {}
 
+    /**Metodo che come dice il nome apply un dialogo.
+     * La struttura dei dialoghi è fatta a modo di stack, ciò significa che una volta letta una battuta, viene buttata via, e tramite il
+     * mecanismo FIFO, i dialoghi vengono letti in ordine e seguendo una logica di botta e risposta.
+     * L'algoritmo di questo metodo assegna in base ai dialoghi i giusti valori alle VIEW XML.
+     * Nel caso in cui si abbbia un dialogo semplice di testo, assegna dei valori alle classiche View di dialogo,
+     * Altrimenti in caso di dialogo con scelte, assegna i valori alle VIEW per le scelte, inoltre nasconde e mostra
+     * i layout che sono neccessari al momento giusto.
+     * Nel caso non ci siano più dialoghi fa finire l'activity impostando come parametro All'intent dell'activity il valore della scelta.
+     * @param dialoghi Pila contenente tutte le battute del dialogo, raggruppati ciascuno dentro Ogetto Dialogo.
+     * @return valore booleano rappresentante per true l'aver applicato un dialogo con le scelte, e per false un dialogo normale.
+     */
     public boolean applyDialog(Stack<Dialogo> dialoghi)
     {
-        //Log.i("RTA","DIALOGHISIZE"+dialoghi.size());
         if(dialoghi.size()>0) {
             Dialogo d = dialoghi.pop();
             layoutScelte.setVisibility(View.INVISIBLE);
@@ -141,8 +162,8 @@ public class DialogoActivity extends AppCompatActivity {
             fotoPers1.setImageBitmap(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(d.getNomeImmOtherPers(), "drawable", getPackageName())));
             if (switchScelta) {
                 textScelta.setText(d.getScelta());
-                radioButton2.setText(d.getScelte().get(0));
-                radioButton3.setText(d.getScelte().get(1));
+                radioSceltaTrue.setText(d.getScelte().get(0));
+                radioSceltaFalse.setText(d.getScelte().get(1));
                 layoutScelte.setVisibility(View.VISIBLE);
                 layoutTextDialogo.setVisibility(View.INVISIBLE);
                 switchScelta = false;
@@ -154,8 +175,6 @@ public class DialogoActivity extends AppCompatActivity {
             }
         }else
         {
-
-            //Log.i("RTA","Finish"+dialoghi.size());
             Intent intent = new Intent();
             intent.putExtra("scelta", "true");
             setResult(RESULT_OK, intent);
@@ -164,6 +183,10 @@ public class DialogoActivity extends AppCompatActivity {
         return false;
     }
 
+    /**
+     * Metodo set che setta la Pila di battute di un dialogo
+     * @param dialoghi Pila di battute di un certo dialogo
+     */
     public void setDialoghi(Stack<Dialogo> dialoghi)
     {
         this.dialoghi = dialoghi;

@@ -1,18 +1,13 @@
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
@@ -88,23 +83,14 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         engineGame.setLevelName(nomeLevel);
         control.setPlActivity(this);
         engineGame.setController(control);
+    }
 
-    }
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-
-        super.onSaveInstanceState(outState);
-    }
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-    }
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onStart()
     {
         super.onStart();
-        Log.i("RTA","ONSTART");
+        Log.i("RTA","OnStart");
         //GESTION HANDLER PER MOVIMENTO PLAYER, GESTION EVENTI CLICK BUTTON
         final ImageButton btn_right = findViewById(R.id.btn_right);
         final ImageButton btn_left = findViewById(R.id.btn_left);
@@ -168,7 +154,7 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i("RTA","ONPause");
+        Log.i("RTA","OnPause");
         engineGame.stopView();
         //Eliminazione Listener per accelerometro
         mSensorManager.unregisterListener(this);
@@ -186,7 +172,7 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("RTA","ONResume");
+        Log.i("RTA","OnResume");
         engineGame.startView();
         //Registro Listener per Accelerometro
         mSensorManager.registerListener(this, accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
@@ -242,7 +228,7 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
      */
     public void avviaDialogo(String d)
     {
-        Intent dialogo = new Intent(PlatformMainActivity.this, DialogoActivity.class);
+        Intent dialogo = new Intent(PlatformMainActivity.this, DialogActivity.class);
         dialogo.putExtra("nomeDialogo", d);
         startActivityForResult(dialogo,2);
     }
