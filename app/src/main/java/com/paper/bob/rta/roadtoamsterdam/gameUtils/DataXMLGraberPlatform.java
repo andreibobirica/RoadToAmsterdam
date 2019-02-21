@@ -17,6 +17,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DataXMLGraberPlatform extends DataXMLGraber {
 
@@ -105,7 +106,8 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
         NodeList ost = getLevel(lvName).getFirstChild().getChildNodes();//Ostacoli Lista
         for (int e = 0; e < ost.getLength(); e++) {
             //IMAGE
-            int resId = context.getResources().getIdentifier(ost.item(e).getFirstChild().getTextContent(), "drawable", context.getPackageName());
+            String imgName = ost.item(e).getFirstChild().getTextContent();
+            int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
             Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
             //Posizione
             int x = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("x").getNodeValue());
@@ -123,6 +125,12 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
             y = positionAdapter(x,y)[1];
             //Creazione Ostacolo
             Ostacolo o = new Ostacolo(img, x, y, height, width, nFrame);
+            if(Objects.equals(tipo, "endlevel"))
+            {
+                o.setTipo("endlevel");
+                o.setWidth(getGrandezza("muro")[0]);
+                o.setHeight(getGrandezza("muro")[1]);
+            }
             o.setFisico(fisico);
             ostacoli.add(o);
         }

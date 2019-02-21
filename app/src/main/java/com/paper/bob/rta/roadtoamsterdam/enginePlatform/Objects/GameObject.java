@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Classe GameObject che contiene le informazioni base di un oggetto in game.
  * Questa classe è Parcelable in quanto dovrà essere passata attraverso più activity nel caso di un saveGame docuto dal onRestoreState() delle activity
  */
-public class GameObject implements Parcelable {
+public class GameObject{
     //Coordinate della posizione iniziale
     protected int x;
     protected int y;
@@ -96,41 +96,4 @@ public class GameObject implements Parcelable {
      */
     public String getTipo()
     {return tipo;}
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.x);
-        dest.writeInt(this.y);
-        dest.writeInt(this.width);
-        dest.writeInt(this.height);
-        dest.writeString(this.tipo);
-    }
-
-    public GameObject() {
-    }
-
-    protected GameObject(Parcel in) {
-        this.x = in.readInt();
-        this.y = in.readInt();
-        this.width = in.readInt();
-        this.height = in.readInt();
-        this.tipo = in.readString();
-    }
-
-    public static final Parcelable.Creator<GameObject> CREATOR = new Parcelable.Creator<GameObject>() {
-        @Override
-        public GameObject createFromParcel(Parcel source) {
-            return new GameObject(source);
-        }
-
-        @Override
-        public GameObject[] newArray(int size) {
-            return new GameObject[size];
-        }
-    };
 }

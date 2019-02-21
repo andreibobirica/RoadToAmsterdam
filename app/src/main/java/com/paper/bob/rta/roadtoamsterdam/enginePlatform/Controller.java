@@ -34,7 +34,7 @@ public class Controller{
     //VETTORI DI MOVIMENTO Player
     private int dx,dy,dDown;
     private final int vx = 15;
-    private final int vy = 17;
+    private final int vy = 20;
     private final int vDown = 18;
 
 
@@ -47,9 +47,9 @@ public class Controller{
      * La variabile numSalti indica il numero massimo di salti che il player può fare
      * La variabile jumpedNumber serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
-    private int dTime = 450;
+    private int dTime = 400;
     private final int numSalti = 2;
-    private int jumpedNumber = numSalti;
+    private int jumpedNumber;
 
     public static boolean debugMode = true;
 
@@ -108,8 +108,7 @@ public class Controller{
     public void setMUp(boolean m)
     {
         if(!uping  &&  jumpedNumber <numSalti) {
-            if(!debugMode)
-                jumpedNumber++;
+            jumpedNumber++;
             mUp = m;
             mDown=false;
             uping = true;
@@ -134,7 +133,7 @@ public class Controller{
         //Verifica MDOwn
         boolean col = verCol(0,dDown);
         if(col && mDown){
-            jumpedNumber =numSalti-1;
+            jumpedNumber =0;
             alreadyDown=true;
             playSoundCrush();}
         if(mDown){alreadyUp=false;}
@@ -265,11 +264,14 @@ public class Controller{
                     if(g.getTipo().equals("Personaggio"))
                     {
                         Personaggio p = (Personaggio) g;
-                        Log.i("RTA","Not: "+p.getNotify());
                         this.avviaDialogo(p.getDialogo());
                         p.setFisico(false);
                         p.setNotify(false);
                         objColl.remove(g);
+                    }else if(g.getTipo().equals("endlevel"))
+                    {
+                        Log.i("RTA","FINISH");
+                        plActivity.finish();
                     }
                     break;
                 }

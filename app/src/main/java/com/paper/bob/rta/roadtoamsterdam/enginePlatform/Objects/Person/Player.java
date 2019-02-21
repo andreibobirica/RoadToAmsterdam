@@ -122,11 +122,4 @@ public class Player extends Personaggio{
     public void setJumpLAnim(Bitmap i){jumpLAnim = i;}
     public void setJumpRAnim(Bitmap i){jumpRAnim = i;}
 
-
-    public Controller getController() {
-        return control;
-    }
-
-    /////////////////////////////////////
-
 }

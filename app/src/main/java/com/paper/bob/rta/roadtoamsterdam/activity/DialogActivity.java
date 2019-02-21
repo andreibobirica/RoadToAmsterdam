@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class DialogActivity extends AppCompatActivity {
     /**Casella di testo dove appare il riassunto delle scelte da fare*/
     private TextView textScelta;
     private RadioButton radioSceltaTrue,radioSceltaFalse;
+    private RadioGroup radioGroupScelte;
     /**Layout da nascondere o mostrare In base al momento del dialogo*/
     private RelativeLayout layoutScelte,layoutTextDialogo,layoutButton;
     /**Button Avnti con il quale si avanza nel dialogo*/
@@ -60,6 +62,8 @@ public class DialogActivity extends AppCompatActivity {
     private boolean switchScelta;
     /**Nome del dialogo, passato tra le activity*/
     private String nomeDialogo;
+    /**Scelta del dialogo, nel caso necessaria o presente*/
+    private boolean scelta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +98,9 @@ public class DialogActivity extends AppCompatActivity {
 
         textDialogo = findViewById(R.id.textDialogo);
         textScelta = findViewById(R.id.textScelta);
-        radioSceltaTrue = findViewById(R.id.radioButton2);
-        radioSceltaFalse = findViewById(R.id.radioButton3);
+        radioSceltaTrue = findViewById(R.id.radioButtonTrue);
+        radioSceltaFalse = findViewById(R.id.radioButtonFalse);
+        radioGroupScelte = findViewById(R.id.radioGroupScelte);
 
         layoutScelte = findViewById(R.id.layoutScelte);
         layoutTextDialogo = findViewById(R.id.layoutTextDialogo);
@@ -106,10 +111,21 @@ public class DialogActivity extends AppCompatActivity {
         btn_avanti.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    //Log.i("RTA","LEFT LEFT LEFT true");
                     applyDialog(dialoghi);
                 }
                 return false;
+            }
+        });
+
+        //Setto un Listener per la radio Group in maniera di capire quando si sceglie un radioButton
+        radioGroupScelte.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
+                //Applicazione Scelta
+                scelta = (radioGroupScelte.getCheckedRadioButtonId() == radioSceltaTrue.getId());
+                Log.i("RTA","SCELTA: "+scelta);
+                layoutButton.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -127,10 +143,7 @@ public class DialogActivity extends AppCompatActivity {
      * il pulsante indietro all'interno del gioco*/
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            onBackPressed();
-            return true;
-        }
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {onBackPressed();return true;}
         return super.onKeyDown(keyCode, event);
     }
     /**Overiding del metodo onBackPressed per non farlgi eseguire nessuna azione del caso in cui venga premuto
@@ -166,6 +179,9 @@ public class DialogActivity extends AppCompatActivity {
                 radioSceltaFalse.setText(d.getScelte().get(1));
                 layoutScelte.setVisibility(View.VISIBLE);
                 layoutTextDialogo.setVisibility(View.INVISIBLE);
+                //Set invisible Btn fino a quando non si sceglie, sarà mostrato dopo in caso si prema una delle due scelte
+                layoutButton.setVisibility(View.INVISIBLE);
+                //Modifica del SwitchScelta
                 switchScelta = false;
                 return true;
             }
@@ -176,12 +192,15 @@ public class DialogActivity extends AppCompatActivity {
         }else
         {
             Intent intent = new Intent();
-            intent.putExtra("scelta", "true");
+            intent.putExtra("scelta", scelta);
             setResult(RESULT_OK, intent);
             finish();
         }
         return false;
     }
+
+
+
 
     /**
      * Metodo set che setta la Pila di battute di un dialogo

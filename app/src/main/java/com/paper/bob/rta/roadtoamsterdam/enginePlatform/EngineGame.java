@@ -137,6 +137,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         {p.draw(canvas);}
         //PLAYER
         pl.draw(canvas);
+        //DEBUGMODE
         if(Controller.debugMode)
         {
             String info = "DebugMode-> FPS: "+MainThread.FPS+" - AverageFPS: "+MainThread.averageFPS+" - dx:"+control.getDX()+" - dy: "+control.getDY()+" - dDown: "+control.getDDown();

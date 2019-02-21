@@ -23,6 +23,8 @@ public class GameComposerActivity extends AppCompatActivity {
     ProgressBar bar;
     TextView label;
     Handler handler = new Handler();
+    private Boolean scelta;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,8 +96,8 @@ public class GameComposerActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
-                Boolean scelta = Boolean.valueOf(data.getStringExtra("scelta"));
-                Log.i("RTA","Il valore scelto è: "+scelta);
+                scelta = data.getBooleanExtra("scelta",false);
+                Log.i("RTA","Il valore scelto GameComposer è è: "+scelta);
             }
         }
     }
@@ -125,8 +127,7 @@ public class GameComposerActivity extends AppCompatActivity {
         }
         else
         {
-            contPrincipale.setScelta(true);
-            Log.i("RTA","Scelte e cambio di livello");
+            contPrincipale.setScelta(scelta);
             if(contPrincipale.verifyScelta())
             {
                 Log.i("RTA",contPrincipale.toString());
@@ -136,7 +137,7 @@ public class GameComposerActivity extends AppCompatActivity {
             }
             else
             {
-                Log.i("RTA","C'è un problema");
+                Log.i("RTA","\n\t@END GAME");
                 finish();
             }
         }

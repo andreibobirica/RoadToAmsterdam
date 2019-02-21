@@ -39,8 +39,7 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
     //Campi
     private Controller control;
     private EngineGame engineGame;
-    private String nomeLevel;
-    private String scelta;
+    private boolean scelta;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -52,8 +51,8 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
          */
         //SCREEN BIGHTNESS
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "RTA");
-        this.mWakeLock.acquire();
+        this.mWakeLock = pm != null ? pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "RTA") : null;
+        this.mWakeLock.acquire(10*60*1000L /*10 minutes*/);
 
         //Inizializzazione Sensori
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -78,8 +77,8 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
          * Insieme setto anche il nome del livello
          */
         control= new Controller();
-        nomeLevel = getIntent().getExtras().getString("platform");
-        Log.i("RTA", "@PLATFORM\nOnCreate\t@"+nomeLevel);
+        String nomeLevel = getIntent().getExtras().getString("platform");
+        Log.i("RTA", "\n\n\n\t@PLATFORM\nOnCreate\t@"+ nomeLevel);
         engineGame.setLevelName(nomeLevel);
         control.setPlActivity(this);
         engineGame.setController(control);
@@ -98,12 +97,10 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         btn_right.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    //Log.i("RTA","RIGHT RIGHT RIGHT false");
                     control.setMRight(false);
                     btn_right.setBackgroundResource(R.drawable.right);
                 }
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    //Log.i("RTA","RIGHT RIGHT RIGHT true");
                     control.setMRight(true);
                     btn_right.setBackgroundResource(R.drawable.rightclick);
                 }
@@ -114,12 +111,10 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
          btn_left.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    //Log.i("RTA","LEFT LEFT LEFT false");
                     control.setMLeft(false);
                     btn_left.setBackgroundResource(R.drawable.left);
                 }
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    //Log.i("RTA","LEFT LEFT LEFT true");
                     control.setMLeft(true);
                     btn_left.setBackgroundResource(R.drawable.leftclick);
                 }
@@ -130,7 +125,6 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         btn_up.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    //Log.i("RTA","UP UP UP UP up");
                     control.setMUp(true);
                     btn_up.setBackgroundResource(R.drawable.upclick);
                 }
@@ -232,36 +226,25 @@ public class PlatformMainActivity extends AppCompatActivity implements SensorEve
         dialogo.putExtra("nomeDialogo", d);
         startActivityForResult(dialogo,2);
     }
+
+    @Override
+    public void finish()
+    {
+        Intent intent = new Intent();
+        intent.putExtra("scelta", scelta);
+        setResult(RESULT_OK, intent);
+        super.finish();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 2) {
             if(resultCode == RESULT_OK) {
-                scelta = data.getStringExtra("scelta");
+                scelta = data.getBooleanExtra("scelta",false);
                 Log.i("RTA","Il valore scelto è: "+scelta);
             }
         }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)  {
-        super.onKeyDown(keyCode,event);
-        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            onBackPressed();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Log.d("RTA", "onBackPressed Called");
-        Intent intent = new Intent();
-        intent.putExtra("scelta", scelta);
-        setResult(RESULT_OK, intent);
-        finish();
     }
 
 }
