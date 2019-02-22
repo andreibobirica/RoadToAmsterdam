@@ -30,7 +30,7 @@ public class Background {
         this.dy = 0;
         image = res;
         y=-EngineGame.HEIGHT*2;
-        x=-EngineGame.WIDTH/2;
+        x=-EngineGame.WIDTH*2;
 
         coloreSfondo= new Paint();
         coloreSfondo.setColor(Color.WHITE);
@@ -75,7 +75,7 @@ public class Background {
 
         int ym = ((pl.getY()+pl.getHeight())+pl.getY())/2;
         int ymb = (pl.getY()+pl.getHeight());
-        if(ymb > EngineGame.HEIGHT+5)
+        if(ymb > EngineGame.HEIGHT)
         {dy = -pl.getDY();ret=false;}
         else if(ym<(EngineGame.HEIGHT/3))
         {dy = pl.getDY();ret=false;}

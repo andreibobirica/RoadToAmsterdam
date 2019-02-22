@@ -366,8 +366,9 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         if(bg.verifyMovementPlayer()) {
             if(pl.getY()+pl.getHeight()+dy>EngineGame.HEIGHT){
                 dy = 0;Log.i("RTA","CHIAMATO");
-            }else if(base.getY()+dy<(EngineGame.HEIGHT)){
-                dy = 0;
+            }
+            if(base.getY()+dy<(EngineGame.HEIGHT)){
+                dy = 0;Log.i("RTA","CHIAMATO2");
             }
             bg.setX(bg.getX() + dx);
             bg.setY(bg.getY() + dy);
@@ -384,7 +385,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             pl.setX(pl.getX() + dx);
             pl.setY(pl.getY() + dy);
         }
-        Log.i("RTA", String.valueOf(dy));
     }
 
 
