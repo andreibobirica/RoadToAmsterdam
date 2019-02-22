@@ -1,10 +1,9 @@
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -61,18 +60,11 @@ public class GameComposerActivity extends AppCompatActivity {
 
     private void createEnviroments() {
         conts = new ArrayList<>();
-        conts.add(new EnvironmentContainer(null,null,"benzinaio")); //0
-        conts.add(new EnvironmentContainer(null,null,"naio"));          //1
-        conts.add(new EnvironmentContainer(null,null,"benzi"));     //2
-        conts.add(new EnvironmentContainer("dam420",null,"benzinaio"));     //3
+        conts.add(new EnvironmentContainer("prelv1",null,"padovacasello")); //0
         for(int i = 0; i < conts.size(); i++)
         {
-            if(conts.get(i).getId() == 0)
-            {conts.get(i).setNext(conts.get(1),conts.get(2));}
-            if(conts.get(i).getId() == 1)
-            {conts.get(i).setNext(conts.get(2),conts.get(3));}
-            if(conts.get(i).getId() == 2)
-            {conts.get(i).setNext(conts.get(3),conts.get(3));}
+            //if(conts.get(i).getId() == 0)
+            //{conts.get(i).setNext(conts.get(1),conts.get(2));}
         }
         for(int i = 0; i < conts.size(); i++)
         {Log.i("RTA",conts.get(i).toString());}

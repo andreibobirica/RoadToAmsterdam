@@ -58,7 +58,7 @@ public class Background {
         float[] datiMoveSensor = moveBySensor(controller.getSensorY(),moved);
         moved= datiMoveSensor[1];
         //Modifica
-        x+=datiMoveSensor[0];
+        //x+=datiMoveSensor[0];
 
         //Movimento del Background in base al Player
         int xm = ((pl.getX()+pl.getWidth())+pl.getX())/2;

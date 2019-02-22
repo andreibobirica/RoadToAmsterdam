@@ -41,18 +41,6 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
     {
         int width,height;
         switch (tipo) {
-            case "piccolo":
-                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_width);
-                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_height);
-                break;
-            case "normale":
-                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_width);
-                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_height);
-                break;
-            case "normale_oriz":
-                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_oriz_width);
-                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_oriz_height);
-                break;
             case "grande":
                 width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_grande_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_grande_height);
@@ -64,6 +52,30 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
             case "muro":
                 width = context.getResources().getDimensionPixelSize(R.dimen.muro_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.muro_height);
+                break;
+            case "grande_oriz":
+                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_grande_oriz_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_grande_oriz_height);
+                break;
+            case "normale_oriz":
+                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_oriz_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_oriz_height);
+                break;
+            case "piccolo_quad":
+                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_quad_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_quad_height);
+                break;
+            case "normale":
+                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_height);
+                break;
+            case "piccolo":
+                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_height);
+                break;
+            case "piattaforma_linea":
+                width = context.getResources().getDimensionPixelSize(R.dimen.piattaforma_linea_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.piattaforma_linea_height);
                 break;
             default:
                 width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_width);
@@ -128,8 +140,8 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
             if(Objects.equals(tipo, "endlevel"))
             {
                 o.setTipo("endlevel");
-                o.setWidth(getGrandezza("muro")[0]);
-                o.setHeight(getGrandezza("muro")[1]);
+                o.setWidth(getGrandezza("normale_oriz")[0]);
+                o.setHeight(getGrandezza("normale_oriz")[1]);
             }
             o.setFisico(fisico);
             ostacoli.add(o);

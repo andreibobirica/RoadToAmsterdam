@@ -13,7 +13,7 @@ public class Base extends Ostacolo {
 
     public Base(Bitmap res)
     {
-        super(res,0, EngineGame.HEIGHT-100,(EngineGame.HEIGHT+200),(EngineGame.WIDTH*2),1);
+        super(res,0, EngineGame.HEIGHT-110,(EngineGame.HEIGHT+200),(EngineGame.WIDTH*2),1);
         img = res;
     }
     public void draw(Canvas canvas)
