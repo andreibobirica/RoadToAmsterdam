@@ -60,7 +60,7 @@ public class GameComposerActivity extends AppCompatActivity {
 
     private void createEnviroments() {
         conts = new ArrayList<>();
-        conts.add(new EnvironmentContainer("prelv1",null,"padovacasello")); //0
+        conts.add(new EnvironmentContainer(null,null,"padovacasello")); //0
         for(int i = 0; i < conts.size(); i++)
         {
             //if(conts.get(i).getId() == 0)

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
@@ -39,10 +40,12 @@ public class Background {
      Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
      Questo metodo non ha valori di return in quando non fornisce dati, ma attua solo l'azione di disegnare se stesso su un canvas
      fornito.
+     Lo sfondo ha una risoluzione di 10u/5u, dove l'unita di misura u è la grandezza dello schermo.
      @param canvas Canvas oggetto canvas su cui si deve disegnare l'immmagine img, che sta al background.
      */
     public void draw(Canvas canvas)
     {
+        //Log.i("RTA",EngineGame.WIDTH+" "+EngineGame.HEIGHT);
         Rect src = new Rect(0,0,image.getWidth(), image.getHeight());
         Rect dest = new Rect(x,y,x+EngineGame.WIDTH*8, EngineGame.HEIGHT*3+y);
         canvas.drawPaint(coloreSfondo);
@@ -54,80 +57,29 @@ public class Background {
      */
     public void update()
     {
-        //Movimento del Background in base al Sensore
-        float[] datiMoveSensor = moveBySensor(controller.getSensorY(),moved);
-        moved= datiMoveSensor[1];
-        //Modifica
-        //x+=datiMoveSensor[0];
+        verifyMovementPlayer();
+        y+=this.dy;
+        x+=this.dx;
+    }
 
+    public boolean verifyMovementPlayer()
+    {
+        boolean ret = true;
         //Movimento del Background in base al Player
         int xm = ((pl.getX()+pl.getWidth())+pl.getX())/2;
         if(xm>(EngineGame.WIDTH/4)*3)
-        {dx = -pl.getDX();}
+        {dx = -pl.getDX();ret=false;}
         else if((xm)<(EngineGame.WIDTH/4))
-        {dx = pl.getDX();}
+        {dx = pl.getDX();ret=false;}
         else { dx=0;}
 
         int ym = ((pl.getY()+pl.getHeight())+pl.getY())/2;
-        if(ym > (EngineGame.HEIGHT/3)*2)
-        {dy = -pl.getDY();}
+        int ymb = (pl.getY()+pl.getHeight());
+        if(ymb > EngineGame.HEIGHT+5)
+        {dy = -pl.getDY();ret=false;}
         else if(ym<(EngineGame.HEIGHT/3))
-        {dy = pl.getDY();}
+        {dy = pl.getDY();ret=false;}
         else { dy=0;}
-
-        //Modifica
-        x+=this.dx;
-        y+=this.dy;
-
-    }
-
-    /**
-     * Metodo moveBySesnsor che implementa il movimento dello sfondo in base al sensore accelerometro
-     * Tramire i due parametri, il metodo capisce di quanto lo sfondo si è già spostato all'inclinazione e di quanto lo deve spostare ancora.
-     * l'algoritmo fa in modo che lo sfondo si possa muovere solo leggermente a destra e a sinistra, di poco e in base all'inclinazione
-     * con una velocità differente.
-     * @param sensorY parametro che indica di quanto è l'inclinazione sull'asse Y del cellulare(Corrisponde all'asse X del gioco)
-     * @param moved parametro che indica di quanto si + già spostato il background, in questo modo il suo movimento non è infinito
-     * @return array contenente nel primo valore il vettore di movimento, se possibile ancora il movimento un valore numerico, se non possibile 0
-     * Nel secondo valore invece è contenuto la variabile moved aggiornata con l'effettiva distanza che il backgrond ha fatto.
-     */
-    private float[] moveBySensor(float sensorY, float moved)
-    {
-        float ret[] = new float[2];
-        ret[0] = 0;//Di quanto si deve muovere
-        ret[1] = moved;//Di quanto si è già mosso
-        int vettore = (EngineGame.WIDTH/300)*(int) Math.abs(sensorY);
-        int movMax = EngineGame.WIDTH/20;
-
-        if(moved < movMax && moved > -movMax)
-        {
-            if(sensorY<0)
-            {
-                ret[0]=+vettore;
-                ret[1]+=vettore;
-            }
-            else
-            {
-                ret[0]=-vettore;
-                ret[1]-=vettore;
-            }
-        }
-        else if(moved>=movMax)
-        {
-            if(sensorY>0)
-            {
-                ret[0]=-vettore;
-                ret[1]-=vettore;
-            }
-        }
-        else
-        {
-            if(sensorY<0)
-            {
-                ret[0]=+vettore;
-                ret[1]+=vettore;
-            }
-        }
         return ret;
     }
 
@@ -139,10 +91,15 @@ public class Background {
     {return y;}
     public int getX()
     {return x;}
+    public void setX(int x){this.x = x;}
+    public void setY(int y){this.y = y;}
 
 
     public void setPlayer(Player pl){this.pl = pl;}
     public void setController(Controller controller) {
         this.controller = controller;
     }
+
+
+
 }

@@ -25,11 +25,6 @@ public class Controller{
     private ArrayList<Sound> sounds;
     private SoundBG soundBG;
 
-    //Vettori sensore accelerometro
-    private float sensorX = 0;
-    private float sensorY = 0;
-    private float sensorZ = 0;
-
 
     //VETTORI DI MOVIMENTO Player
     private int dx,dy,dDown;
@@ -48,7 +43,7 @@ public class Controller{
      * La variabile jumpedNumber serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
     private int dTime = 400;
-    private final int numSalti = 2;
+    private final int numSalti = 1;
     private int jumpedNumber;
 
     public static boolean debugMode = true;
@@ -236,7 +231,7 @@ public class Controller{
      * @param b GameObject base da confrontare con a
      * @return valore booleano, se true significa che è avvenuta una collisione, se false non è avvenuta una collisione
      */
-    private boolean collision(GameObject a, GameObject b)
+    public boolean collision(GameObject a, GameObject b)
     {
         if(Rect.intersects(a.getRectangle(), b.getRectangle())) {
             return true;
@@ -307,31 +302,6 @@ public class Controller{
     {
         soundBG.stop();
         plActivity.avviaDialogo(d);
-    }
-
-    //SENSORI
-    public void setSensorX(float sensorX) {
-        this.sensorX = sensorX;
-    }
-
-    public void setSensorY(float sensorY) {
-        this.sensorY = sensorY;
-    }
-
-    public void setSensorZ(float sensorZ) {
-        this.sensorZ = sensorZ;
-    }
-
-    public float getSensorZ() {
-        return sensorZ;
-    }
-
-    public float getSensorY() {
-        return sensorY;
-    }
-
-    public float getSensorX() {
-        return sensorX;
     }
 
     //SUONI

@@ -13,6 +13,8 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
@@ -48,6 +50,16 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     //Propietà che indica la visualizzazione
     private boolean viewIsRunning = false;
     private String levelName;
+
+    private static final int INVALID_POINTER_ID = -1;
+    private float mScaleFactor = 1.f;
+    private ScaleGestureDetector mScaleDetector;
+    private float mLastTouchX;
+    private float mLastTouchY;
+    private int mActivePointerId;
+    private Context context;
+    private int dx = 0;
+    private int dy = 0;
 
 
     //Costruttori
@@ -120,6 +132,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         pl.update();
         //Controlle
         control.update();
+        //moveElemntByTouch
+        moveObjectsWithTouch(dx,dy);
     }
     @SuppressLint("MissingSuperCall")
     @Override
@@ -189,7 +203,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             control.setSoundBG(sbg);
             //Player
             pl = lvComposer.getPlayer();
-
+            //MOTION WITH TOUCH
+            mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
             //Configurazione del Livello
             //Player & Movement Player
             bg.setPlayer(pl);
@@ -275,4 +290,115 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     public void setLevelName(String levelName) {
         this.levelName = levelName;
     }
+
+    public void setContext(Context c){this.context = c;}
+
+    //***************************************
+//*************  TOUCH  *****************
+//***************************************
+    @Override
+    public synchronized boolean onTouchEvent(MotionEvent ev) {
+
+        mScaleDetector.onTouchEvent(ev);
+
+        final int action = ev.getAction();
+
+        if (action == MotionEvent.ACTION_DOWN) {
+            final float x = ev.getX();
+            final float y = ev.getY();
+
+            mLastTouchX = x;
+            mLastTouchY = y;
+            mActivePointerId = ev.getPointerId(0);
+        }
+
+        if (action == MotionEvent.ACTION_MOVE) {
+
+            System.out.println("MOVE");
+            final int pointerIndex = ev.findPointerIndex(mActivePointerId);
+            final float x = ev.getX(pointerIndex);
+            final float y = ev.getY(pointerIndex);
+
+            // Only move if the ScaleGestureDetector isn't processing a gesture.
+            if (!mScaleDetector.isInProgress()) {
+                final int dx = (int) (x - mLastTouchX);
+                final int dy = (int) (y - mLastTouchY);
+                this.dx = dx;
+                this.dy = dy;
+                invalidate();
+            }
+
+            mLastTouchX = x;
+            mLastTouchY = y;
+
+
+        }
+
+        if (action == MotionEvent.ACTION_UP) {
+            System.out.println("UP");
+            this.dx = 0;
+            this.dy = 0;
+            //mActivePointerId = INVALID_POINTER_ID;
+        }
+
+        if (action == MotionEvent.ACTION_CANCEL) {
+            System.out.println("CANCEL");
+            this.dx = 0;
+            this.dy = 0;
+           // mActivePointerId = INVALID_POINTER_ID;
+        }
+
+        if (action == MotionEvent.ACTION_POINTER_UP) {
+            System.out.println("ACTN_POINTER_UP");
+            final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
+            final int pointerId = ev.getPointerId(pointerIndex);
+            if (pointerId == mActivePointerId) {
+                final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+                mLastTouchX = ev.getX(newPointerIndex);
+                mLastTouchY = ev.getY(newPointerIndex);
+                mActivePointerId = ev.getPointerId(newPointerIndex);
+            }
+        }
+        return true;
+    }
+
+    private void moveObjectsWithTouch(int dx, int dy) {
+        if(bg.verifyMovementPlayer()) {
+            if(pl.getY()+pl.getHeight()+dy>EngineGame.HEIGHT){
+                dy = 0;Log.i("RTA","CHIAMATO");
+            }else if(base.getY()+dy<(EngineGame.HEIGHT)){
+                dy = 0;
+            }
+            bg.setX(bg.getX() + dx);
+            bg.setY(bg.getY() + dy);
+            for (Ostacolo o : ostacoli) {
+                o.setX(o.getX() + dx);
+                o.setY(o.getY() + dy);
+            }
+            for (Personaggio o : personaggi) {
+                o.setX(o.getX() + dx);
+                o.setY(o.getY() + dy);
+            }
+            base.setX(base.getX() + dx);
+            base.setY(base.getY() + dy);
+            pl.setX(pl.getX() + dx);
+            pl.setY(pl.getY() + dy);
+        }
+        Log.i("RTA", String.valueOf(dy));
+    }
+
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            mScaleFactor *= detector.getScaleFactor();
+
+            // Don't let the object get too small or too large.
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+
+            invalidate();
+            return true;
+        }
+    }
 }
+
