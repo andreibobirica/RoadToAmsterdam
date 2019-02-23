@@ -5,14 +5,22 @@ import android.graphics.Rect;
 
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
 
+/**
+ * Ostacolo è un elemento di gioco estensione del elemento astratto GameObject.
+ * Per ostacolo si intende ogni elemento che nel gioco potrebbe causare un ostacolo, fisico o non fisico, anche solo visivo.
+ * Quindi anche animali, oggetti , etc...
+ * Ha una immagine che lo definisce, un numero di frame per animare l'immagine.
+ * Un riferimento al proprio animator per animare la sua immagine e il parametro fisico per indicare se è
+ * interagibile attraverso le collisioni oppure no.
+ * Essendo un elemtno ha i metodi draw e update che vengono richiamti ogni FPS
+ */
 public class Ostacolo extends GameObject {
     //Campi che definiscono l'ostacolo
     private Bitmap img;
     private int nframe;
     private Animation animation = new Animation();
     private boolean fisico = false;
-
-    //Campo bgCoord,    cioè riferimento al Background per seguirne i movimenti e le sue coordinate
+    /** Campo bgCoord,    cioè riferimento al Background per seguirne i movimenti e le sue coordinate */
     private static Background bgCoord;
 
     /**
@@ -100,19 +108,17 @@ public class Ostacolo extends GameObject {
      */
     public static void setBgCoord(Background bg) {bgCoord = bg;}
     /**
-     * Metodo che ritorna il riferimento al Background in caso altri elementi abbiano bisogno delle coordinate del background
-     * Per esempio l'oggetto Notify ha bisogno delle coordinate epr sporstarsi conseguitivamente anche lui.
-     * @return bgCoord Oggetto background che ritorna per le sue coordinate
-     */
-    public static Background getBgCoord() {return bgCoord;}
-
-    /**
      * Metodo che ritorna l'immagine, serve principalmente per costruttori di copia
      * @return img Bitmap con l'immagine dell'ostacolo
      */
     public Bitmap getImage()
     {return img;}
 
+    /**
+     * Metodo che serve per ottenere un array di Bitmap, l'equivalente ad una gif, da far poi animare
+     * @param img Bitmap immagine originale spreedshit
+     * @return array di Bitmap
+     */
     private Bitmap[] getGif(Bitmap img)
     {
         Bitmap[] gif = new Bitmap[nframe];
@@ -122,13 +128,26 @@ public class Ostacolo extends GameObject {
         return gif;
     }
 
+    /**
+     * Metodo set del tipo del Oggetto, che serve per indicare quale
+     * delle sue estensioni o astrazioni è, o inoltre quale funzione speciale ha.
+     * @param s tipo del oggetto
+     */
     public void setTipo(String s)
     {tipo = s;}
 
+    /**
+     * Metodo get che restituisce il tipo del Oggetto
+     * @return
+     */
     public String getTipo()
     {return tipo;}
 
-    public void setImage(Bitmap img){
+    /**
+     * Metodo setImage che serve per settare l'immagine spreedschit al Ostacolo
+     * @param img
+     */
+    protected void setImage(Bitmap img){
             this.img = img;
             animation.setFrames(getGif(img));
     }

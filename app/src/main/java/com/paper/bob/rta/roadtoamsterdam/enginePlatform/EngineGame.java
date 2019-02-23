@@ -3,8 +3,6 @@ package com.paper.bob.rta.roadtoamsterdam.enginePlatform;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.text.Layout;
@@ -15,8 +13,8 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Background;
@@ -34,7 +32,7 @@ import java.util.ArrayList;
 
 public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Serializable {
 
-    //Proprità
+    /**Campi con tutti gli elemtni che compongono il EngineGame*/
     private MainThread gameLoop;
     private ArrayList<Ostacolo> ostacoli;
     private ArrayList<Personaggio> personaggi;
@@ -47,11 +45,13 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     private SoundBG sbg;
     public static int WIDTH;
     public static int HEIGHT;
-    //Propietà che indica la visualizzazione
+    /**Prppietà che indica la effettiva visualizzazione del EngineGame*/
     private boolean viewIsRunning = false;
+
+    /**Nome del levelName, corrispondente al nome del livello nel file XML contenente le info per tutti i campi del EngineGame*/
     private String levelName;
 
-    private static final int INVALID_POINTER_ID = -1;
+    /**Campi adetti al movimento della SurfaceView utilizzando lo scorrimento con le dita*/
     private float mScaleFactor = 1.f;
     private ScaleGestureDetector mScaleDetector;
     private float mLastTouchX;
@@ -62,7 +62,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     private int dy = 0;
 
 
-    //Costruttori
+    /**Costruttori*/
     //Implementazione di Costruttori per essere leggibile anche da XML Layout
     public EngineGame(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -83,7 +83,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     {
         //GET Display Size Info
         WindowManager wm = (WindowManager) c.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
+        Display display = wm != null ? wm.getDefaultDisplay() : null;
         // display size in pixels
         Point size = new Point();
         display.getSize(size);
@@ -102,12 +102,14 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         setFocusable(true);
     }
 
+    /**Metodo che appena si crea la superficie viene richiamato e fa partire startView, cioè crea gli elemtni da far apparire e avvia il thread di gioco*/
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         startView();
     }
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {}
+    /**Metodo che viene richiamto ogni volta che la superficie viene distrutta, richiamando stopView il quale stoppa il Thread di gioco*/
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         stopView();
@@ -117,6 +119,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     Questo Metodo è il metodo che viene richiamato dal MainThread cioè dal gameLoop ogni Frame.
     A cadenza di FPS questo metodo viene richiamato e deve aggiornare il Canvas su cui sono gli Object.
     Per farlo richiama i relativi metodi update() di tutti gli Object , estesi o no, istanziati nell'engine.
+     Inoltre muove tutti gli GameObject in base al trascinamento sullo schermo
     */
     public void update()
     {
@@ -132,9 +135,15 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         pl.update();
         //Controlle
         control.update();
-        //moveElemntByTouch
-        moveObjectsWithTouch(dx,dy);
+        //Movimento trascinamento touchscreen
+        moveObjectTouch(dx,dy);
     }
+
+    /**
+     * Metodo che viene richiamato ogni volta a cadenza di FPS, questo significa che viene richiamto dal MainThread di gioco.
+     * Questo metodo richiama per ogni elemento il proprio metodo canvas e gli passa il parametro canvas su cui disegnarsi.
+     * @param canvas canvas su cui disegnare tutti gli elemti di gioco
+     */
     @SuppressLint("MissingSuperCall")
     @Override
     public void draw(Canvas canvas)
@@ -180,10 +189,12 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
      */
     public void startView()
     {
+        //Scelta se si è già settata la View, quindi inizializzato i campi, e se esista l'ultimo campo importante, cioè IL PLAYER
         if (!viewIsRunning && pl == null) {
             viewIsRunning=true;//Setto la View ora visibile
-            /**
-             * Inizio operazioni della VIEW
+            /*
+            Le istruzioni successive servono per inizializzare tutti gli elementi del engineGame
+            Le informazioni necessarie le trovano dal lvComposer , incaricato a comporre il livello
              */
             objColl = new ArrayList<>();
             sounds = new ArrayList<>();
@@ -197,41 +208,45 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             ostacoli = lvComposer.getOstacoli();
             //Personaggi
             personaggi = lvComposer.getPersonaggi();
+            //Player
+            pl = lvComposer.getPlayer();
             //Suoni
             sounds = lvComposer.getSounds();
             sbg = lvComposer.getSoundBG();
             control.setSoundBG(sbg);
-            //Player
-            pl = lvComposer.getPlayer();
-            //MOTION WITH TOUCH
+            /*
+            Le istruzzioni successive indicano parametri di confiruazione dei Elementi
+            Inoltre inizia un processo di SET automati reciproco degli oggetti che comunicano tra di loro
+             */
+            //Movimento col touch
             mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
-            //Configurazione del Livello
-            //Player & Movement Player
+            /*
+            Il player viene mosso dal giocatore tramite i pulsanti, il background segue il player nelle sue coordinate.
+            Tutti gli altri elementi seguono il background.
+             */
             bg.setPlayer(pl);
-            //Coordinate a tutti dal Background
             Ostacolo.setBgCoord(bg);
             Notify.setBgCoord(bg);
             Base.setBgCoord(bg);
-            //Gestione Collisioni
+            //Gestione Collisioni creazione objColl, arraylist contenente tutti gli objectGame fisici con cui si può collidere
             for (Ostacolo o : ostacoli) {if (o.getFisico()) {objColl.add(o);}}
             for (Personaggio p : personaggi) {if (p.getFisico()) {objColl.add(p);}}
             objColl.add(base);
-            Log.i("RTA", String.valueOf("\tTot:"+objColl.size()));
             //Controller//Collision per il Player//Movimento per altri
             pl.setController(control);
             bg.setController(control);
             control.setPlayer(pl);
             control.setObjColl(objColl);
+            control.setPers(personaggi);
             //Setto al controller i suoni
             control.setSounds(sounds);
 
-            //INIZIO GAME
-            //THREAD Game
+            //INIZIO GAME//THREAD Game
             gameLoop = new MainThread(getHolder(), this);
             gameLoop.setRunning(true);
             gameLoop.start();
-        }else if(!viewIsRunning && pl!=null)
-        {
+        }else if(!viewIsRunning)
+        {//Se si è già effettuata la configurazione dei campi e dei elementi di gioco , si procede solo nel avviare il thread di gioco
             viewIsRunning=true;//Setto la View ora visibile
             //SUONI
             sbg.play();
@@ -251,8 +266,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     {
         if (viewIsRunning) {
             viewIsRunning=false;//Setto la View ora NON visibile
-            /**
-             * Fine operazioni della VIEW
+            /*
+              Fine operazioni della VIEW
              */
             boolean retry = true;
             int counter = 0;
@@ -279,30 +294,47 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         control = c;
     }
 
+    /**
+     * Metodo che ritorno un arraylist di Suoni, quelli che vengono uttilizzati nel game
+     * @return ArrayList di Sound
+     */
     public ArrayList<Sound> getSounds() {
         return sounds;
     }
 
+    /**
+     * Metodo che ritorna il SoundBG, il sound di background che è differente sia per tecnologia che per durata
+     * @return SoundBG suono di background
+     */
     public SoundBG getSoundBG() {
         return sbg;
     }
 
+    /**
+     * Metodo set che imposta il nome del livello
+     * @param levelName String contenente il nome del livello
+     */
     public void setLevelName(String levelName) {
         this.levelName = levelName;
     }
 
+    /**
+     * Metodo set che imposta il Context, il contesto, passato dal Activity
+     * @param c Context contesto
+     */
     public void setContext(Context c){this.context = c;}
 
-    //***************************************
-//*************  TOUCH  *****************
-//***************************************
+    /**
+     * Metodo sincronizzato listener che si avvia quando riceve un segnale di tocco sul SurfaceView
+     * In base al tipo di movimento, e al movimento, setta delle coordinate temporanee dx e dy con cui tutti gli elemtni a schermo si muoveranno
+     * @param ev MotionEvent tipo di evento di movimento
+     * @return valore boleano contenente l'esito
+     */
     @Override
     public synchronized boolean onTouchEvent(MotionEvent ev) {
-
+        //*Imposto il listener sul detector*/
         mScaleDetector.onTouchEvent(ev);
-
         final int action = ev.getAction();
-
         if (action == MotionEvent.ACTION_DOWN) {
             final float x = ev.getX();
             final float y = ev.getY();
@@ -311,15 +343,10 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             mLastTouchY = y;
             mActivePointerId = ev.getPointerId(0);
         }
-
         if (action == MotionEvent.ACTION_MOVE) {
-
-            System.out.println("MOVE");
             final int pointerIndex = ev.findPointerIndex(mActivePointerId);
             final float x = ev.getX(pointerIndex);
             final float y = ev.getY(pointerIndex);
-
-            // Only move if the ScaleGestureDetector isn't processing a gesture.
             if (!mScaleDetector.isInProgress()) {
                 final int dx = (int) (x - mLastTouchX);
                 final int dy = (int) (y - mLastTouchY);
@@ -327,25 +354,18 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
                 this.dy = dy;
                 invalidate();
             }
-
             mLastTouchX = x;
             mLastTouchY = y;
-
-
         }
-
         if (action == MotionEvent.ACTION_UP) {
             System.out.println("UP");
             this.dx = 0;
             this.dy = 0;
-            //mActivePointerId = INVALID_POINTER_ID;
         }
-
         if (action == MotionEvent.ACTION_CANCEL) {
             System.out.println("CANCEL");
             this.dx = 0;
             this.dy = 0;
-           // mActivePointerId = INVALID_POINTER_ID;
         }
 
         if (action == MotionEvent.ACTION_POINTER_UP) {
@@ -362,13 +382,35 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         return true;
     }
 
-    private void moveObjectsWithTouch(int dx, int dy) {
+    /**
+     * Metodo listener che appena ricere che il trascinamento è stato terminato  scala le coordinate
+     */
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            mScaleFactor *= detector.getScaleFactor();
+            // Don't let the object get too small or too large.
+            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
+
+            invalidate();
+            return true;
+        }
+    }
+
+    /**
+     * Metodo che ricevendo due ipotetiche coordinate di movimento date dal trascinamento sullo schermo
+     * le controllo e verifica se effettivamente si può ancora spostare con il dito la scena di gioco.
+     * Prima però verifica dal bg se il player si può muovere e se è fuori dal suo quadro di movimento
+     * @param dx vettore x
+     * @param dy vettore y
+     */
+    private void moveObjectTouch(int dx, int dy) {
         if(bg.verifyMovementPlayer()) {
             if(pl.getY()+pl.getHeight()+dy>EngineGame.HEIGHT){
-                dy = 0;Log.i("RTA","CHIAMATO");
+                dy = 0;
             }
             if(base.getY()+dy<(EngineGame.HEIGHT)){
-                dy = 0;Log.i("RTA","CHIAMATO2");
+                dy = 0;
             }
             bg.setX(bg.getX() + dx);
             bg.setY(bg.getY() + dy);
@@ -378,26 +420,14 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             }
             for (Personaggio o : personaggi) {
                 o.setX(o.getX() + dx);
+                Notify not = o.getNot();
+                not.setX(not.getX()+dx);not.setY(not.getY()+dy);
                 o.setY(o.getY() + dy);
             }
             base.setX(base.getX() + dx);
             base.setY(base.getY() + dy);
             pl.setX(pl.getX() + dx);
             pl.setY(pl.getY() + dy);
-        }
-    }
-
-
-    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale(ScaleGestureDetector detector) {
-            mScaleFactor *= detector.getScaleFactor();
-
-            // Don't let the object get too small or too large.
-            mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
-
-            invalidate();
-            return true;
         }
     }
 }

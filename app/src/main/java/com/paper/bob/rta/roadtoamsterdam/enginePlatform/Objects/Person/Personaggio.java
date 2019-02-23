@@ -50,4 +50,7 @@ public class Personaggio extends Ostacolo {
     {return dialogo;}
 
 
+    public Notify getNot() {
+        return not;
+    }
 }

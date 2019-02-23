@@ -4,13 +4,18 @@ import android.view.SurfaceHolder;
 
 public class MainThread extends Thread
 {
-    //Campo che definisce il numero di FPS
+    /**Campo che definisce il numero di FPS*/
     public static final int FPS = 60;
+    /**Media di FPS*/
     public static double averageFPS;
+    /**Superficie su cui disegnare il canvas, la tela*/
     private SurfaceHolder surfaceHolder;
+    /**Canvas su cui sisegnare tutti gli ementi del gioco*/
+    private static Canvas canvas;
+    /**Varibili del motore di gioco*/
     private EngineGame engGame;
     private boolean running;
-    private static Canvas canvas;
+
 
     /**
      * Costruttore del MainThred che definisce i campo e cosa il Thred dovrà regolare in tempistiche
@@ -85,7 +90,7 @@ public class MainThread extends Thread
     public static double getDiffAverageFPS(int n)
     {
         int ret = (int) (n*FPS/averageFPS);
-        if(ret>20)return 20;
+        if(ret>23)return 23;
         return ret;
     }
 

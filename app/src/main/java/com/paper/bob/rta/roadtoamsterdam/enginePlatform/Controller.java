@@ -29,7 +29,7 @@ public class Controller{
     //VETTORI DI MOVIMENTO Player
     private int dx,dy,dDown;
     private final int vx = 15;
-    private final int vy = 20;
+    private final int vy = 15;
     private final int vDown = 18;
 
 
@@ -47,6 +47,7 @@ public class Controller{
     private int jumpedNumber;
 
     public static boolean debugMode = true;
+    private ArrayList<Personaggio> personaggi;
 
 
     /**
@@ -223,6 +224,8 @@ public class Controller{
      * @param o ArrayList di GameObject, Lista di Oggetti con cui si potrà collidere il Player
      */
     public void setObjColl(ArrayList<GameObject> o) {this.objColl = o;}
+
+    public void setPers(ArrayList<Personaggio> per){this.personaggi = per;}
     /**
      * Metodo che confronta due Oggetti Rect e verifica se è avvenuta una collisione fra i due.
      * Il metodo ritorna un valore booleano che specifica se è avvenuta una collisione tra i due.
@@ -253,7 +256,7 @@ public class Controller{
     {
         boolean ret = false;
         for(GameObject g : objColl) {
-            if(g.getWidth()>-50 && g.getX()<EngineGame.WIDTH && g.getHeight()>-50 && g.getY()<EngineGame.HEIGHT+50) {
+            if((g.getWidth()+g.getX())>-150 && g.getX()<EngineGame.WIDTH+150 && (g.getY()+g.getHeight())>-150 && g.getY()<EngineGame.HEIGHT+150) {
                 ret = (collision(new Ostacolo(null, play.getX() + dx, play.getY() + dy, play.getHeight(), play.getWidth(), 0), g));
                 if (ret){
                     if(g.getTipo().equals("Personaggio"))
@@ -265,7 +268,13 @@ public class Controller{
                         objColl.remove(g);
                     }else if(g.getTipo().equals("endlevel"))
                     {
-                        Log.i("RTA","FINISH");
+                        boolean end = true;
+                        for(Personaggio p : personaggi)
+                        {
+                            if(p.getNotify())
+                            {end=false;break;}
+                        }
+                        if(end)
                         plActivity.finish();
                     }
                     break;

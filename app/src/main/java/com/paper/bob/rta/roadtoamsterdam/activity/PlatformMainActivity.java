@@ -31,28 +31,23 @@ import java.util.ArrayList;
 
 public class PlatformMainActivity extends AppCompatActivity {
 
-    //Sensori
+    /**Variabili adette ai sensori*/
     protected PowerManager.WakeLock mWakeLock;
-    private float lastSensorUpdate = System.currentTimeMillis();
     private PhoneStateListener phoneStateListener;
-    //Campi
+    /**Campi che sevono per il motore di gioco*/
     private Controller control;
     private EngineGame engineGame;
     private boolean scelta;
-
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
-        INIZIALIZZAZIONE Sensori e opzioni per l'hardware del dispositivo
-         */
+        /*INIZIALIZZAZIONE Sensori e opzioni per l'hardware del dispositivo*/
         //SCREEN BIGHTNESS
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         this.mWakeLock = pm != null ? pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "RTA") : null;
-        this.mWakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
-
+        if (this.mWakeLock != null) {this.mWakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);}
 
         //Avvio della Main Activity in FullScrean
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -60,20 +55,15 @@ public class PlatformMainActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //set Activity con layout platformgame visibile
         setContentView(R.layout.activity_platform_main);
-        /*
-        INIZIALIZZAZIONE Campi del PatformMainActivity
-         */
-
+        /*INIZIALIZZAZIONE Campi del PatformMainActivity*/
         //Individuazione del EngineGame con ID dal LayoutXML
         engineGame = findViewById(R.id.enginegame);
-        /*
-         * Creo il controller, lo inizializzo, gli passo questa activity, così avra il riferimento
+        /* Creo il controller, lo inizializzo, gli passo questa activity, così avra il riferimento
          * e passo il controller al EngineGame, che si occuperà di uttilizzarlo.
-         * Insieme setto anche il nome del livello
-         */
+         * Insieme setto anche il nome del livello*/
         control = new Controller();
         String nomeLevel = getIntent().getExtras().getString("platform");
-        Log.i("RTA", "\n\n\n\t@PLATFORM\nOnCreate\t@" + nomeLevel);
+        Log.i("RTA", "\n\t@PLATFORM\tOnCreate\t@" + nomeLevel);
         engineGame.setLevelName(nomeLevel);
         control.setPlActivity(this);
         engineGame.setController(control);
@@ -129,6 +119,32 @@ public class PlatformMainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        //Nel caso di chiamata gestiosco l'audio nel senso che se arriva una chiamata
+        //So gestire l'audio e metterlo in pausa per permettere la ricezzione solo dell'audio della chiamata
+        phoneStateListener = new PhoneStateListener() {
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                if (state == TelephonyManager.CALL_STATE_RINGING) {
+                    //Pausa dei suoni
+                    ArrayList<Sound> sounds = engineGame.getSounds();
+                    for (Sound s : sounds) {
+                        s.pause();
+                    }
+                    engineGame.getSoundBG().stop();
+                } else if (state == TelephonyManager.CALL_STATE_IDLE) {
+                    engineGame.getSoundBG().play();
+                } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                    //Pausa dei suoni
+                    ArrayList<Sound> sounds = engineGame.getSounds();
+                    for (Sound s : sounds) {s.pause();}
+                    engineGame.getSoundBG().stop();
+                }
+                super.onCallStateChanged(state, incomingNumber);
+            }
+        };
+        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if (mgr != null) {mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);}
     }
 
     @Override
@@ -146,18 +162,15 @@ public class PlatformMainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.i("RTA", "OnPause");
+        //Pausa del engineGame, specialmente del Thred di gioco
         engineGame.stopView();
         //Pausa dei suoni
         ArrayList<Sound> sounds = engineGame.getSounds();
-        for (Sound s : sounds) {
-            s.pause();
-        }
+        for (Sound s : sounds) {s.pause();}
         engineGame.getSoundBG().stop();
-        //Gestione chiamata coi suoni
+        //Gestione il listener dellle chiamate, stoppandolo perchè non serve più
         TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        if (mgr != null) {
-            mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
-        }
+        if (mgr != null) {mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);}
 
     }
 
@@ -165,38 +178,10 @@ public class PlatformMainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("RTA", "OnResume");
+        /*faccio partire il metodo che fa partire la creazione dei parametri del enginegame*/
         engineGame.startView();
         //Play dei suoni
         engineGame.getSoundBG().play();
-        //Nel caso di chiamata gestiosco l'audio
-        phoneStateListener = new PhoneStateListener() {
-            @Override
-            public void onCallStateChanged(int state, String incomingNumber) {
-                if (state == TelephonyManager.CALL_STATE_RINGING) {
-                    //Pausa dei suoni
-                    ArrayList<Sound> sounds = engineGame.getSounds();
-                    for (Sound s : sounds) {
-                        s.pause();
-                    }
-                    engineGame.getSoundBG().stop();
-                } else if (state == TelephonyManager.CALL_STATE_IDLE) {
-                    engineGame.getSoundBG().play();
-                } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
-                    //Pausa dei suoni
-                    ArrayList<Sound> sounds = engineGame.getSounds();
-                    for (Sound s : sounds) {
-                        s.pause();
-                    }
-                    engineGame.getSoundBG().stop();
-                }
-                super.onCallStateChanged(state, incomingNumber);
-            }
-        };
-        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        if (mgr != null) {
-            mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-        }
-
     }
 
     /**
@@ -211,6 +196,11 @@ public class PlatformMainActivity extends AppCompatActivity {
         startActivityForResult(dialogo, 2);
     }
 
+    /**
+     * Metodo finish, in ovverloading per sovrascrivere il precedente esteso.
+     * Oltre che a finire la parte platform si necessita anche di settare come EXTRA al Intent la variabile scelta
+     * Da passare al GameComposerAvticity
+     */
     @Override
     public void finish() {
         Intent intent = new Intent();
@@ -232,8 +222,3 @@ public class PlatformMainActivity extends AppCompatActivity {
 
 }
 
-/*
-Intent setIntent = new Intent(Intent.ACTION_MAIN);
-        setIntent.addCategory(Intent.CATEGORY_HOME);
-        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
- */

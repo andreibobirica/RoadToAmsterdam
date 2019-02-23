@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Classe GameObject che contiene le informazioni base di un oggetto in game.
  * Questa classe è Parcelable in quanto dovrà essere passata attraverso più activity nel caso di un saveGame docuto dal onRestoreState() delle activity
  */
-public class GameObject{
+public abstract class GameObject{
     //Coordinate della posizione iniziale
     protected int x;
     protected int y;

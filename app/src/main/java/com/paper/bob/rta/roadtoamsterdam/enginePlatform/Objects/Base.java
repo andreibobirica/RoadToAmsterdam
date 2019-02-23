@@ -7,6 +7,12 @@ import android.graphics.Rect;
 
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
 
+/**
+ * Base è un elemento del EngineGame il quale ha come scopo il bloccare il player dalla caduta eterna verso il basso
+ * è dotato di immagine anche se in molti casi non viene vista, immagine trasparente o unicolore
+ * Ha un riferimento al Background in quanto lo deve seguire come tutti gli elementi di gioco.
+ * Essendo un elemento ha i metodi draw e update richiamati ogni FPS
+ */
 public class Base extends Ostacolo {
     private Bitmap img;
     private static Background bgCoord;

@@ -4,21 +4,31 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
 import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
 
+/**
+ * Classe Background che è un elemento del EngineGame, è lo sfondo del platformgame, è lo sfondo da visualizzare.
+ * Essendo l'elemento in game più grande è anche il più difficile da gestire.
+ * Esso ha i campi che ne definiscono le coordinate, un riferimento al player il quale deve seguire per un movimento
+ * corretto in tutta la mappa.
+ * Essendo un elemento è dotato di metodi update e draw richiamati all'esterno ogni FPS
+ */
 public class Background {
 
+    /*Campi del background*/
+    /**Immaggine*/
     private Bitmap image;
+    /**Coordinate e vettori di movimento*/
     private int x, y, dx, dy;
+    /**Riferimento al player da seguirne i movimenti*/
     private Player pl;
+    /**Colore sfondo , impostato su bianco*/
     private Paint coloreSfondo;
     private Controller controller;
-    //Variabile per gestire movimento sfondo in base al sensore
-    private float moved = 0;
+
 
     /**
      * Costruttore della classe Background, questo costruttore inizializza un background ricevendo come parametro una img Bitmap
@@ -40,7 +50,7 @@ public class Background {
      Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
      Questo metodo non ha valori di return in quando non fornisce dati, ma attua solo l'azione di disegnare se stesso su un canvas
      fornito.
-     Lo sfondo ha una risoluzione di 10u/5u, dove l'unita di misura u è la grandezza dello schermo.
+     Lo sfondo ha una risoluzione di 8u/3u, dove l'unita di misura u è la grandezza dello schermo.
      @param canvas Canvas oggetto canvas su cui si deve disegnare l'immmagine img, che sta al background.
      */
     public void draw(Canvas canvas)
@@ -54,6 +64,8 @@ public class Background {
     /**
      Metodo update che viene richiamato ogni volta che si deve updatare l'oggetto Ostacolo, cioè ogni frame
      Senza parametri e senza valori di ritorno.
+     Il metodo verifica anche ogni volta se il player ha ancora la possibilità di movimento.
+     Fa partire a ripetizione anche il metodo verifyMovementPlayer
      */
     public void update()
     {
@@ -62,6 +74,14 @@ public class Background {
         x+=this.dx;
     }
 
+    /**
+     * Metodo che serve a verificare lo spostamento del player, ne segue i movimenti e la sua posizione.
+     Imposta i limiti entro i quali il player si può muovere nella superficie dello schermo, superati i quali
+     viene automaticamente fatto muovere il Background per compesare al movimento del player.
+     Il vettore background -dx e il vettore player dx si compensano azzerandosi e il player rimane fermo, muovendo solamente tutti
+     gli elementi del gioco, seguendo tutti il background.
+     * @return valore booleano che indica il possibile movimento del player
+     */
     public boolean verifyMovementPlayer()
     {
         boolean ret = true;
@@ -83,6 +103,12 @@ public class Background {
         return ret;
     }
 
+    /**
+     * Metodo set che  serve per settare il riferimento del player da cui prendere le coordinate di movimento
+     * @param pl Player pl
+     */
+    public void setPlayer(Player pl){this.pl = pl;}
+
     public int getDX()
     {return dx;}
     public int getDY()
@@ -94,12 +120,7 @@ public class Background {
     public void setX(int x){this.x = x;}
     public void setY(int y){this.y = y;}
 
-
-    public void setPlayer(Player pl){this.pl = pl;}
     public void setController(Controller controller) {
         this.controller = controller;
     }
-
-
-
 }

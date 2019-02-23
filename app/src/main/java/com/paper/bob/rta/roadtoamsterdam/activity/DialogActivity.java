@@ -37,15 +37,15 @@ public class DialogActivity extends AppCompatActivity {
 
     /**Foto del Player*/
     private ImageView fotoPers2;
-    /**Foto del Dialogante con noi*/
+    /**Foto del Dialogante con il player*/
     private ImageView fotoPers1;
     /**Nome del Player*/
     private TextView nomePersDialogo2;
-    /**Nome del Dialogante con noi*/
+    /**Nome del Dialogante con il player*/
     private TextView nomePersDialogo1;
     /**Casella di testo dove apparre il dialogo*/
     private TextView textDialogo;
-    /**Casella di testo dove appare il riassunto delle scelte da fare*/
+    /**Variabili dedite alla scelta*/
     private TextView textScelta;
     private RadioButton radioSceltaTrue,radioSceltaFalse;
     private RadioGroup radioGroupScelte;
@@ -68,28 +68,26 @@ public class DialogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*INIZIALIZZAZIONE Sensori e opzioni per l'hardware del dispositivo*/
-        //SCREEN BIGHTNESS
+        /*INIZIALIZZAZIONE Sensori e opzioni per l'hardware del dispositivo*///SCREEN BIGHTNESS
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "RTA");
+        PowerManager.WakeLock mWakeLock = pm != null ? pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "RTA") : null;
         mWakeLock.acquire(10*60*1000L /*10 minutes*/);
+
         //Avvio della Main Activity in FullScrean
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //Eliminazione Title BAR
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        //set Activity con layout platformgame visibile
+        //set Activity con layout dialogo visibile
         setContentView(R.layout.activity_dialogo);
         //Recupero del nome del dialogo passato con gli intent tra le activity
         nomeDialogo = getIntent().getExtras().getString("nomeDialogo");
-        Log.i("RTA","@DIALOGO\t"+nomeDialogo);
+        Log.i("RTA","\n@DIALOGO\t"+nomeDialogo);
     }
 
     @Override
     public void onStart()
     {
         super.onStart();
-
         //Individuazione elementi XML identificati tramite l'ID
         fotoPers2 = findViewById(R.id.fotoPersDialogo2);
         nomePersDialogo2 = findViewById(R.id.nomePersDialogo2);
@@ -124,11 +122,11 @@ public class DialogActivity extends AppCompatActivity {
             {
                 //Applicazione Scelta
                 scelta = (radioGroupScelte.getCheckedRadioButtonId() == radioSceltaTrue.getId());
-                Log.i("RTA","SCELTA: "+scelta);
                 layoutButton.setVisibility(View.VISIBLE);
             }
         });
     }
+
     @Override
     protected void onResume()
     {
@@ -198,9 +196,6 @@ public class DialogActivity extends AppCompatActivity {
         }
         return false;
     }
-
-
-
 
     /**
      * Metodo set che setta la Pila di battute di un dialogo
