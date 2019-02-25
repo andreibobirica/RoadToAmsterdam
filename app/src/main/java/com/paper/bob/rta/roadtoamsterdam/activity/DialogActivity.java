@@ -19,8 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
-import com.paper.bob.rta.roadtoamsterdam.engineDialog.DialogComposer;
-import com.paper.bob.rta.roadtoamsterdam.engineDialog.Dialogo;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.engineDialog.DialogComposer;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.engineDialog.Dialogo;
 
 import java.util.Stack;
 

@@ -37,7 +37,6 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".activity.GameComposerActivity"
-            android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
 
     </application>

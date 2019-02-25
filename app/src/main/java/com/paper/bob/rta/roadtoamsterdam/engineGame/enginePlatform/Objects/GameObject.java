@@ -1,7 +1,5 @@
-package com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects;
+package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects;
 import android.graphics.Rect;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Classe GameObject che contiene le informazioni base di un oggetto in game.

@@ -1,13 +1,13 @@
-package com.paper.bob.rta.roadtoamsterdam.enginePlatform;
+package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform;
 
 import android.content.Context;
 
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Background;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Base;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Notify;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Background;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Base;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Notify;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataXMLGraberPlatform;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundBG;

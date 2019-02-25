@@ -1,4 +1,4 @@
-package com.paper.bob.rta.roadtoamsterdam.enginePlatform;
+package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -17,13 +16,13 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Background;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Base;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.GameObject;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Notify;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Background;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Base;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.GameObject;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Notify;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundBG;
 
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Serializable {
 
     /**Campi con tutti gli elemtni che compongono il EngineGame*/
-    private MainThread gameLoop;
+    private GameThread gameLoop;
     private ArrayList<Ostacolo> ostacoli;
     private ArrayList<Personaggio> personaggi;
     private Background bg;
@@ -116,7 +115,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     }
     /**
     Metodo Update senza parametri e senza valori di return
-    Questo Metodo è il metodo che viene richiamato dal MainThread cioè dal gameLoop ogni Frame.
+    Questo Metodo è il metodo che viene richiamato dal GameThread cioè dal gameLoop ogni Frame.
     A cadenza di FPS questo metodo viene richiamato e deve aggiornare il Canvas su cui sono gli Object.
     Per farlo richiama i relativi metodi update() di tutti gli Object , estesi o no, istanziati nell'engine.
      Inoltre muove tutti gli GameObject in base al trascinamento sullo schermo
@@ -140,7 +139,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     }
 
     /**
-     * Metodo che viene richiamato ogni volta a cadenza di FPS, questo significa che viene richiamto dal MainThread di gioco.
+     * Metodo che viene richiamato ogni volta a cadenza di FPS, questo significa che viene richiamto dal GameThread di gioco.
      * Questo metodo richiama per ogni elemento il proprio metodo canvas e gli passa il parametro canvas su cui disegnarsi.
      * @param canvas canvas su cui disegnare tutti gli elemti di gioco
      */
@@ -163,7 +162,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         //DEBUGMODE
         if(Controller.debugMode)
         {
-            String info = "DebugMode-> FPS: "+MainThread.FPS+" - AverageFPS: "+MainThread.averageFPS+" - dx:"+control.getDX()+" - dy: "+control.getDY()+" - dDown: "+control.getDDown();
+            String info = "DebugMode-> FPS: "+ GameThread.getMAX_FPS()+" - AverageFPS: "+gameLoop.getAverangeFPS()+" - dx:"+control.getDX()+" - dy: "+control.getDY()+" - dDown: "+control.getDDown();
             info += "\n\t - x: "+pl.getX()+" -  y:"+pl.getY();
             info += "\n\t - dTime: "+control.getDTime();
             TextPaint textPaint = new TextPaint();
@@ -242,7 +241,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             control.setSounds(sounds);
 
             //INIZIO GAME//THREAD Game
-            gameLoop = new MainThread(getHolder(), this);
+            gameLoop = new GameThread(getHolder(), this);
             gameLoop.setRunning(true);
             gameLoop.start();
         }else if(!viewIsRunning)
@@ -251,7 +250,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             //SUONI
             sbg.play();
             //THREAD Game
-            gameLoop = new MainThread(getHolder(), this);
+            gameLoop = new GameThread(getHolder(), this);
             gameLoop.setRunning(true);
             gameLoop.start();
         }

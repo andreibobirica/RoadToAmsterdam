@@ -6,12 +6,12 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Background;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Base;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Background;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Base;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

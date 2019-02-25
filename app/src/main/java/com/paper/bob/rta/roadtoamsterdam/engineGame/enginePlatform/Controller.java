@@ -1,14 +1,13 @@
-package com.paper.bob.rta.roadtoamsterdam.enginePlatform;
+package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform;
 
 import android.graphics.Rect;
 import android.os.Handler;
-import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainActivity;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.GameObject;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Ostacolo;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.GameObject;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundBG;
 
@@ -27,12 +26,10 @@ public class Controller{
 
 
     //VETTORI DI MOVIMENTO Player
-    private int dx,dy,dDown;
-    private final int vx = 15;
-    private final int vy = 15;
-    private final int vDown = 18;
-
-
+    private int dx,dy,dDown = 0;
+    private final int vx = 125;
+    private final int vy = 150;
+    private final int vDown = 220;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabili che indicano se le azioni sono state concluse ed eseguite, o sono in corso d'opera.*/
@@ -286,10 +283,23 @@ public class Controller{
 
     public void update()
     {
-        //Verifica valori Dy,Dx,Ddown corretti
-        dx = (int) MainThread.getDiffAverageFPS(vx);
-        dy = (int) MainThread.getDiffAverageFPS(vy);
-        dDown = (int) MainThread.getDiffAverageFPS(vDown);
+        if(dx!=0)
+        {
+            //Verifica valori Dy,Dx,Ddown corretti
+            dx = (int) this.adaptVectorFPS(vx);
+            dy = (int) this.adaptVectorFPS(vy);
+            dDown = (int) this.adaptVectorFPS(vDown);}
+        else
+        {
+            dx = dy = dDown = 15;
+        }
+    }
+
+    public float adaptVectorFPS(int n)
+    {
+        float ret = 2*(n/(1000 / GameThread.getMAX_FPS()));
+        if(ret<5)return 15;
+        return ret;
     }
 
     //ACTIVITY

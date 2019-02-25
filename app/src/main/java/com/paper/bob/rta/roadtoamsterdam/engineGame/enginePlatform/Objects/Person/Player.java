@@ -1,9 +1,10 @@
 
-package com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person;
+package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Controller;
 
 
 public class Player extends Personaggio{
@@ -31,13 +32,6 @@ public class Player extends Personaggio{
         setNotify(false);
     }
 
-    public Player(Player pl){
-        super(pl.getImage(),pl.getX(),pl.getY(),pl.getHeight(),pl.getWidth(),pl.getNFrame(),null,false);
-        setTipo("Player");
-        this.img = pl.getImage();
-        setFisico(true);
-        setNotify(false);
-    }
 
     public void update()
     {
@@ -46,7 +40,6 @@ public class Player extends Personaggio{
         dx = control.getDX();
         dy = control.getDY();
         dDown = control.getDDown();
-
         boolean up = false;
         boolean down = false;
         //Controllo se in basso o in alto

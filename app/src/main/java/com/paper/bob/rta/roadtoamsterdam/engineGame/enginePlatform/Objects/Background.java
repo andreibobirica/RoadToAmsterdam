@@ -1,13 +1,13 @@
-package com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects;
+package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Controller;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.EngineGame;
-import com.paper.bob.rta.roadtoamsterdam.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Controller;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
 
 /**
  * Classe Background che è un elemento del EngineGame, è lo sfondo del platformgame, è lo sfondo da visualizzare.
