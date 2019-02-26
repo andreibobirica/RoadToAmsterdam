@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.paper.bob.rta.roadtoamsterdam.MenuActivity;
 import com.paper.bob.rta.roadtoamsterdam.R;
 
 public class SplashActivity extends AppCompatActivity {
@@ -25,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //Start Acivity Principale
-        startActivity(new Intent(this, GameComposerActivity.class));
+        startActivity(new Intent(this, MenuActivity.class));
         finish();
     }
 }

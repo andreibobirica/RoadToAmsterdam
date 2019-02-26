@@ -62,7 +62,8 @@ public class DialogBackgroundActivity extends SoundBackgroundActivity {
     /**Nome del dialogo, passato tra le activity*/
     private String nomeDialogo;
     /**Scelta del dialogo, nel caso necessaria o presente*/
-    private boolean scelta;
+    private boolean scelta = false;
+    private boolean sceltaDecisiva = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +109,9 @@ public class DialogBackgroundActivity extends SoundBackgroundActivity {
         btn_avanti.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    radioSceltaFalse.setChecked(false);
+                    radioSceltaTrue.setChecked(false);
+                    sceltaDecisiva=false;
                     applyDialog(dialoghi);
                 }
                 return false;
@@ -120,7 +124,10 @@ public class DialogBackgroundActivity extends SoundBackgroundActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId)
             {
                 //Applicazione Scelta
-                scelta = (radioGroupScelte.getCheckedRadioButtonId() == radioSceltaTrue.getId());
+                if(sceltaDecisiva) {
+                    scelta = (radioGroupScelte.getCheckedRadioButtonId() == radioSceltaTrue.getId());
+                    Log.i("RTA", " sd: "+sceltaDecisiva+" "+scelta);
+                }
                 layoutButton.setVisibility(View.VISIBLE);
             }
         });
@@ -171,7 +178,13 @@ public class DialogBackgroundActivity extends SoundBackgroundActivity {
             fotoPers2.setImageBitmap(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(d.getNomeImmPers(), "drawable", getPackageName())));
             fotoPers1.setImageBitmap(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(d.getNomeImmOtherPers(), "drawable", getPackageName())));
             if (switchScelta) {
-                textScelta.setText(d.getScelta());
+                if(d.getScelta().contains("§"))
+                {
+                    sceltaDecisiva=true;
+                    textScelta.setText(d.getScelta().replace("§",""));
+                }
+                else
+                {textScelta.setText(d.getScelta());}
                 radioSceltaTrue.setText(d.getScelte().get(0));
                 radioSceltaFalse.setText(d.getScelte().get(1));
                 layoutScelte.setVisibility(View.VISIBLE);

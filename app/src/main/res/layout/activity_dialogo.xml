@@ -163,14 +163,18 @@
 
                 <Button
                     android:id="@+id/btn_avanti"
-                    style="@android:style/Widget.Button"
+                    style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="13pt"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginBottom="11dp"
                     android:layout_marginEnd="16dp"
-                    android:text="Button" />
+                    android:minWidth="130dp"
+                    android:minHeight="80dp"
+                    android:text="Avanti"
+                    tools:text="Avanti" />
             </RelativeLayout>
         </android.support.constraint.ConstraintLayout>
 
