@@ -29,7 +29,7 @@ public class Controller{
     private int dx,dy,dDown = 0;
     private final int vx = 125;
     private final int vy = 225;
-    private final int vdDown = 300;
+    private final int vdDown = 450;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabili che indicano se le azioni sono state concluse ed eseguite, o sono in corso d'opera.*/
