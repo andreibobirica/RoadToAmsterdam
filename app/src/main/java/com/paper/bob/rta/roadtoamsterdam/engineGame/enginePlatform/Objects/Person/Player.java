@@ -2,7 +2,6 @@
 package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Controller;
 
@@ -90,7 +89,7 @@ public class Player extends Personaggio{
         }
         else
         {
-            control.getRLStop();
+            control.stopRL();
             if(cambioImg != 0) {
                 cambioImg = 0;
                 this.setImage(img);
@@ -115,4 +114,7 @@ public class Player extends Personaggio{
     public void setJumpLAnim(Bitmap i){jumpLAnim = i;}
     public void setJumpRAnim(Bitmap i){jumpRAnim = i;}
 
+    public int getDDown() {
+        return dDown;
+    }
 }

@@ -126,7 +126,7 @@ public class PlatformMainActivity extends AppCompatActivity {
                     }
                     engineGame.getSoundBG().stop();
                 } else if (state == TelephonyManager.CALL_STATE_IDLE) {
-                    engineGame.getSoundBG().play();
+                    //engineGame.getSoundBG().play();
                 } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
                     //Pausa dei suoni
                     ArrayList<Sound> sounds = engineGame.getSounds();
@@ -174,7 +174,7 @@ public class PlatformMainActivity extends AppCompatActivity {
         /*faccio partire il metodo che fa partire la creazione dei parametri del enginegame*/
         engineGame.startView();
         //Play dei suoni
-        engineGame.getSoundBG().play();
+        //engineGame.getSoundBG().play();
     }
 
     /**

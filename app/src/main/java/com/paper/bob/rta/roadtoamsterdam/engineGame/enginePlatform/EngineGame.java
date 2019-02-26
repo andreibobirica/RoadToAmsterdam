@@ -248,7 +248,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         {//Se si è già effettuata la configurazione dei campi e dei elementi di gioco , si procede solo nel avviare il thread di gioco
             viewIsRunning=true;//Setto la View ora visibile
             //SUONI
-            sbg.play();
+            //sbg.play();
             //THREAD Game
             gameLoop = new GameThread(getHolder(), this);
             gameLoop.setRunning(true);

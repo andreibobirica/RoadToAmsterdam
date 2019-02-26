@@ -28,8 +28,8 @@ public class Controller{
     //VETTORI DI MOVIMENTO Player
     private int dx,dy,dDown = 0;
     private final int vx = 125;
-    private final int vy = 150;
-    private final int vDown = 220;
+    private final int vy = 225;
+    private final int vdDown = 450;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabili che indicano se le azioni sono state concluse ed eseguite, o sono in corso d'opera.*/
@@ -39,7 +39,7 @@ public class Controller{
      * La variabile numSalti indica il numero massimo di salti che il player può fare
      * La variabile jumpedNumber serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
-    private int dTime = 400;
+    private int dTime = 450;
     private final int numSalti = 1;
     private int jumpedNumber;
 
@@ -51,10 +51,13 @@ public class Controller{
      * Costruttore di Default
      */
     public Controller(){
-        play =null;objColl=null;
-        plActivity=null;}
+        play =null;
+        objColl=null;
+        plActivity=null;
+        adaptVectorXYfps();
+        accelerateDDown();
+    }
 
-    //COLLISIONI
     /**
      * Metodo che ritorna il valore di dX
      * Il valore di dX è il vettore di movimento verso  destra e sinistra, cioè di movimento
@@ -73,6 +76,7 @@ public class Controller{
      * @return vettore di movimento
      */
     public int getDDown(){return dDown;}
+
     /**
      * Metodo che serve per settare la possibilità di movimento del Player a destra
      * @param m boolean che rappresenta la possibilità di movimento
@@ -83,11 +87,6 @@ public class Controller{
      * @param m boolean che rappresenta la possibilità di movimento
      */
     public void setMLeft(boolean m) {mLeft = m;}
-    /**
-     * Metodo che serve per settare la possibilità di movimento del Player in basso
-     * @param m boolean che rappresenta la possibilità di movimento
-     */
-    public void setMDown(boolean m) {mDown = m;}
     /**
      * Metodo che serve per settare la possibilità di movimento del Player in alto
      * A differenza di tutti gli altri metodo set Movimento, questo ha un algoritmo che interferisce con la
@@ -115,6 +114,21 @@ public class Controller{
             }, dTime);
         }
     }
+
+    public void accelerateDY()
+    {
+        int ret = dy-1;
+        this.dy = (ret<0) ? 0 : ret;
+        if(this.dy==0 && !mUp){this.dDown = 0;}
+    }
+
+    public void accelerateDDown()
+    {
+        int ret = dDown+1;
+        int maxDdown = 2*(vdDown/(1000 / GameThread.getMAX_FPS()));
+        this.dDown = (ret>maxDdown) ? maxDdown : ret;
+    }
+
     /**
      * Metodo che ritorna se il Player può muoversi in basso
      * Il metodo oltre a questo fa anche play al suono di caduta, per l'algoritmo dei suoni imposta l'azione alreadyUp su false,
@@ -128,7 +142,9 @@ public class Controller{
         if(col && mDown){
             jumpedNumber =0;
             alreadyDown=true;
-            playSoundCrush();}
+            playSoundCrush();
+            adaptVectorXYfps();
+        }
         if(mDown){alreadyUp=false;}
         return (!col && mDown);
     }
@@ -180,6 +196,7 @@ public class Controller{
         boolean ret = (!verCol(0,-dy)&& mUp);
         if(ret)
         {
+            accelerateDY();
             playSoundUp();
             pauseSoundRL();
             alreadyCrush=false;
@@ -200,13 +217,14 @@ public class Controller{
      * nel caso non ci sia nessuna intenzione di muoversi, e non si stia muovendo, mette in pausa il suono della camminata
      * @return ritorna vero nel caso in cui sia stoppato, falso nel caso in cui sia in movimento
      */
-    public boolean getRLStop(){
+    public boolean stopRL(){
         if(!(mUp && alreadyDown && mLeft && mRight)) {
             pauseSoundRL();
             return alredyStop;
         }
         return false;
     }
+
     /**
      * Metodo setPlayer che serve a settare il Player, Successivamente si uttilizzerà il player per verificare la sua collisione con altri oggetti o con la Base
      * Il Rapporto tra Controller e Player è 1 a 1, esiste una istanza di Player nel Controller e d eesiste una istanza di Controller nel Player.
@@ -223,6 +241,7 @@ public class Controller{
     public void setObjColl(ArrayList<GameObject> o) {this.objColl = o;}
 
     public void setPers(ArrayList<Personaggio> per){this.personaggi = per;}
+
     /**
      * Metodo che confronta due Oggetti Rect e verifica se è avvenuta una collisione fra i due.
      * Il metodo ritorna un valore booleano che specifica se è avvenuta una collisione tra i due.
@@ -253,7 +272,7 @@ public class Controller{
     {
         boolean ret = false;
         for(GameObject g : objColl) {
-            if((g.getWidth()+g.getX())>-150 && g.getX()<EngineGame.WIDTH+150 && (g.getY()+g.getHeight())>-150 && g.getY()<EngineGame.HEIGHT+150) {
+            if((g.getWidth()+g.getX())>-50 && g.getX()<EngineGame.WIDTH+5 && (g.getY()+g.getHeight())>-50 && g.getY()<EngineGame.HEIGHT+50) {
                 ret = (collision(new Ostacolo(null, play.getX() + dx, play.getY() + dy, play.getHeight(), play.getWidth(), 0), g));
                 if (ret){
                     if(g.getTipo().equals("Personaggio"))
@@ -283,23 +302,17 @@ public class Controller{
 
     public void update()
     {
-        if(dx!=0)
-        {
-            //Verifica valori Dy,Dx,Ddown corretti
-            dx = (int) this.adaptVectorFPS(vx);
-            dy = (int) this.adaptVectorFPS(vy);
-            dDown = (int) this.adaptVectorFPS(vDown);}
-        else
-        {
-            dx = dy = dDown = 15;
-        }
+        if(!mUp)
+        accelerateDDown();
     }
 
-    public float adaptVectorFPS(int n)
+    public void adaptVectorXYfps()
     {
-        float ret = 2*(n/(1000 / GameThread.getMAX_FPS()));
-        if(ret<5)return 15;
-        return ret;
+        float ret = 2*(vx/(1000 / GameThread.getMAX_FPS()));
+        dx = (ret<5) ? 15 : (int) ret;
+        ret = 2*(vy/(1000 / GameThread.getMAX_FPS()));
+        dy = (ret<5) ? 15 : (int) ret;
+        dDown = 0;
     }
 
     //ACTIVITY

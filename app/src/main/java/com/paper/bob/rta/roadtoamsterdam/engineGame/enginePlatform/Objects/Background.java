@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Controller;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
@@ -96,7 +97,7 @@ public class Background {
         int ym = ((pl.getY()+pl.getHeight())+pl.getY())/2;
         int ymb = (pl.getY()+pl.getHeight());
         if(ymb > EngineGame.HEIGHT)
-        {dy = -pl.getDY();ret=false;}
+        {dy = -pl.getDDown();ret=false;}
         else if(ym<(EngineGame.HEIGHT/3))
         {dy = pl.getDY();ret=false;}
         else { dy=0;}

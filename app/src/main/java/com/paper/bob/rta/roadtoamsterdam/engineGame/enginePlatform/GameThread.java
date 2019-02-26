@@ -76,7 +76,7 @@ public class GameThread extends Thread
                         try {
                             // send the thread to sleep for a short period
                             // very useful for battery saving
-                            Log.i("RTA", "-----------scleep");
+                            //Log.i("RTA", "-----------scleep");
 
                             Thread.sleep(sleepTime);
                         } catch (InterruptedException e) {}
@@ -85,7 +85,7 @@ public class GameThread extends Thread
                     while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
                         // we need to catch up
                         // update without rendering
-                        Log.i("RTA", "sckippp frame ancd update");
+                        //Log.i("RTA", "sckippp frame ancd update");
 
                         this.engGame.update();
                         // add frame period to check if in next frame
