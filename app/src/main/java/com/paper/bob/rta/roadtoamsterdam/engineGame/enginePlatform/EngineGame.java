@@ -9,6 +9,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -16,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+import com.paper.bob.rta.roadtoamsterdam.activity.SoundBackgroundActivity;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Background;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Base;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.GameObject;
@@ -24,7 +26,6 @@ import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Perso
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
-import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundBG;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,7 +42,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     private ArrayList<GameObject> objColl;
     private Controller control;
     private ArrayList<Sound> sounds;
-    private SoundBG sbg;
     public static int WIDTH;
     public static int HEIGHT;
     /**Prppietà che indica la effettiva visualizzazione del EngineGame*/
@@ -177,7 +177,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     }
     /**
      * Metodo startView() che inizializza la vista con le cose da vedere e lo start del Thred dedicato alla gestione degli FPS.
-     * Questo metodo potrebbe essere richiamato sia dentro questa classe nel SurfaceCreated() che nell'activity PlatformMainActivity
+     * Questo metodo potrebbe essere richiamato sia dentro questa classe nel SurfaceCreated() che nell'activity PlatformMainBackgroundActivity
      * dentro il metodo resume();
      * Viene richiamato in entrambi i casi per gestire al meglio l'android LyFECICLE.
      * Questo metodo fa una distinzione se gli elementi esistono già oppure no.
@@ -188,6 +188,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
      */
     public void startView()
     {
+        Log.i("RTA", "Start View");
+
         //Scelta se si è già settata la View, quindi inizializzato i campi, e se esista l'ultimo campo importante, cioè IL PLAYER
         if (!viewIsRunning && pl == null) {
             viewIsRunning=true;//Setto la View ora visibile
@@ -211,8 +213,9 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             pl = lvComposer.getPlayer();
             //Suoni
             sounds = lvComposer.getSounds();
-            sbg = lvComposer.getSoundBG();
-            control.setSoundBG(sbg);
+            //Sound background
+            SoundBackgroundActivity.setSoundBG(lvComposer.getSoundBG());
+            SoundBackgroundActivity.play();
             /*
             Le istruzzioni successive indicano parametri di confiruazione dei Elementi
             Inoltre inizia un processo di SET automati reciproco degli oggetti che comunicano tra di loro
@@ -254,6 +257,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             gameLoop.setRunning(true);
             gameLoop.start();
         }
+        Log.i("RTA", "End View");
+
     }
     /**
      * Metodo stopView() che stoppa la visualizzazione della SurfaceView sullo schermo. in poche parole non lo fa più funzionare.
@@ -263,6 +268,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
      */
     public void stopView()
     {
+        Log.i("RTA", "Stop View");
+
         if (viewIsRunning) {
             viewIsRunning=false;//Setto la View ora NON visibile
             /*
@@ -281,6 +288,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
                     e.printStackTrace();
                 }
             }
+            Log.i("RTA", "End Stop View");
+
         }
     }
 
@@ -301,13 +310,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         return sounds;
     }
 
-    /**
-     * Metodo che ritorna il SoundBG, il sound di background che è differente sia per tecnologia che per durata
-     * @return SoundBG suono di background
-     */
-    public SoundBG getSoundBG() {
-        return sbg;
-    }
 
     /**
      * Metodo set che imposta il nome del livello

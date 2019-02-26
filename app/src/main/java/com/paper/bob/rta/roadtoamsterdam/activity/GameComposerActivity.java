@@ -2,11 +2,9 @@ package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.EnvironmentContainer;
@@ -99,14 +97,14 @@ public class GameComposerActivity extends AppCompatActivity {
         else if(!checkDialogo && contPrincipale.getDialogo() != null)
         {
             checkDialogo=true;
-            Intent i = new Intent(this, DialogActivity.class);
+            Intent i = new Intent(this, DialogBackgroundActivity.class);
             i.putExtra("dialogo", contPrincipale.getDialogo());
             startActivity(i);
         }
         else if (!checkPlatform && contPrincipale.getPlatform() != null)
         {
             checkPlatform=true;
-            Intent i = new Intent(this, PlatformMainActivity.class);
+            Intent i = new Intent(this, PlatformMainBackgroundActivity.class);
             i.putExtra("platform", contPrincipale.getPlatform());
             startActivityForResult(i,1);
         }
@@ -123,7 +121,7 @@ public class GameComposerActivity extends AppCompatActivity {
             else
             {
                 Log.i("RTA","\n\t@END GAME");
-                finish();
+                finishAffinity();
                 System.exit(0);
             }
         }

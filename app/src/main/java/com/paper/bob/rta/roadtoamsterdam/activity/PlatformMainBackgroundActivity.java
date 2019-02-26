@@ -1,11 +1,12 @@
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -22,7 +23,7 @@ import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 
 import java.util.ArrayList;
 
-public class PlatformMainActivity extends AppCompatActivity {
+public class PlatformMainBackgroundActivity extends SoundBackgroundActivity {
 
     /**Variabili adette ai sensori*/
     protected PowerManager.WakeLock mWakeLock;
@@ -124,14 +125,14 @@ public class PlatformMainActivity extends AppCompatActivity {
                     for (Sound s : sounds) {
                         s.pause();
                     }
-                    engineGame.getSoundBG().stop();
+                    SoundBackgroundActivity.stop();
                 } else if (state == TelephonyManager.CALL_STATE_IDLE) {
-                    //engineGame.getSoundBG().play();
+                    SoundBackgroundActivity.play();
                 } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
                     //Pausa dei suoni
                     ArrayList<Sound> sounds = engineGame.getSounds();
                     for (Sound s : sounds) {s.pause();}
-                    engineGame.getSoundBG().stop();
+                    SoundBackgroundActivity.stop();
                 }
                 super.onCallStateChanged(state, incomingNumber);
             }
@@ -160,7 +161,6 @@ public class PlatformMainActivity extends AppCompatActivity {
         //Pausa dei suoni
         ArrayList<Sound> sounds = engineGame.getSounds();
         for (Sound s : sounds) {s.pause();}
-        engineGame.getSoundBG().stop();
         //Gestione il listener dellle chiamate, stoppandolo perchè non serve più
         TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
         if (mgr != null) {mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);}
@@ -171,22 +171,9 @@ public class PlatformMainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.i("RTA", "OnResume");
-        /*faccio partire il metodo che fa partire la creazione dei parametri del enginegame*/
         engineGame.startView();
         //Play dei suoni
         //engineGame.getSoundBG().play();
-    }
-
-    /**
-     * Metodo che richiamato dal Controller fa avviare un'altra activity con le informazioni che le servono.
-     * In particolare avvia l'activity del dialogo e lo fa scegliere passandogli un parametro stringa
-     *
-     * @param d parametro che indica il nome del dialogo , il suo identificativo
-     */
-    public void avviaDialogo(String d) {
-        Intent dialogo = new Intent(PlatformMainActivity.this, DialogActivity.class);
-        dialogo.putExtra("nomeDialogo", d);
-        startActivityForResult(dialogo, 2);
     }
 
     /**
@@ -212,6 +199,55 @@ public class PlatformMainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    /**
+     * Metodo che richiamato dal Controller fa avviare un'altra activity con le informazioni che le servono.
+     * In particolare avvia l'activity del dialogo e lo fa scegliere passandogli un parametro stringa
+     *
+     * @param d parametro che indica il nome del dialogo , il suo identificativo
+     */
+    public void avviaDialogo(String d) {
+        runOnUiThread(new runableAvviaDialogo(d));
+    }
+    private class runableAvviaDialogo implements Runnable {
+        private String d;
+        public runableAvviaDialogo(String d) {this.d= d;}
+        @Override
+        public void run() {new RunDialogActivity(PlatformMainBackgroundActivity.this,d).execute();}
+        private class RunDialogActivity extends AsyncTask<Void, Void, Void>
+        {
+            private final String d;
+            ProgressDialog dialog;
+            Context context;
+            public RunDialogActivity(Context context, String d)
+            {
+                Log.i("RTA", "RunDialogActivity");
+                this.context=context;
+                this.d = d;
+            }
+            protected void onPreExecute() {
+                //create the progress dialog as
+                dialog=new ProgressDialog(context);
+                dialog.setMessage("Caricamento Dialogo");
+                dialog.show();
+            }
+            protected Void doInBackground(Void... JSONArray) {
+                Intent dialogo = new Intent(PlatformMainBackgroundActivity.this, DialogBackgroundActivity.class);
+                dialogo.putExtra("nomeDialogo",d);
+                startActivityForResult(dialogo, 2);
+                return null;
+            }
+
+            protected void onPostExecute(Void unused) {
+                Log.i("RTA","postexe");
+                dialog.dismiss();
+            }
+        }
+    }
+
+
+
 
 }
 

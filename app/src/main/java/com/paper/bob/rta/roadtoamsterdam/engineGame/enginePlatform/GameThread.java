@@ -49,6 +49,7 @@ public class GameThread extends Thread
     @Override
     public void run()
     {
+        Log.i("RTA", "Inizio RUN");
         long beginTime; // the time when the cycle begun
         long timeDiff; // the time it took for the cycle to execute
         int sleepTime; // ms to sleep (<0 if we're behind)
@@ -58,8 +59,11 @@ public class GameThread extends Thread
             canvas = null;
             //Editing Del Canvas in modo da poter realizzare una imagine dinamica
             try {
+                Log.i("RTAloop", "try lookCanvas");
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
+                    Log.i("RTAloop", "Syncronized update and draw");
+
                     beginTime = System.currentTimeMillis();
                     framesSkipped = 0; // resetting the frames skipped
                     // update game state
@@ -77,9 +81,10 @@ public class GameThread extends Thread
                             // send the thread to sleep for a short period
                             // very useful for battery saving
                             //Log.i("RTA", "-----------scleep");
-
+                            Log.i("RTAloop", "Sleep");
                             Thread.sleep(sleepTime);
-                        } catch (InterruptedException e) {}
+                        } catch (InterruptedException e) {Log.i("RTA", "Exception look canvas"+e);
+                        }
                     }
                     averageFPS = MAX_FPS;
                     while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
@@ -100,6 +105,8 @@ public class GameThread extends Thread
                 if (canvas != null) {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
+                        Log.i("RTAloop", "UnlockCanvasand post");
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

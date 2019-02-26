@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -28,10 +27,10 @@ import java.util.Stack;
  * Il suo obbiettivo è prendere da parametro Itent un valore, passarlo al DataGraberDialog, estrapolarne una pila di Oggetti dialogo,
  * e sistematicamente mostrarli all'utente in fila.
  * Per ultimo nella scelta da effettuare, se presente, registra la scelta, e la manda tramite parametro Intent alla Activity Precedente.
- * Sarà richiamata sempre Dalla PlatformMainActivity, Opzionalmente dal DialogActivity, e mai da altre Activity.
- * Porterà sempre alla PlatformMainActivity, Opzionalmente alla DialogActivity, e mai ad altre activity.
+ * Sarà richiamata sempre Dalla PlatformMainBackgroundActivity, Opzionalmente dal DialogBackgroundActivity, e mai da altre Activity.
+ * Porterà sempre alla PlatformMainBackgroundActivity, Opzionalmente alla DialogBackgroundActivity, e mai ad altre activity.
  * */
-public class DialogActivity extends AppCompatActivity {
+public class DialogBackgroundActivity extends SoundBackgroundActivity {
 
     //CAMPI XML
 
@@ -128,7 +127,7 @@ public class DialogActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume()
+    public void onResume()
     {
         super.onResume();
         /*Compositore di dialoghi che crea e restituisce i dialoghi*/
