@@ -27,6 +27,11 @@ public class Personaggio extends Ostacolo {
             this.setFisico(true);
             not = new Notify(img, getX(), getY(), getWidth(), getHeight());
         }
+        else
+        {
+            this.setNotify(false);
+            this.setFisico(false);
+        }
     }
 
     public void draw(Canvas c)

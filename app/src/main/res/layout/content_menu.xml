@@ -8,43 +8,14 @@
     tools:context="com.paper.bob.rta.roadtoamsterdam.MenuActivity"
     tools:showIn="@layout/app_bar_menu">
 
-    <Button
-        android:id="@+id/carPartita"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:minHeight="100dp"
-        android:text="CARICA PARTITA SALVATA"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testoIniziale" />
-
-    <Button
-        android:id="@+id/nuovaPartita"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="104dp"
-        android:minHeight="100dp"
-        android:text="INIZIA NUOVA PARTITA"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carPartita" />
-
     <TextView
         android:id="@+id/testoIniziale"
-        android:layout_width="304dp"
+        android:layout_width="343dp"
         android:layout_height="98dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Scegliere se caricare una partita precedentemente salvata, oppure iniziare una nuova partita.\nATTENZINE\n, se si inizia una partita nuova si perderanno tutti i salvataggi."
+        android:text="Scegliere se caricare una partita precedentemente salvata, oppure iniziare una nuova partita.\nATTENZINE\nSe si inizia una partita nuova si perderanno tutti i salvataggi."
         android:textAlignment="textStart"
         android:textAllCaps="false"
         android:textSize="14sp"
@@ -52,4 +23,53 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="162dp"
+        android:layout_height="102dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="204dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/nuovaPartita"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="104dp"
+            android:minHeight="100dp"
+            android:text="INIZIA NUOVA PARTITA"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/carPartita" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="162dp"
+        android:layout_height="102dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="204dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/carPartita"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:minHeight="100dp"
+            android:text="CARICA PARTITA SALVATA"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/testoIniziale" />
+
+    </android.support.constraint.ConstraintLayout>
+
 </android.support.constraint.ConstraintLayout>

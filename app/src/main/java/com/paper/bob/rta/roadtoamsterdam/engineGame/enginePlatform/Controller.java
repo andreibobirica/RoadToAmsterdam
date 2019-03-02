@@ -3,7 +3,7 @@ package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform;
 import android.graphics.Rect;
 import android.os.Handler;
 
-import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainBackgroundActivity;
+import com.paper.bob.rta.roadtoamsterdam.activity.PlatformActivity;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.GameObject;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
@@ -17,7 +17,7 @@ public class Controller{
     //Variabili con cui verificare le collisioni
     private Player play;
     private ArrayList<GameObject> objColl;
-    private PlatformMainBackgroundActivity plActivity;
+    private PlatformActivity plActivity;
 
     //SUONI
     private ArrayList<Sound> sounds;
@@ -271,7 +271,7 @@ public class Controller{
         boolean ret = false;
         for(GameObject g : objColl) {
             if((g.getWidth()+g.getX())>-50 && g.getX()<EngineGame.WIDTH+5 && (g.getY()+g.getHeight())>-50 && g.getY()<EngineGame.HEIGHT+50) {
-                ret = (collision(new Ostacolo(null, play.getX() + dx, play.getY() + dy, play.getHeight(), play.getWidth(), 0), g));
+                ret = (collision(new Ostacolo(play.getX() + dx, play.getY() + dy, play.getHeight(), play.getWidth()), g));
                 if (ret){
                     if(g.getTipo().equals("Personaggio"))
                     {
@@ -316,11 +316,11 @@ public class Controller{
     //ACTIVITY
     /**
      * Metodo che Setta l'activity principale dei livelli platform
-     * L'activity si chiama PlatformMainBackgroundActivity, la si viene settata dentro questa classe perchè si potrebbe aver bisogno
+     * L'activity si chiama PlatformActivity, la si viene settata dentro questa classe perchè si potrebbe aver bisogno
      * di richiamare alcuni metodo della activity, legati al cambio delle activity, e lo spostamento su un'altra activity.
      * @param pl PlayerMainACtivity Activity sa settare sulla classe Controller
      */
-    public void setPlActivity(PlatformMainBackgroundActivity pl)
+    public void setPlActivity(PlatformActivity pl)
     {plActivity = pl;}
     /**
      * Metodo Avvia dialogo, richiama la medesima funzione di PlayerMainActivity, e richiamandola gli passa anche il parametro String d

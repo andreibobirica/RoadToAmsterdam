@@ -13,6 +13,7 @@ public class EnvironmentContainer {
     private EnvironmentContainer contA;
     private EnvironmentContainer contB;
 
+
     public EnvironmentContainer(EnvironmentContainer cont) {
         ECId = cont.getId();
         this.video = cont.getVideo();
@@ -99,7 +100,7 @@ public class EnvironmentContainer {
     @Override
     public String toString() {
         return "EnvironmentContainer{" +
-                "ECId=" + ECId +
+                "Id=" + ECId +
                 ", video='" + video + '\'' +
                 ", dialogo='" + dialogo + '\'' +
                 ", platform='" + platform + '\'' +

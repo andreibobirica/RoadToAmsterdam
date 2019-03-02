@@ -11,7 +11,7 @@
     <dimen name="muro_width">10dp</dimen>
 
     <dimen name="person_height">150dp</dimen>
-    <dimen name="person_width">100dp</dimen>
+    <dimen name="person_width">90dp</dimen>
 
     <dimen name="ostacolo_grande_oriz_width">800dp</dimen>
     <dimen name="ostacolo_grande_oriz_height">400dp</dimen>

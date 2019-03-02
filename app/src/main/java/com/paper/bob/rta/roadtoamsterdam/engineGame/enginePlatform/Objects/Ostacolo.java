@@ -17,6 +17,7 @@ import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
 public class Ostacolo extends GameObject {
     //Campi che definiscono l'ostacolo
     private Bitmap img;
+    private Bitmap[] gif;
     private int nframe;
     private Animation animation = new Animation();
     private boolean fisico = false;
@@ -56,6 +57,24 @@ public class Ostacolo extends GameObject {
             animation.setDelay(delay);
         }
     }
+
+    /**
+     Costruttore della classe Ostacolo, di controllo.
+     Questo costruttore contiene le informazioni principali al oggetto Ostacolo, solamente le sue coordinate e le sue grandezze.
+     @param x coordinata x iniziale su cui starà l'ostacolo;
+     @param y coordinata y iniziale su cui starà l'ostacolo
+     @param height altezza dell'ostacolo
+     @param width larghezza dell'ostacolo
+     */
+    public Ostacolo(int x, int y, int height, int width)
+    {
+        //Grandezza
+        this.height =height;
+        this.width = width;
+        //Coordinate
+        this.x = x;
+        this.y = y;
+    }
     /**
     Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.
     Questo metodo non ha valori di return in quando non fornisce dati, ma attua solo l'azione di disegnare se stesso su un canvas
@@ -64,11 +83,12 @@ public class Ostacolo extends GameObject {
      */
     public void draw(Canvas canvas)
     {
-        if(nframe>1) {
-           img = animation.getImage();
-        }
+
         if(width>0 && x< EngineGame.WIDTH && height>0 && y <EngineGame.HEIGHT)
         {
+            if(nframe>1) {
+                img = animation.getImage();
+            }
             canvas.drawBitmap(img, new Rect(0,0,img.getWidth()-1, img.getHeight()-1), new Rect(x,y,x+width, y+height), null);
         }
     }
@@ -80,8 +100,10 @@ public class Ostacolo extends GameObject {
     {
         this.x += bgCoord.getDX();
         this.y += bgCoord.getDY();
-        if(nframe>1) {
-           animation.update();
+        if(width>0 && x< EngineGame.WIDTH && height>0 && y <EngineGame.HEIGHT){
+            if(nframe>1) {
+               animation.update();
+            }
         }
     }
     /**
@@ -121,9 +143,13 @@ public class Ostacolo extends GameObject {
      */
     private Bitmap[] getGif(Bitmap img)
     {
-        Bitmap[] gif = new Bitmap[nframe];
+        //Pulizia delle vecchie bitmap prima di uttilizzarne e di crearne delle nuove
+        if(gif!=null) for (Bitmap aGif : gif) {aGif.recycle();}
+        gif = null;
+        //Creazione delle nuove gif animazioni per un nuovo movimento
+        gif = new Bitmap[nframe];
         for (int i = 0; i < gif.length; i++) {
-            gif[i] = Bitmap.createBitmap(img, i * (img.getWidth()/nframe), 0, img.getWidth()/nframe, img.getHeight());
+            gif[i] = Bitmap.createBitmap(img, i * (img.getWidth() / nframe), 0, img.getWidth() / nframe, img.getHeight());
         }
         return gif;
     }

@@ -5,7 +5,7 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
-import com.paper.bob.rta.roadtoamsterdam.activity.PlatformMainBackgroundActivity;
+import com.paper.bob.rta.roadtoamsterdam.activity.PlatformActivity;
 
 public class Sound {
 
@@ -33,7 +33,7 @@ public class Sound {
         float currentVolumeIndex = (float) (audioManager != null ? audioManager.getStreamVolume(streamType) : 0);
         float maxVolumeIndex  = (float) (audioManager != null ? audioManager.getStreamMaxVolume(streamType) : 0);
         volume = currentVolumeIndex / maxVolumeIndex;
-        PlatformMainBackgroundActivity plat = (PlatformMainBackgroundActivity)c;
+        PlatformActivity plat = (PlatformActivity)c;
         plat.setVolumeControlStream(streamType);
         AudioAttributes audioAttrib = new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_GAME).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build();
         SoundPool.Builder builder= new SoundPool.Builder();

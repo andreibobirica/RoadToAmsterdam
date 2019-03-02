@@ -30,7 +30,7 @@ import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Serializable {
+public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
 
     /**Campi con tutti gli elemtni che compongono il EngineGame*/
     private GameThread gameLoop;
@@ -177,7 +177,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
     }
     /**
      * Metodo startView() che inizializza la vista con le cose da vedere e lo start del Thred dedicato alla gestione degli FPS.
-     * Questo metodo potrebbe essere richiamato sia dentro questa classe nel SurfaceCreated() che nell'activity PlatformMainBackgroundActivity
+     * Questo metodo potrebbe essere richiamato sia dentro questa classe nel SurfaceCreated() che nell'activity PlatformActivity
      * dentro il metodo resume();
      * Viene richiamato in entrambi i casi per gestire al meglio l'android LyFECICLE.
      * Questo metodo fa una distinzione se gli elementi esistono già oppure no.
@@ -345,18 +345,20 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             mActivePointerId = ev.getPointerId(0);
         }
         if (action == MotionEvent.ACTION_MOVE) {
-            final int pointerIndex = ev.findPointerIndex(mActivePointerId);
-            final float x = ev.getX(pointerIndex);
-            final float y = ev.getY(pointerIndex);
-            if (!mScaleDetector.isInProgress()) {
-                final int dx = (int) (x - mLastTouchX);
-                final int dy = (int) (y - mLastTouchY);
-                this.dx = dx;
-                this.dy = dy;
-                invalidate();
+            if(control.getDDown()==1 && control.getDY()==28 && control.getDX()==14) {
+                final int pointerIndex = ev.findPointerIndex(mActivePointerId);
+                final float x = ev.getX(pointerIndex);
+                final float y = ev.getY(pointerIndex);
+                if (!mScaleDetector.isInProgress()) {
+                    final int dx = (int) (x - mLastTouchX);
+                    final int dy = (int) (y - mLastTouchY);
+                    this.dx = dx;
+                    this.dy = dy;
+                    invalidate();
+                }
+                mLastTouchX = x;
+                mLastTouchY = y;
             }
-            mLastTouchX = x;
-            mLastTouchY = y;
         }
         if (action == MotionEvent.ACTION_UP) {
             System.out.println("UP");
@@ -383,6 +385,27 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
         return true;
     }
 
+    public void recycle() {
+        //Recycle all the Bitmap
+        for(int i = 0; i < personaggi.size(); i++)
+        {personaggi.get(i).getImage().recycle();}
+        for(int i = 0; i < ostacoli.size(); i++)
+        {ostacoli.get(i).getImage().recycle();}
+        {bg.getImage().recycle();}
+        {base.getImage().recycle();}
+        //Setto a null così il Garbage Collector farà il suo lavoro
+        gameLoop = null;
+        ostacoli = null;
+        personaggi = null;
+        bg = null;
+        base = null;
+        pl = null;
+        objColl = null;
+        control = null;
+        sounds = null;
+        levelName = null;
+    }
+
     /**
      * Metodo listener che appena ricere che il trascinamento è stato terminato  scala le coordinate
      */
@@ -406,11 +429,11 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
      * @param dy vettore y
      */
     private void moveObjectTouch(int dx, int dy) {
-        if(bg.verifyMovementPlayer()) {
-            if(pl.getY()+pl.getHeight()+dy>EngineGame.HEIGHT){
+        if (bg.verifyMovementPlayer()) {
+            if (pl.getY() + pl.getHeight() + dy > EngineGame.HEIGHT) {
                 dy = 0;
             }
-            if(base.getY()+dy<(EngineGame.HEIGHT)){
+            if (base.getY() + dy < (EngineGame.HEIGHT)) {
                 dy = 0;
             }
             bg.setX(bg.getX() + dx);
@@ -421,9 +444,12 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback,Se
             }
             for (Personaggio o : personaggi) {
                 o.setX(o.getX() + dx);
-                Notify not = o.getNot();
-                not.setX(not.getX()+dx);not.setY(not.getY()+dy);
-                o.setY(o.getY() + dy);
+                if (o.getNotify()) {
+                    Notify not = o.getNot();
+                    not.setX(not.getX() + dx);
+                    not.setY(not.getY() + dy);
+                    o.setY(o.getY() + dy);
+                }
             }
             base.setX(base.getX() + dx);
             base.setY(base.getY() + dy);

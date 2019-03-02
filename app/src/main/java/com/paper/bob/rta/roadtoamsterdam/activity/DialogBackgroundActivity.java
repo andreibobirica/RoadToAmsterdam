@@ -27,8 +27,8 @@ import java.util.Stack;
  * Il suo obbiettivo è prendere da parametro Itent un valore, passarlo al DataGraberDialog, estrapolarne una pila di Oggetti dialogo,
  * e sistematicamente mostrarli all'utente in fila.
  * Per ultimo nella scelta da effettuare, se presente, registra la scelta, e la manda tramite parametro Intent alla Activity Precedente.
- * Sarà richiamata sempre Dalla PlatformMainBackgroundActivity, Opzionalmente dal DialogBackgroundActivity, e mai da altre Activity.
- * Porterà sempre alla PlatformMainBackgroundActivity, Opzionalmente alla DialogBackgroundActivity, e mai ad altre activity.
+ * Sarà richiamata sempre Dalla PlatformActivity, Opzionalmente dal DialogBackgroundActivity, e mai da altre Activity.
+ * Porterà sempre alla PlatformActivity, Opzionalmente alla DialogBackgroundActivity, e mai ad altre activity.
  * */
 public class DialogBackgroundActivity extends SoundBackgroundActivity {
 

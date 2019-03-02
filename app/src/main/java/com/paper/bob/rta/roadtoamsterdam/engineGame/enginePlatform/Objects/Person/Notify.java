@@ -54,7 +54,7 @@ public class Notify{
         }
         if(x<EngineGame.WIDTH && y <EngineGame.HEIGHT) {
             Rect srcNot = new Rect(0, 0, imgNot.getWidth() - 1, imgNot.getHeight() - 1);
-            Rect destNot = new Rect(x, y - 150, x + width - (width / 3), y);
+            Rect destNot = new Rect(x+(width/4), y - 150, x + (width-width/4), y);
             c.drawBitmap(imgNot, srcNot, destNot, null);
         }
     }

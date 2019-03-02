@@ -124,4 +124,8 @@ public class Background {
     public void setController(Controller controller) {
         this.controller = controller;
     }
+
+    public Bitmap getImage() {
+        return image;
+    }
 }

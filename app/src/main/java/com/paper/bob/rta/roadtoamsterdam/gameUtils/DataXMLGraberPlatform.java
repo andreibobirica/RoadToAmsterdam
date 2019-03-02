@@ -21,8 +21,13 @@ import java.util.Objects;
 
 public class DataXMLGraberPlatform extends DataXMLGraber {
 
+    private BitmapFactory.Options options;
     public DataXMLGraberPlatform(String file,Context c)
-    {super(file,c);}
+    {
+        super(file,c);
+        options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+    }
 
     private Node getLevel(String lvName)
     {
@@ -110,7 +115,7 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
     public Background getBackground(String lvName)
     {
         int resId = context.getResources().getIdentifier(getLevel(lvName).getFirstChild().getNextSibling().getFirstChild().getTextContent(), "drawable", context.getPackageName());
-        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId,options);
         Background bg = new Background(img,0,0);
         Log.i("RTA", "- Background");
         return bg;
@@ -124,7 +129,7 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
             //IMAGE
             String imgName = ost.item(e).getFirstChild().getTextContent();
             int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
-            Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+            Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId,options);
             //Posizione
             int x = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("x").getNodeValue());
             int y = Integer.parseInt(ost.item(e).getAttributes().getNamedItem("y").getNodeValue());
@@ -158,7 +163,7 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
     public Bitmap getNotifyImage()
     {
         int resId = context.getResources().getIdentifier("notify", "drawable", context.getPackageName());
-        Bitmap imgNot = BitmapFactory.decodeResource(context.getResources(), resId);
+        Bitmap imgNot = BitmapFactory.decodeResource(context.getResources(), resId,options);
         return imgNot;
     }
 
@@ -169,7 +174,7 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
         for (int e = 0; e < prs.getLength(); e++) {
             //Image
             int resId = context.getResources().getIdentifier(prs.item(e).getFirstChild().getTextContent(), "drawable", context.getPackageName());
-            Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+            Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId,options);
             //Posizione
             int x = Integer.parseInt(prs.item(e).getAttributes().getNamedItem("x").getNodeValue());
             int y = Integer.parseInt(prs.item(e).getAttributes().getNamedItem("y").getNodeValue());
@@ -201,12 +206,12 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
         //Immagine di base
         String imgName = pl.getFirstChild().getTextContent();
         int resId = context.getResources().getIdentifier(imgName, "drawable", context.getPackageName());
-        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId,options);
         //IMMAGINI LEFT E RIGHT
         int resIdL = context.getResources().getIdentifier(imgName+"left", "drawable", context.getPackageName());
-        Bitmap imgL = BitmapFactory.decodeResource(context.getResources(), resIdL);
+        Bitmap imgL = BitmapFactory.decodeResource(context.getResources(), resIdL,options);
         int resIdR = context.getResources().getIdentifier(imgName+"right", "drawable", context.getPackageName());
-        Bitmap imgR = BitmapFactory.decodeResource(context.getResources(), resIdR);
+        Bitmap imgR = BitmapFactory.decodeResource(context.getResources(), resIdR,options);
         //Posizione
         int x = Integer.parseInt(pl.getAttributes().getNamedItem("x").getNodeValue());
         int y = Integer.parseInt(pl.getAttributes().getNamedItem("y").getNodeValue());
@@ -235,7 +240,7 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
     {
         Node pl = getLevel(lvName).getFirstChild().getNextSibling().getNextSibling().getNextSibling().getNextSibling();
         int resId = context.getResources().getIdentifier(pl.getFirstChild().getTextContent(), "drawable", context.getPackageName());
-        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId);
+        Bitmap img = BitmapFactory.decodeResource(context.getResources(), resId,options);
         Base base = new Base(img);
         Log.i("RTA", "- Base");
         return base;

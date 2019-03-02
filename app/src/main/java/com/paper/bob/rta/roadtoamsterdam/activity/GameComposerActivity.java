@@ -1,6 +1,7 @@
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,10 +26,13 @@ public class GameComposerActivity extends AppCompatActivity {
      * In base a questa cambierà il flusso di gioco e verrano scelti Environment diversi*/
     private Boolean scelta;
 
+    private SharedPreferences prefs;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_composer);
+        prefs = this.getSharedPreferences("roadtoamsterdam", MODE_PRIVATE);
         //Creazione dei contenitori di Ambiente EnviromentContainer
         this.createEnviroments();
     }
@@ -42,11 +46,30 @@ public class GameComposerActivity extends AppCompatActivity {
     private void createEnviroments() {
         conts = new ArrayList<>();
         conts.add(new EnvironmentContainer(null,null,"padovacasello")); //0
+        conts.add(new EnvironmentContainer(null,null,"padovacasello")); //1
+        conts.add(new EnvironmentContainer(null,null,"padovacasello")); //2
+        conts.add(new EnvironmentContainer(null,null,"padovacasello")); //3
+        conts.add(new EnvironmentContainer(null,null,"padovacasello")); //4
+        conts.add(new EnvironmentContainer(null,null,"padovacasello")); //5
+        conts.add(new EnvironmentContainer(null,null,"padovacasello")); //6
+
+
         for(int i = 0; i < conts.size(); i++)
         {
-            //if(conts.get(i).getId() == 0)
-            //{conts.get(i).setNext(conts.get(1),conts.get(2));}
+            if(conts.get(i).getId() == 0)
+            {conts.get(i).setNext(conts.get(1),conts.get(1));}
+            if(conts.get(i).getId() == 1)
+            {conts.get(i).setNext(conts.get(2),conts.get(2));}
+            if(conts.get(i).getId() == 2)
+            {conts.get(i).setNext(conts.get(3),conts.get(3));}
+            if(conts.get(i).getId() == 3)
+            {conts.get(i).setNext(conts.get(4),conts.get(4));}
+            if(conts.get(i).getId() == 4)
+            {conts.get(i).setNext(conts.get(5),conts.get(5));}
+            if(conts.get(i).getId() == 5)
+            {conts.get(i).setNext(conts.get(6),conts.get(6));}
         }
+
         //Si parte dal primo Enviroment
         contPrincipale = conts.get(0);
     }
@@ -87,6 +110,13 @@ public class GameComposerActivity extends AppCompatActivity {
      */
     public void startGame()
     {
+        //Salvataggio dei dati
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("gamesave", contPrincipale.getId());
+        editor.apply();
+        int savegame = prefs.getInt("gamesave", 0);
+        Log.i("RTA","risultato savegame:"+ savegame);
+
         if(!checkVideo && contPrincipale.getVideo() != null)
         {
             checkVideo=true;
@@ -104,7 +134,7 @@ public class GameComposerActivity extends AppCompatActivity {
         else if (!checkPlatform && contPrincipale.getPlatform() != null)
         {
             checkPlatform=true;
-            Intent i = new Intent(this, PlatformMainBackgroundActivity.class);
+            Intent i = new Intent(this, PlatformActivity.class);
             i.putExtra("platform", contPrincipale.getPlatform());
             startActivityForResult(i,1);
         }

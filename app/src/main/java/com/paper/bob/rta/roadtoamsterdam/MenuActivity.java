@@ -1,9 +1,12 @@
 package com.paper.bob.rta.roadtoamsterdam;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,15 +21,23 @@ import android.widget.Button;
 import com.paper.bob.rta.roadtoamsterdam.activity.GameComposerActivity;
 import com.paper.bob.rta.roadtoamsterdam.activity.SplashActivity;
 
+import java.util.Date;
+
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private SharedPreferences prefs;
+    private Button btnNuovaPartita;
+    private Button btnCarPartita;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        final Button btnCarPartita = (Button) findViewById(R.id.carPartita);
+        prefs = this.getSharedPreferences("com.paper.bob.rta.roadtoamsterdam", MODE_PRIVATE);
+        btnCarPartita = findViewById(R.id.carPartita);
+        btnNuovaPartita= findViewById(R.id.nuovaPartita);
+
         btnCarPartita.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 launchSaveGame();
@@ -41,6 +52,23 @@ public class MenuActivity extends AppCompatActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if(getSaveData())
+        {btnCarPartita.setEnabled(false);}
+    }
+
+    public boolean getSaveData()
+    {
+        String Key = "com.paper.bob.rta.roadtoamsterdam.environmentcontainer";
+        // use a default value using new Date()
+        String envcont = prefs.getString(Key,"");
+        Log.i("RTA",envcont);
+        if(!envcont.equals(""))return true;
+        return false;
     }
 
     private void launchSaveGame() {

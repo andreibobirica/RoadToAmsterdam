@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -12,6 +13,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -23,7 +25,7 @@ import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 
 import java.util.ArrayList;
 
-public class PlatformMainBackgroundActivity extends SoundBackgroundActivity {
+public class PlatformActivity extends SoundBackgroundActivity {
 
     /**Variabili adette ai sensori*/
     protected PowerManager.WakeLock mWakeLock;
@@ -150,6 +152,8 @@ public class PlatformMainBackgroundActivity extends SoundBackgroundActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        engineGame.recycle();
+        Log.i("RTA", "onDestroy");
     }
 
     @Override
@@ -186,6 +190,7 @@ public class PlatformMainBackgroundActivity extends SoundBackgroundActivity {
         Intent intent = new Intent();
         intent.putExtra("scelta", scelta);
         setResult(RESULT_OK, intent);
+        Runtime.getRuntime().gc();
         super.finish();
     }
 
@@ -214,7 +219,7 @@ public class PlatformMainBackgroundActivity extends SoundBackgroundActivity {
         private String d;
         public runableAvviaDialogo(String d) {this.d= d;}
         @Override
-        public void run() {new RunDialogActivity(PlatformMainBackgroundActivity.this,d).execute();}
+        public void run() {new RunDialogActivity(PlatformActivity.this,d).execute();}
         private class RunDialogActivity extends AsyncTask<Void, Void, Void>
         {
             private final String d;
@@ -233,7 +238,7 @@ public class PlatformMainBackgroundActivity extends SoundBackgroundActivity {
                 dialog.show();
             }
             protected Void doInBackground(Void... JSONArray) {
-                Intent dialogo = new Intent(PlatformMainBackgroundActivity.this, DialogBackgroundActivity.class);
+                Intent dialogo = new Intent(PlatformActivity.this, DialogBackgroundActivity.class);
                 dialogo.putExtra("nomeDialogo",d);
                 startActivityForResult(dialogo, 2);
                 return null;
