@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.GameComposerActivity;
 import com.paper.bob.rta.roadtoamsterdam.activity.SplashActivity;
@@ -37,9 +38,10 @@ public class MenuActivity extends AppCompatActivity
         prefs = this.getSharedPreferences("com.paper.bob.rta.roadtoamsterdam", MODE_PRIVATE);
         btnCarPartita = findViewById(R.id.carPartita);
         btnNuovaPartita= findViewById(R.id.nuovaPartita);
-
+        final Context c = getApplicationContext();
         btnCarPartita.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Toast.makeText(c,"Caricamento In Corso",Toast.LENGTH_LONG).show();
                 launchSaveGame();
             }
         });
@@ -93,20 +95,6 @@ public class MenuActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

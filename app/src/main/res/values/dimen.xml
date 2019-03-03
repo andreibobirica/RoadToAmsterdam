@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <dimen name="ostacolo_grande_width">175dp</dimen>
     <dimen name="ostacolo_grande_height">350dp</dimen>
 

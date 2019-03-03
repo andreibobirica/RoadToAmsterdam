@@ -12,10 +12,10 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Controller;
@@ -52,7 +52,7 @@ public class PlatformActivity extends SoundBackgroundActivity {
         //Eliminazione Title BAR
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //set Activity con layout platformgame visibile
-        setContentView(R.layout.activity_platform_main);
+        setContentView(R.layout.activity_platform);
         /*INIZIALIZZAZIONE Campi del PatformMainActivity*/
         //Individuazione del EngineGame con ID dal LayoutXML
         engineGame = findViewById(R.id.enginegame);
@@ -73,6 +73,66 @@ public class PlatformActivity extends SoundBackgroundActivity {
     protected void onStart() {
         super.onStart();
         Log.i("RTA", "OnStart");
+        //Nel caso di chiamata gestiosco l'audio nel senso che se arriva una chiamata
+        //So gestire l'audio e metterlo in pausa per permettere la ricezzione solo dell'audio della chiamata
+        phoneStateListener = new PhoneStateListener() {
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                if (state == TelephonyManager.CALL_STATE_RINGING) {
+                    //Pausa dei suoni
+                    ArrayList<Sound> sounds = engineGame.getSounds();
+                    for (Sound s : sounds) {s.pause();}
+                    SoundBackgroundActivity.stop();
+                } else if (state == TelephonyManager.CALL_STATE_IDLE) {
+                    SoundBackgroundActivity.play();
+                } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
+                    //Pausa dei suoni
+                    ArrayList<Sound> sounds = engineGame.getSounds();
+                    for (Sound s : sounds) {s.pause();}
+                    SoundBackgroundActivity.stop();
+                }
+                super.onCallStateChanged(state, incomingNumber);
+            }
+        };
+        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if (mgr != null) {mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);}
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("RTA", "onsTOP");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i("RTA", "onDestroy");
+        //Riciclo gli elementi del EngineGame
+        engineGame.recycle();
+        engineGame = null;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("RTA", "OnPause");
+        //Pausa del engineGame, specialmente del Thred di gioco
+        engineGame.stopView();
+        //Pausa dei suoni
+        ArrayList<Sound> sounds = engineGame.getSounds();
+        for (Sound s : sounds) {s.pause();}
+        //Gestione il listener dellle chiamate, stoppandolo perchè non serve più
+        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if (mgr != null) {mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);}
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //setContentView(R.layout.activity_platform_loading);
+        Log.i("RTA", "OnResume");
         //GESTION HANDLER PER MOVIMENTO PLAYER, GESTION EVENTI CLICK BUTTON
         btn_right = findViewById(R.id.btn_right);
         btn_left = findViewById(R.id.btn_left);
@@ -118,70 +178,6 @@ public class PlatformActivity extends SoundBackgroundActivity {
                 return false;
             }
         });
-
-        //Nel caso di chiamata gestiosco l'audio nel senso che se arriva una chiamata
-        //So gestire l'audio e metterlo in pausa per permettere la ricezzione solo dell'audio della chiamata
-        phoneStateListener = new PhoneStateListener() {
-            @Override
-            public void onCallStateChanged(int state, String incomingNumber) {
-                if (state == TelephonyManager.CALL_STATE_RINGING) {
-                    //Pausa dei suoni
-                    ArrayList<Sound> sounds = engineGame.getSounds();
-                    for (Sound s : sounds) {s.pause();}
-                    SoundBackgroundActivity.stop();
-                } else if (state == TelephonyManager.CALL_STATE_IDLE) {
-                    SoundBackgroundActivity.play();
-                } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
-                    //Pausa dei suoni
-                    ArrayList<Sound> sounds = engineGame.getSounds();
-                    for (Sound s : sounds) {s.pause();}
-                    SoundBackgroundActivity.stop();
-                }
-                super.onCallStateChanged(state, incomingNumber);
-            }
-        };
-        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        if (mgr != null) {mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);}
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("RTA", "onsTOP");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i("RTA", "onDestroy");
-        //Riciclo gli elementi del EngineGame
-        engineGame.recycle();
-        engineGame = null;
-        //Annullo i listener per i btn
-        btn_left.setOnClickListener(null);
-        btn_up.setOnClickListener(null);
-        btn_right.setOnClickListener(null);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.i("RTA", "OnPause");
-        //Pausa del engineGame, specialmente del Thred di gioco
-        //engineGame.stopView();
-        //Pausa dei suoni
-        ArrayList<Sound> sounds = engineGame.getSounds();
-        for (Sound s : sounds) {s.pause();}
-        //Gestione il listener dellle chiamate, stoppandolo perchè non serve più
-        TelephonyManager mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-        if (mgr != null) {mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);}
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("RTA", "OnResume");
         engineGame.startView();
     }
 
@@ -192,9 +188,12 @@ public class PlatformActivity extends SoundBackgroundActivity {
      */
     @Override
     public void finish() {
+        final Context c = getApplicationContext();
+        runOnUiThread(new Runnable() {
+            public void run() {Toast.makeText(c, "Caricamento in Corso", Toast.LENGTH_LONG).show();}
+        });
         //Stop and claer SoundBackGround
         SoundBackgroundActivity.clear();
-
         Intent intent = new Intent();
         intent.putExtra("scelta", scelta);
         setResult(RESULT_OK, intent);
@@ -247,7 +246,7 @@ public class PlatformActivity extends SoundBackgroundActivity {
                 dialog.show();
             }
             protected Void doInBackground(Void... JSONArray) {
-                Intent dialogo = new Intent(PlatformActivity.this, DialogBackgroundActivity.class);
+                Intent dialogo = new Intent(PlatformActivity.this, DialogActivity.class);
                 dialogo.putExtra("nomeDialogo",d);
                 startActivityForResult(dialogo, 2);
                 return null;

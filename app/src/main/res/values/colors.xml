@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="red">#b33044</color>
+    <color name="colorPrimary">#115e13</color>
+    <color name="colorPrimaryDark">#115e13</color>
+    <color name="colorAccent">#e8f5e9</color>
     <color name="verde">#95fff8</color>
-    <color name="verdeScu">#034945</color>
+    <color name="verdeScu">#115e13</color>
+    <color name="verdeNero">#001e01</color>
+
+
 
 
     <color name="black_overlay">#66000000</color>

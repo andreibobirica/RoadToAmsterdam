@@ -347,7 +347,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
             mActivePointerId = ev.getPointerId(0);
         }
         if (action == MotionEvent.ACTION_MOVE) {
-            if(control.getDDown()==1 && control.getDY()==28 && control.getDX()==14) {
                 final int pointerIndex = ev.findPointerIndex(mActivePointerId);
                 final float x = ev.getX(pointerIndex);
                 final float y = ev.getY(pointerIndex);
@@ -360,7 +359,6 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
                 }
                 mLastTouchX = x;
                 mLastTouchY = y;
-            }
         }
         if (action == MotionEvent.ACTION_UP) {
             System.out.println("UP");
@@ -396,20 +394,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         {bg.getImage().recycle();}
         {base.getImage().recycle();}
         //Setto a null così il Garbage Collector farà il suo lavoro
-        gameLoop = null;
-        ostacoli = null;
-        personaggi = null;
-        bg = null;
-        base = null;
-        pl = null;
-        objColl = null;
-        control = null;
-        sounds = null;
-        levelName = null;
         getHolder().getSurface().release();
-        mScaleDetector = new ScaleGestureDetector(context, null);
-        mScaleDetector = null;
-
     }
 
     /**
@@ -454,8 +439,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
                     Notify not = o.getNot();
                     not.setX(not.getX() + dx);
                     not.setY(not.getY() + dy);
-                    o.setY(o.getY() + dy);
                 }
+                o.setY(o.getY() + dy);
             }
             base.setX(base.getX() + dx);
             base.setY(base.getY() + dy);

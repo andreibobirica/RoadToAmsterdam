@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -16,21 +17,25 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.engineDialog.DialogComposer;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.engineDialog.Dialogo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 /**Activity del dialogo, questa activity fa in modo di far apparire un dialogo animato a schermo.
  * Il suo obbiettivo è prendere da parametro Itent un valore, passarlo al DataGraberDialog, estrapolarne una pila di Oggetti dialogo,
  * e sistematicamente mostrarli all'utente in fila.
  * Per ultimo nella scelta da effettuare, se presente, registra la scelta, e la manda tramite parametro Intent alla Activity Precedente.
- * Sarà richiamata sempre Dalla PlatformActivity, Opzionalmente dal DialogBackgroundActivity, e mai da altre Activity.
- * Porterà sempre alla PlatformActivity, Opzionalmente alla DialogBackgroundActivity, e mai ad altre activity.
+ * Sarà richiamata sempre Dalla PlatformActivity, Opzionalmente dal DialogActivity, e mai da altre Activity.
+ * Porterà sempre alla PlatformActivity, Opzionalmente alla DialogActivity, e mai ad altre activity.
  * */
-public class DialogBackgroundActivity extends SoundBackgroundActivity {
+public class DialogActivity extends SoundBackgroundActivity {
 
     //CAMPI XML
 
@@ -128,7 +133,7 @@ public class DialogBackgroundActivity extends SoundBackgroundActivity {
                     scelta = (radioGroupScelte.getCheckedRadioButtonId() == radioSceltaTrue.getId());
                     Log.i("RTA", " sd: "+sceltaDecisiva+" "+scelta);
                 }
-                layoutButton.setVisibility(View.VISIBLE);
+                btn_avanti.setEnabled(true);
             }
         });
     }
@@ -172,7 +177,7 @@ public class DialogBackgroundActivity extends SoundBackgroundActivity {
             Dialogo d = dialoghi.pop();
             layoutScelte.setVisibility(View.INVISIBLE);
             layoutTextDialogo.setVisibility(View.VISIBLE);
-            textDialogo.setText(d.getBattuta());
+            scrollTest(d.getBattuta());
             nomePersDialogo2.setText(d.getNomePers());
             nomePersDialogo1.setText(d.getNomeOtherPers());
             fotoPers2.setImageBitmap(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(d.getNomeImmPers(), "drawable", getPackageName())));
@@ -185,12 +190,11 @@ public class DialogBackgroundActivity extends SoundBackgroundActivity {
                 }
                 else
                 {textScelta.setText(d.getScelta());}
+                btn_avanti.setEnabled(false);
                 radioSceltaTrue.setText(d.getScelte().get(0));
                 radioSceltaFalse.setText(d.getScelte().get(1));
                 layoutScelte.setVisibility(View.VISIBLE);
                 layoutTextDialogo.setVisibility(View.INVISIBLE);
-                //Set invisible Btn fino a quando non si sceglie, sarà mostrato dopo in caso si prema una delle due scelte
-                layoutButton.setVisibility(View.INVISIBLE);
                 //Modifica del SwitchScelta
                 switchScelta = false;
                 return true;
@@ -201,6 +205,11 @@ public class DialogBackgroundActivity extends SoundBackgroundActivity {
             }
         }else
         {
+            final Context c = getApplicationContext();
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(c, "Caricamento in Corso", Toast.LENGTH_LONG).show();}
+            });
             Intent intent = new Intent();
             intent.putExtra("scelta", scelta);
             setResult(RESULT_OK, intent);
@@ -216,5 +225,31 @@ public class DialogBackgroundActivity extends SoundBackgroundActivity {
     public void setDialoghi(Stack<Dialogo> dialoghi)
     {
         this.dialoghi = dialoghi;
+    }
+
+    public void scrollTest(final String testo)
+    {
+        //textDialogo.setText(testo);
+        final String text = testo;
+        final Handler handler = new Handler();
+        handler.post( new Runnable(){
+            private int k = 0;
+            StringBuilder testoParziale = new StringBuilder();
+            char[] testoChar = text.toCharArray();
+            public void run() {
+                if( k < testoChar.length )
+                {
+                    testoParziale.append(testoChar[k]);
+                    textDialogo.setText(testoParziale.toString());
+                    btn_avanti.setEnabled(false);
+                    handler.postDelayed(this, 18);
+                }
+                else
+                {
+                    btn_avanti.setEnabled(true);
+                }
+                k++;
+            }
+        });
     }
 }

@@ -177,12 +177,4 @@ public class Ostacolo extends GameObject {
             this.img = img;
             animation.setFrames(getGif(img));
     }
-    /**
-     * Metodo che ritorna il numero di frame
-     * @return numero int di frame
-     */
-    public int getNFrame()
-    {return nframe;}
-
-
 }

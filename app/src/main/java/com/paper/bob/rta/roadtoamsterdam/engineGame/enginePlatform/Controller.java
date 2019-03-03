@@ -2,6 +2,7 @@ package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform;
 
 import android.graphics.Rect;
 import android.os.Handler;
+import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformActivity;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.GameObject;
@@ -25,9 +26,9 @@ public class Controller{
 
     //VETTORI DI MOVIMENTO Player
     private int dx,dy,dDown = 0;
-    private final int vx = 125;
-    private final int vy = 225;
-    private final int vdDown = 450;
+    private final int vx = 150;
+    private final int vy = 250;
+    private final int vdDown = 500;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
     /**Variabili che indicano se le azioni sono state concluse ed eseguite, o sono in corso d'opera.*/
@@ -288,8 +289,9 @@ public class Controller{
                             if(p.getNotify())
                             {end=false;break;}
                         }
-                        if(end)
-                        plActivity.finish();
+                        if(end) {
+                            plActivity.finish();
+                        }
                     }
                     break;
                 }

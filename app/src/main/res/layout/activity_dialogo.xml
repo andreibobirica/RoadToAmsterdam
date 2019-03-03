@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
-    tools:context="com.paper.bob.rta.roadtoamsterdam.activity.DialogBackgroundActivity">
+    tools:context="com.paper.bob.rta.roadtoamsterdam.activity.DialogActivity">
 
     <ImageView
         android:id="@+id/sfondoDialogo"
@@ -16,7 +16,7 @@
         android:adjustViewBounds="false"
         android:cropToPadding="false"
         android:scaleType="fitXY"
-        app:srcCompat="?attr/colorControlActivated" />
+        app:srcCompat="?attr/colorBackgroundFloating" />
     <RelativeLayout
         android:id="@+id/layoutDialogo2"
         android:layout_width="match_parent"
@@ -39,6 +39,7 @@
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/nomePersDialogo2"
                 android:layout_width="wrap_content"
@@ -46,8 +47,11 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="32dp"
+                android:fontFamily="cursive"
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@android:color/background_dark"
+                android:textSize="36sp"
                 app:layout_constraintBottom_toTopOf="@+id/fotoPersDialogo2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -133,7 +137,7 @@
 
                     <RadioButton
                         android:id="@+id/radioButtonTrue"
-                        style="@android:style/Widget.Holo.Light.CompoundButton.RadioButton"
+                        style="@android:style/Widget.Material.CompoundButton.RadioButton"
                         android:layout_width="300dp"
                         android:layout_height="50dp"
                         android:layout_above="@+id/radioButtonFalse"
@@ -141,7 +145,8 @@
                         android:layout_weight="1"
                         android:duplicateParentState="false"
                         android:scaleY="1.2"
-                        android:text="RadioButton" />
+                        android:text="RadioButton"
+                        android:textAppearance="@style/TextAppearance.AppCompat" />
 
                     <RadioButton
                         android:id="@+id/radioButtonFalse"
@@ -179,6 +184,7 @@
         </android.support.constraint.ConstraintLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/layoutDialogo1"
         android:layout_width="match_parent"
@@ -186,16 +192,21 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="240dp">
+
         <TextView
             android:id="@+id/nomePersDialogo1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="151dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginEnd="178dp"
+            android:layout_marginTop="17dp"
+            android:fontFamily="cursive"
             android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@android:color/background_dark" />
+
         <ImageView
             android:id="@+id/fotoPersDialogo1"
             android:layout_width="match_parent"

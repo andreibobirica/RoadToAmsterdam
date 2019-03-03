@@ -28,7 +28,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".activity.DialogBackgroundActivity"
+            android:name=".activity.DialogActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
