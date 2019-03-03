@@ -1,11 +1,10 @@
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.ProgressBar;
 
@@ -36,12 +35,18 @@ public class GameComposerActivity extends SoundBackgroundActivity {
     private Boolean scelta;
 
     private SharedPreferences prefs;
-    private ProgressDialog progressDialog;
+
+    private ProgressBar progressBar;
+    private int progress = 0;
+    private Handler myHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_composer);
+        progressBar = findViewById(R.id.progressBar);
+
+        //Save Game
         prefs = this.getSharedPreferences("roadtoamsterdam", MODE_PRIVATE);
         //Creazione dei contenitori di Ambiente EnviromentContainer
         this.createEnviroments();
@@ -143,9 +148,11 @@ public class GameComposerActivity extends SoundBackgroundActivity {
             startActivity(i);
         } else if (!checkPlatform && contPrincipale.getPlatform() != null) {
             checkPlatform = true;
+            /*
             Intent i = new Intent(this, PlatformActivity.class);
             i.putExtra("platform", contPrincipale.getPlatform());
-            startActivityForResult(i, 1);
+            startActivityForResult(i, 1);*/
+            goPlatformActivityBar();
         } else {
             contPrincipale.setScelta(scelta);
             if (contPrincipale.verifyScelta()) {
@@ -159,6 +166,48 @@ public class GameComposerActivity extends SoundBackgroundActivity {
                 System.exit(0);
             }
         }
+    }
+
+    public void goPlatformActivity()
+    {
+        Intent i = new Intent(this, PlatformActivity.class);
+        i.putExtra("platform", contPrincipale.getPlatform());
+        startActivityForResult(i, 1);
+    }
+
+    public void goPlatformActivityBar()
+    {
+        myHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg)
+            {
+                Log.i("RTA",progress+"");
+                if(msg.what ==0 && progress < 100)
+                {
+                    progress++;
+                    progressBar.setProgress(progress);
+                }
+                else if(progress==100)
+                {
+                    goPlatformActivity();
+                }
+            }
+        };
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i< 200; i++) {
+                    try {
+                        Thread.sleep(10);
+                        myHandler.sendEmptyMessage(0);
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 
 }

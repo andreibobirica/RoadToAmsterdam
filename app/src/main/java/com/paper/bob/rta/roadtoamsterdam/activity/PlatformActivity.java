@@ -168,7 +168,7 @@ public class PlatformActivity extends SoundBackgroundActivity {
         super.onPause();
         Log.i("RTA", "OnPause");
         //Pausa del engineGame, specialmente del Thred di gioco
-        engineGame.stopView();
+        //engineGame.stopView();
         //Pausa dei suoni
         ArrayList<Sound> sounds = engineGame.getSounds();
         for (Sound s : sounds) {s.pause();}

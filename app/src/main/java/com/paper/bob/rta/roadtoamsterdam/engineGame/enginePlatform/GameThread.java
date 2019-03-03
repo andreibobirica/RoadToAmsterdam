@@ -35,8 +35,8 @@ public class GameThread extends Thread
         super();
         this.surfaceHolder = surfaceHolder;
         this.engGame = engGame;
+        canvas = null;
         Log.i("RTA", "Costruttore GameThread");
-
     }
 
     /**
@@ -55,16 +55,19 @@ public class GameThread extends Thread
         long timeDiff; // the time it took for the cycle to execute
         int sleepTime; // ms to sleep (<0 if we're behind)
         int framesSkipped; // number of frames being skipped
+        boolean cLocked = false;
         while(running) {
             //startTime = System.nanoTime();
-            canvas = null;
             //Editing Del Canvas in modo da poter realizzare una imagine dinamica
             try {
-                //Log.i("RTAloop", "try lookCanvas");
-                canvas = this.surfaceHolder.lockCanvas();
+                if (!cLocked){
+                    Log.i("RTA","Start Looked");
+                    canvas = this.surfaceHolder.lockCanvas();
+                    cLocked = true;
+                    Log.i("RTA","Looked");
+                }
                 synchronized (surfaceHolder) {
                     //Log.i("RTAloop", "Syncronized update and draw");
-
                     beginTime = System.currentTimeMillis();
                     framesSkipped = 0; // resetting the frames skipped
                     // update game state
@@ -107,7 +110,11 @@ public class GameThread extends Thread
             } finally {
                 if (canvas != null) {
                     try {
-                        surfaceHolder.unlockCanvasAndPost(canvas);
+                        //Unlocking
+                        if (cLocked) {
+                            surfaceHolder.unlockCanvasAndPost(canvas);
+                            cLocked = false;
+                        }
                         //Log.i("RTAloop", "UnlockCanvasand post");
 
                     } catch (Exception e) {
