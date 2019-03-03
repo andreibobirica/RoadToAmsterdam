@@ -22,6 +22,7 @@ public class GameThread extends Thread
     private final static int MAX_FRAME_SKIPS = 5;
     // the frame period
     private final static int FRAME_PERIOD = 1000 / MAX_FPS;
+    private boolean firstTime = true;
 
 
     /**
@@ -75,8 +76,9 @@ public class GameThread extends Thread
                     timeDiff = System.currentTimeMillis() - beginTime;
                     // calculate sleep time
                     sleepTime = (int)(FRAME_PERIOD - timeDiff);
-                    if (sleepTime > 0) {
+                    if (sleepTime > 0 && !firstTime) {
                         // if sleepTime > 0 we're OK
+                        firstTime=false;
                         try {
                             // send the thread to sleep for a short period
                             // very useful for battery saving
@@ -87,7 +89,8 @@ public class GameThread extends Thread
                         }
                     }
                     averageFPS = MAX_FPS;
-                    while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
+                    while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS && !firstTime) {
+                        firstTime=false;
                         // we need to catch up
                         // update without rendering
                         //Log.i("RTA", "sckippp frame ancd update");

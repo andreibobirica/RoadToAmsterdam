@@ -21,4 +21,6 @@ public class SoundBG {
     {
         mp.pause();
     }
+
+    public void clear() {mp.stop();mp.release();}
 }

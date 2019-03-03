@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -34,6 +33,9 @@ public class PlatformActivity extends SoundBackgroundActivity {
     private Controller control;
     private EngineGame engineGame;
     private boolean scelta;
+    private ImageButton btn_right;
+    private ImageButton btn_left;
+    private ImageButton btn_up;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -72,9 +74,10 @@ public class PlatformActivity extends SoundBackgroundActivity {
         super.onStart();
         Log.i("RTA", "OnStart");
         //GESTION HANDLER PER MOVIMENTO PLAYER, GESTION EVENTI CLICK BUTTON
-        final ImageButton btn_right = findViewById(R.id.btn_right);
-        final ImageButton btn_left = findViewById(R.id.btn_left);
-        final ImageButton btn_up = findViewById(R.id.btn_up);
+        btn_right = findViewById(R.id.btn_right);
+        btn_left = findViewById(R.id.btn_left);
+        btn_up = findViewById(R.id.btn_up);
+
         btn_right.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -124,9 +127,7 @@ public class PlatformActivity extends SoundBackgroundActivity {
                 if (state == TelephonyManager.CALL_STATE_RINGING) {
                     //Pausa dei suoni
                     ArrayList<Sound> sounds = engineGame.getSounds();
-                    for (Sound s : sounds) {
-                        s.pause();
-                    }
+                    for (Sound s : sounds) {s.pause();}
                     SoundBackgroundActivity.stop();
                 } else if (state == TelephonyManager.CALL_STATE_IDLE) {
                     SoundBackgroundActivity.play();
@@ -152,8 +153,14 @@ public class PlatformActivity extends SoundBackgroundActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        engineGame.recycle();
         Log.i("RTA", "onDestroy");
+        //Riciclo gli elementi del EngineGame
+        engineGame.recycle();
+        engineGame = null;
+        //Annullo i listener per i btn
+        btn_left.setOnClickListener(null);
+        btn_up.setOnClickListener(null);
+        btn_right.setOnClickListener(null);
     }
 
     @Override
@@ -176,8 +183,6 @@ public class PlatformActivity extends SoundBackgroundActivity {
         super.onResume();
         Log.i("RTA", "OnResume");
         engineGame.startView();
-        //Play dei suoni
-        //engineGame.getSoundBG().play();
     }
 
     /**
@@ -187,6 +192,9 @@ public class PlatformActivity extends SoundBackgroundActivity {
      */
     @Override
     public void finish() {
+        //Stop and claer SoundBackGround
+        SoundBackgroundActivity.clear();
+
         Intent intent = new Intent();
         intent.putExtra("scelta", scelta);
         setResult(RESULT_OK, intent);
@@ -215,6 +223,7 @@ public class PlatformActivity extends SoundBackgroundActivity {
     public void avviaDialogo(String d) {
         runOnUiThread(new runableAvviaDialogo(d));
     }
+
     private class runableAvviaDialogo implements Runnable {
         private String d;
         public runableAvviaDialogo(String d) {this.d= d;}

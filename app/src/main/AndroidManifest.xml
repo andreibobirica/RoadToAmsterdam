@@ -37,7 +37,9 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".activity.GameComposerActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="landscape"
+            />
         <activity
             android:name=".activity.SoundBackgroundActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -45,7 +47,8 @@
         <activity
             android:name=".MenuActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:screenOrientation="landscape">
         </activity>
     </application>
 

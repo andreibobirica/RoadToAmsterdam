@@ -241,6 +241,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
             control.setObjColl(objColl);
             control.setPers(personaggi);
             //Setto al controller i suoni
+            //Log.i("RTA","caricamento e play bg sound");
             control.setSounds(sounds);
 
             //INIZIO GAME//THREAD Game
@@ -253,6 +254,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
             //SUONI
             //sbg.play();
             //THREAD Game
+            SoundBackgroundActivity.play();
             gameLoop = new GameThread(getHolder(), this);
             gameLoop.setRunning(true);
             gameLoop.start();
@@ -277,7 +279,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
              */
             boolean retry = true;
             int counter = 0;
-            while (retry && counter < 1000) {
+            while (retry && counter < 100) {
                 counter++;
                 try {
                     gameLoop.setRunning(false);
@@ -288,8 +290,8 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
                     e.printStackTrace();
                 }
             }
+            SoundBackgroundActivity.stop();
             Log.i("RTA", "End Stop View");
-
         }
     }
 
@@ -404,6 +406,10 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         control = null;
         sounds = null;
         levelName = null;
+        getHolder().getSurface().release();
+        mScaleDetector = new ScaleGestureDetector(context, null);
+        mScaleDetector = null;
+
     }
 
     /**
