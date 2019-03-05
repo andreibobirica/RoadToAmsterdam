@@ -33,7 +33,6 @@ public class GameComposerActivity extends SoundBackgroundActivity {
     private Boolean scelta;
 
     private SharedPreferences prefs;
-    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,7 @@ public class GameComposerActivity extends SoundBackgroundActivity {
     private void createEnviroments() {
         conts = new ArrayList<>();
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //0
-        conts.add(new EnvironmentContainer(null, null, "padovacasello")); //1
+        conts.add(new EnvironmentContainer(null, null, "austria")); //1
         conts.add(new EnvironmentContainer("dam420", null, "padovacasello")); //2
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //3
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //4
@@ -63,7 +62,8 @@ public class GameComposerActivity extends SoundBackgroundActivity {
 
         for (int i = 0; i < conts.size(); i++) {
             if (conts.get(i).getId() == 0) {
-                conts.get(i).setNext(conts.get(1), conts.get(1));
+                //Se true Austria, se False Svizzera
+                conts.get(i).setNext(conts.get(1), conts.get(2));
             }
             if (conts.get(i).getId() == 1) {
                 conts.get(i).setNext(conts.get(2), conts.get(2));

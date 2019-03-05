@@ -42,7 +42,15 @@ public class MenuActivity extends AppCompatActivity
         btnCarPartita.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast.makeText(c,"Caricamento In Corso",Toast.LENGTH_LONG).show();
-                launchSaveGame();
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                launchSaveGame();
+                            }
+                        },
+                        5
+                );
             }
         });
 
@@ -68,7 +76,7 @@ public class MenuActivity extends AppCompatActivity
         String Key = "com.paper.bob.rta.roadtoamsterdam.environmentcontainer";
         // use a default value using new Date()
         String envcont = prefs.getString(Key,"");
-        Log.i("RTA",envcont);
+        Log.i("RTA","Level save: n."+envcont);
         if(!envcont.equals(""))return true;
         return false;
     }

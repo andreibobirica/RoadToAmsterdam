@@ -23,9 +23,6 @@ import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.engineDialog.DialogComposer;
 import com.paper.bob.rta.roadtoamsterdam.engineGame.engineDialog.Dialogo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
 
 /**Activity del dialogo, questa activity fa in modo di far apparire un dialogo animato a schermo.
@@ -69,6 +66,7 @@ public class DialogActivity extends SoundBackgroundActivity {
     /**Scelta del dialogo, nel caso necessaria o presente*/
     private boolean scelta = false;
     private boolean sceltaDecisiva = false;
+    private boolean sceltaDecisivaDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,26 +112,25 @@ public class DialogActivity extends SoundBackgroundActivity {
         btn_avanti.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    radioSceltaFalse.setChecked(false);
-                    radioSceltaTrue.setChecked(false);
+                    //Setto un Listener per la radio Group in maniera di capire quando si sceglie un radioButton
+                    radioGroupScelte.setOnCheckedChangeListener(null);
+                    radioGroupScelte.clearCheck();
+                    radioGroupScelte.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+                    {
+                        public void onCheckedChanged(RadioGroup group, int checkedId)
+                        {
+                            //Applicazione Scelta
+                            if(sceltaDecisiva) {
+                                scelta = (radioGroupScelte.getCheckedRadioButtonId() == radioSceltaTrue.getId());
+                                Log.i("RTA", " sd: "+sceltaDecisiva+" "+scelta);
+                            }
+                            btn_avanti.setEnabled(true);
+                        }
+                    });
                     sceltaDecisiva=false;
                     applyDialog(dialoghi);
                 }
                 return false;
-            }
-        });
-
-        //Setto un Listener per la radio Group in maniera di capire quando si sceglie un radioButton
-        radioGroupScelte.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
-            public void onCheckedChanged(RadioGroup group, int checkedId)
-            {
-                //Applicazione Scelta
-                if(sceltaDecisiva) {
-                    scelta = (radioGroupScelte.getCheckedRadioButtonId() == radioSceltaTrue.getId());
-                    Log.i("RTA", " sd: "+sceltaDecisiva+" "+scelta);
-                }
-                btn_avanti.setEnabled(true);
             }
         });
     }
@@ -177,15 +174,16 @@ public class DialogActivity extends SoundBackgroundActivity {
             Dialogo d = dialoghi.pop();
             layoutScelte.setVisibility(View.INVISIBLE);
             layoutTextDialogo.setVisibility(View.VISIBLE);
-            scrollTest(d.getBattuta());
+            scrollTest(d.getBattuta(),d);
             nomePersDialogo2.setText(d.getNomePers());
             nomePersDialogo1.setText(d.getNomeOtherPers());
             fotoPers2.setImageBitmap(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(d.getNomeImmPers(), "drawable", getPackageName())));
             fotoPers1.setImageBitmap(BitmapFactory.decodeResource(getResources(), getResources().getIdentifier(d.getNomeImmOtherPers(), "drawable", getPackageName())));
+            sceltaDecisiva=false;
             if (switchScelta) {
                 if(d.getScelta().contains("§"))
                 {
-                    sceltaDecisiva=true;
+                    sceltaDecisivaDone = sceltaDecisiva = true;
                     textScelta.setText(d.getScelta().replace("§",""));
                 }
                 else
@@ -211,8 +209,10 @@ public class DialogActivity extends SoundBackgroundActivity {
                     Toast.makeText(c, "Caricamento in Corso", Toast.LENGTH_LONG).show();}
             });
             Intent intent = new Intent();
-            intent.putExtra("scelta", scelta);
-            setResult(RESULT_OK, intent);
+            if(sceltaDecisivaDone) {
+                intent.putExtra("scelta", scelta);
+                setResult(RESULT_OK, intent);
+            }
             finish();
         }
         return false;
@@ -227,7 +227,7 @@ public class DialogActivity extends SoundBackgroundActivity {
         this.dialoghi = dialoghi;
     }
 
-    public void scrollTest(final String testo)
+    public void scrollTest(final String testo, final Dialogo d)
     {
         //textDialogo.setText(testo);
         final String text = testo;
@@ -246,6 +246,8 @@ public class DialogActivity extends SoundBackgroundActivity {
                 }
                 else
                 {
+                    Log.i("RTA",d.toString());
+                    if(!d.getBattuta().equals(""))
                     btn_avanti.setEnabled(true);
                 }
                 k++;
