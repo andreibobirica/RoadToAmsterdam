@@ -38,9 +38,17 @@ public class GameComposerActivity extends SoundBackgroundActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_composer);
-        prefs = this.getSharedPreferences("roadtoamsterdam", MODE_PRIVATE);
+        prefs = this.getSharedPreferences("com.paper.bob.rta.roadtoamsterdam", MODE_PRIVATE);
         //Creazione dei contenitori di Ambiente EnviromentContainer
         this.createEnviroments();
+        //Ripristino del livello salvato
+        this.restoreSaveLevel();
+    }
+
+    private void restoreSaveLevel() {
+        //Ripristino Salvataggi
+        int level = getIntent().getExtras().getInt("savegame");
+        contPrincipale = conts.get(level);
     }
 
     /**
@@ -81,9 +89,6 @@ public class GameComposerActivity extends SoundBackgroundActivity {
                 conts.get(i).setNext(conts.get(6), conts.get(6));
             }
         }
-
-        //Si parte dal primo Enviroment
-        contPrincipale = conts.get(0);
     }
 
     @Override
@@ -121,13 +126,7 @@ public class GameComposerActivity extends SoundBackgroundActivity {
      * Questo permette al Motore di gioco di essere adattabile ad ogni esigenza narrativa.
      */
     public void startGame() {
-        //Salvataggio dei dati
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("gamesave", contPrincipale.getId());
-        editor.apply();
-        int savegame = prefs.getInt("gamesave", 0);
-        Log.i("RTA", "risultato savegame:" + savegame);
-
+        //Inizio operazioni di scelta parti del EnvironmentContainer
         if (!checkVideo && contPrincipale.getVideo() != null) {
             checkVideo = true;
             Intent i = new Intent(this, VideoActivity.class);
@@ -146,9 +145,18 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         } else {
             contPrincipale.setScelta(scelta);
             if (contPrincipale.verifyScelta()) {
+                //Prelevare il livello successivo
                 Log.i("RTA", contPrincipale.toString());
                 contPrincipale = new EnvironmentContainer(contPrincipale.getNext());
+                //Aggiornamento savegame ocn il livello
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("savegame", contPrincipale.getId());
+                editor.apply();
+                int savegame = prefs.getInt("savegame", 0);
+                Log.i("RTA", "SaveGame Aggiornato:" + savegame);
+                //Annullamento dei vari check
                 checkPlatform = checkDialogo = checkVideo = false;
+                //Ripartire con il metodo ricorsivo
                 startGame();
             } else {
                 Log.i("RTA", "\n\t@END GAME");

@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.GameComposerActivity;
 import com.paper.bob.rta.roadtoamsterdam.activity.SplashActivity;
+import com.paper.bob.rta.roadtoamsterdam.activity.VideoActivity;
 
 import java.util.Date;
 
@@ -54,6 +55,21 @@ public class MenuActivity extends AppCompatActivity
             }
         });
 
+        btnNuovaPartita.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Toast.makeText(c,"Caricamento In Corso",Toast.LENGTH_LONG).show();
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                launchNewGame();
+                            }
+                        },
+                        5
+                );
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -67,24 +83,31 @@ public class MenuActivity extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
-        if(getSaveData())
+        if(getSaveData() == 0)
         {btnCarPartita.setEnabled(false);}
     }
 
-    public boolean getSaveData()
+    public int getSaveData()
     {
-        String Key = "com.paper.bob.rta.roadtoamsterdam.environmentcontainer";
         // use a default value using new Date()
-        String envcont = prefs.getString(Key,"");
-        Log.i("RTA","Level save: n."+envcont);
-        if(!envcont.equals(""))return true;
-        return false;
+        int savegame = prefs.getInt("savegame", 0);
+        Log.i("RTA","Level save: n."+ savegame);
+        return savegame;
     }
 
     private void launchSaveGame() {
         Intent intent = new Intent(this, GameComposerActivity.class);
+        intent.putExtra("savegame", getSaveData());
         startActivity(intent);
     }
+
+    private void launchNewGame() {
+        Intent intent = new Intent(this, GameComposerActivity.class);
+        intent.putExtra("savegame", 0);
+        startActivity(intent);
+    }
+
+
 
     @Override
     public void onBackPressed() {

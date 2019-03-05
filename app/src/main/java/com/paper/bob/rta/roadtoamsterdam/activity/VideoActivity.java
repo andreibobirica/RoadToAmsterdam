@@ -16,7 +16,12 @@ public class VideoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+    }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
         VideoView view = findViewById(R.id.videoView);
         String video = getIntent().getExtras().getString("video");
         String path = "android.resource://" + getPackageName() + "/raw/" + video;
@@ -29,6 +34,7 @@ public class VideoActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
 
