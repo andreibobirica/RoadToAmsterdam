@@ -86,6 +86,14 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
                 width = context.getResources().getDimensionPixelSize(R.dimen.piattaforma_linea_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.piattaforma_linea_height);
                 break;
+            case "piccolo_vert":
+                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_vert_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_vert_height);
+                break;
+            case "piccolo_oriz":
+                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_oriz_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_oriz_height);
+                break;
             default:
                 width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_height);

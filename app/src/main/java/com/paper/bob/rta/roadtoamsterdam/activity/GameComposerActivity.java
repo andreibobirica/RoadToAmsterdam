@@ -59,9 +59,9 @@ public class GameComposerActivity extends SoundBackgroundActivity {
      */
     private void createEnviroments() {
         conts = new ArrayList<>();
-        conts.add(new EnvironmentContainer(null, null, "padovacasello")); //0
-        conts.add(new EnvironmentContainer(null, null, "austria")); //1
-        conts.add(new EnvironmentContainer("dam420", null, "padovacasello")); //2
+        conts.add(new EnvironmentContainer("vid1", null, "padovacasello")); //0
+        conts.add(new EnvironmentContainer("vid2", "2d0", "austria")); //1
+        conts.add(new EnvironmentContainer(null, null, "austria")); //2
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //3
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //4
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //5
@@ -135,7 +135,7 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         } else if (!checkDialogo && contPrincipale.getDialogo() != null) {
             checkDialogo = true;
             Intent i = new Intent(this, DialogActivity.class);
-            i.putExtra("dialogo", contPrincipale.getDialogo());
+            i.putExtra("nomeDialogo", contPrincipale.getDialogo());
             startActivity(i);
         } else if (!checkPlatform && contPrincipale.getPlatform() != null) {
             checkPlatform = true;

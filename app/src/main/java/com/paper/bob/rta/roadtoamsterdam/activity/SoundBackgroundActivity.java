@@ -22,7 +22,7 @@ public class SoundBackgroundActivity extends AppCompatActivity {
 
     public static void clear()
     {
-        Log.i("RTAbg","playcanzone");
+        //Log.i("RTAbg","playcanzone");
         soundBGplayed=false;
         soundBG.stop();
         soundBG.clear();
@@ -31,7 +31,7 @@ public class SoundBackgroundActivity extends AppCompatActivity {
 
     public static void play() {
         if(!soundBGplayed) {
-            Log.i("RTAbg","playcanzone");
+            //Log.i("RTAbg","playcanzone");
             soundBGplayed = true;
             soundBG.play();
         }
@@ -40,7 +40,7 @@ public class SoundBackgroundActivity extends AppCompatActivity {
     public static void stop()
     {
         if(soundBGplayed) {
-            Log.i("RTAbg","stopcanzone");
+            //Log.i("RTAbg","stopcanzone");
             soundBGplayed = false;
             soundBG.stop();
         }

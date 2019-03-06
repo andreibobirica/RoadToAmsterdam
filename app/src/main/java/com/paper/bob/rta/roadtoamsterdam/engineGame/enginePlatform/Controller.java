@@ -42,7 +42,7 @@ public class Controller{
     private final int numSalti = 1;
     private int jumpedNumber;
 
-    public static boolean debugMode = true;
+    public static boolean debugMode = false;
     private ArrayList<Personaggio> personaggi;
 
 

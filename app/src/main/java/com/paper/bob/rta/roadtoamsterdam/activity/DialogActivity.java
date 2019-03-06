@@ -189,8 +189,10 @@ public class DialogActivity extends SoundBackgroundActivity {
                 else
                 {textScelta.setText(d.getScelta());}
                 btn_avanti.setEnabled(false);
-                radioSceltaTrue.setText(d.getScelte().get(0));
-                radioSceltaFalse.setText(d.getScelte().get(1));
+                if(d!=null) {
+                    radioSceltaTrue.setText(d.getScelte().get(0));
+                    radioSceltaFalse.setText(d.getScelte().get(1));
+                }
                 layoutScelte.setVisibility(View.VISIBLE);
                 layoutTextDialogo.setVisibility(View.INVISIBLE);
                 //Modifica del SwitchScelta

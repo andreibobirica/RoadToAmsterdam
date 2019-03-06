@@ -18,6 +18,10 @@
     <dimen name="ostacolo_normale_oriz_height">180dp</dimen>
     <dimen name="ostacolo_piccolo_quad_width">90dp</dimen>
     <dimen name="ostacolo_piccolo_quad_height">90dp</dimen>
+    <dimen name="ostacolo_piccolo_vert_width">50dp</dimen>
+    <dimen name="ostacolo_piccolo_vert_height">300dp</dimen>
+    <dimen name="ostacolo_piccolo_oriz_width">150dp</dimen>
+    <dimen name="ostacolo_piccolo_oriz_height">100dp</dimen>
     <dimen name="ostacolo_normale_quad_width">250dp</dimen>
     <dimen name="ostacolo_normale_quad_height">250dp</dimen>
     <dimen name="ostacolo_piccolo_width">50dp</dimen>
