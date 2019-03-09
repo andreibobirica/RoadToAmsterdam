@@ -90,6 +90,10 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
                 width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_vert_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_vert_height);
                 break;
+            case "picss_vert":
+                width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_picss_vert_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_picss_vert_height);
+                break;
             case "piccolo_oriz":
                 width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_oriz_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_oriz_height);

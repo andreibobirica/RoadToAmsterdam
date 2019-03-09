@@ -65,7 +65,7 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         conts = new ArrayList<>();
         conts.add(new EnvironmentContainer("vid1", null, "padovacasello")); //0
         conts.add(new EnvironmentContainer("vid2", "2d0", "austria")); //1
-        conts.add(new EnvironmentContainer(null, null, "austria")); //2
+        conts.add(new EnvironmentContainer(null, null, "svizzera")); //2
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //3
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //4
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //5

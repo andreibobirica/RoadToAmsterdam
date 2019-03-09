@@ -27,7 +27,7 @@ public class Controller{
     //VETTORI DI MOVIMENTO Player
     private int dx,dy,dDown = 0;
     private final int vx = 150;
-    private final int vy = 250;
+    private final int vy = 280;
     private final int vdDown = 500;
 
     private boolean mRight=false,mLeft=false,mUp=false,mDown=true;
@@ -38,7 +38,7 @@ public class Controller{
      * La variabile numSalti indica il numero massimo di salti che il player può fare
      * La variabile jumpedNumber serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
-    private int dTime = 450;
+    private int dTime = 550;
     private final int numSalti = 1;
     private int jumpedNumber;
 
