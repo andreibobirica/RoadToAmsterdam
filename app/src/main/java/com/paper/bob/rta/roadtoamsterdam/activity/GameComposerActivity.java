@@ -49,6 +49,10 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         //Ripristino Salvataggi
         int level = getIntent().getExtras().getInt("savegame");
         contPrincipale = conts.get(level);
+        //Aggiornamento savegame con il livello
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("savegame", level);
+        editor.apply();
     }
 
     /**

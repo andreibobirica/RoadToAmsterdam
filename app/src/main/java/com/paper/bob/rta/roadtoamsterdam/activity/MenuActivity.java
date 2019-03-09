@@ -1,32 +1,27 @@
-package com.paper.bob.rta.roadtoamsterdam;
+package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.paper.bob.rta.roadtoamsterdam.R;
 import com.paper.bob.rta.roadtoamsterdam.activity.GameComposerActivity;
-import com.paper.bob.rta.roadtoamsterdam.activity.SplashActivity;
-import com.paper.bob.rta.roadtoamsterdam.activity.VideoActivity;
 
-import java.util.Date;
-
-public class MenuActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SharedPreferences prefs;
     private Button btnNuovaPartita;
@@ -107,11 +102,9 @@ public class MenuActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-
-
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -126,7 +119,6 @@ public class MenuActivity extends AppCompatActivity
         return true;
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -134,10 +126,29 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_share) {
-
+            Log.i("RTA","navShare");
+            String shareSub = "ShareSub Soggetto del share";
+            String shareBody = "ShareBody body corpo del share";
+            Intent in = new Intent(Intent.ACTION_SEND);
+            in.putExtra(Intent.EXTRA_SUBJECT,shareSub);
+            in.putExtra(Intent.EXTRA_TEXT,shareBody);
+            in.setType("text/plain");
+            startActivity(Intent.createChooser(in,"Share using"));
+        }
+        else if(id == R.id.nav_relazione)
+        {
+            Log.i("RTA","naRelazione");
+            Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+        else if(id == R.id.nav_settings)
+        {
+            Log.i("RTA","navSettings");
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

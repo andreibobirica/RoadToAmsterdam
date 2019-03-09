@@ -45,7 +45,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".MenuActivity"
+            android:name=".activity.MenuActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/AppTheme"
             android:screenOrientation="landscape">
