@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+  -->
+
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <gradient

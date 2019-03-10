@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+  -->
+
 <resources>
     <string name="app_name">Road To Amsterdam</string>
     <string name="title_activity_login">Sign in</string>

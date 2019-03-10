@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+  -->
+
 <resources>
     <dimen name="ostacolo_grande_width">175dp</dimen>
     <dimen name="ostacolo_grande_height">350dp</dimen>

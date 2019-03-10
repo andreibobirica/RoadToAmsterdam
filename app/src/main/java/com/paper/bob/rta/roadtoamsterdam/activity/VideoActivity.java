@@ -33,6 +33,10 @@ public class VideoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Avvio della Main Activity in FullScrean
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //Eliminazione Title BAR
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_video);
         pbSkip = findViewById(R.id.skipProgressBar);
     }
@@ -41,10 +45,6 @@ public class VideoActivity extends AppCompatActivity {
     protected void onStart()
     {
         super.onStart();
-        //Avvio della Main Activity in FullScrean
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //Eliminazione Title BAR
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //Inizializzazione propietà della videoView
         final Context c = getApplicationContext();
         view = findViewById(R.id.videoView);

@@ -1,4 +1,8 @@
 
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
 package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
