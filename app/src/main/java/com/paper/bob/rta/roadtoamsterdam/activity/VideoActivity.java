@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.content.Context;
@@ -10,6 +14,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -35,6 +41,10 @@ public class VideoActivity extends AppCompatActivity {
     protected void onStart()
     {
         super.onStart();
+        //Avvio della Main Activity in FullScrean
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //Eliminazione Title BAR
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //Inizializzazione propietà della videoView
         final Context c = getApplicationContext();
         view = findViewById(R.id.videoView);

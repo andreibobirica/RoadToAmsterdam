@@ -1,16 +1,25 @@
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.EnvironmentContainer;
+import com.paper.bob.rta.roadtoamsterdam.gameUtils.EnvironmentContainer;
 
 import java.util.ArrayList;
 
+/**
+ * Activity GameComposerActivity, questa Activity non ha una view vera e prorpio, o meglio, non dovrebbe mai apparire in quanto ha solo
+ * lo scopo di caricare e gestire il passaggio tra le altre View.
+ * In pratica questa Acitivity gestisce il cambiamento di EnvirnmentContaine, quindi livelli, e avvia automaticamente ogni parte di essi
+ * quali VideoAcitivyt, DialogAcitity, e PlatformAcitivyt.
+ */
 public class GameComposerActivity extends SoundBackgroundActivity {
 
     /**
@@ -32,8 +41,15 @@ public class GameComposerActivity extends SoundBackgroundActivity {
      */
     private Boolean scelta;
 
+    /**
+     * Campo sharedPreferences, contiene le informazioni salvate in un file XML apposito di Android, sul quale si salverà anche il savegame
+     */
     private SharedPreferences prefs;
 
+    /**
+     * Metodo onCreate richiamato dall'activityLyfeCycle
+     * @param savedInstanceState Parametro non uttilizzato, servirebbe per la gestione delle risorse di javaRuntime
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +57,18 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         prefs = this.getSharedPreferences("com.paper.bob.rta.roadtoamsterdam", MODE_PRIVATE);
         //Creazione dei contenitori di Ambiente EnviromentContainer
         this.createEnviroments();
-        //Ripristino del livello salvato
+        //Ripristino del livello salvato e salvataggio del livello corrente
         this.restoreSaveLevel();
     }
 
+    /**
+     * Metodo che ripristina il livello dal savegame.
+     * Implementando il concetto di salvataggio, l'id del environmentContainer, del livello per semplificare, viene salvato
+     * nelle sharedPreferences, un file XML di android apposito.
+     * Il controllo delle sharedPreferences avviene nel menu, questo metodo raccoglie il parametro passato tramite Intent.
+     * una volta raccolto l'id del livello, viene inizializzato contPrincipale col livello corretto. successivamente viene sovrascitto
+     * il savegame, con le sharedPreferences, per aggiornare il savegame nel caso si volesse iniziare una NUOVA PARTITA.
+     */
     private void restoreSaveLevel() {
         //Ripristino Salvataggi
         int level = getIntent().getExtras().getInt("savegame");
@@ -63,6 +87,7 @@ public class GameComposerActivity extends SoundBackgroundActivity {
      */
     private void createEnviroments() {
         conts = new ArrayList<>();
+        //Lista EnvirnmentContainer, livelli quindi
         conts.add(new EnvironmentContainer("vid1", null, "padovacasello")); //0
         conts.add(new EnvironmentContainer("vid2", "2d0", "austria")); //1
         conts.add(new EnvironmentContainer(null, null, "svizzera")); //2
@@ -70,8 +95,9 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //4
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //5
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //6
-
-
+        // Inizializzazione del filone narrattivo, impostando per ogni livello le possibili diramazioni.
+        //Nel caos esistano delle diramazioni diverse vengono impostati livelli diversi, altrimenti viene
+        //assegnato lo stesso livello a entrambe le due diramazioni.
         for (int i = 0; i < conts.size(); i++) {
             if (conts.get(i).getId() == 0) {
                 //Se true Austria, se False Svizzera
@@ -95,11 +121,17 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         }
     }
 
+    /**
+     * Metodo onStart richiamato dall'activityLyfeCycle
+     */
     @Override
     protected void onStart() {
         super.onStart();
     }
 
+    /**
+     * Metodo onResume richiamato dall'activityLyfeCycle
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -108,9 +140,15 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         this.startGame();
     }
 
+    /**
+     * Metodo richiamato dall'activity Lyfe Cycle, questo metodo viene richiamato perchè si utilizza un Intent per passare un
+     * parametro tra due activity, una volta chiasa la activity del dialogo, essa , se necessario, ritorna un parametro tramite intent
+     * che è la scelta effettuata dal giocatore.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //Request code deve essere uguale a 1, in questo caso l'Intent è stato passatto correttamente e non ci sono stati errori
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 scelta = data.getBooleanExtra("scelta", false);

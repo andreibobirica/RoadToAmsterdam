@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.os.Bundle;
@@ -6,20 +10,40 @@ import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundBG;
 
+/**
+ * Acitivyt , pseudo Astratta, non è una ascitivyt vera e proprio, non ha View e non viene mai richiamata dalgi intent o dalgi startAcitivity.
+ * Questa pseudo Acitivity Astratta serve solo per essere poi successivamente estesa da altre activity.
+ * Per implementare il Suono comune della soundTrack di background per più acitivity in maniera comune e senza interruzioni si è trovato
+ * questa modalità per la quale gestendo il riferimento al campo statico SoundBG da questa actiivty, il suono della musica è su tutte le acitivty che estendono questa
+ * pseudo acitivity.
+ */
 public class SoundBackgroundActivity extends AppCompatActivity {
 
+    /**Campo SoundBG contenente il riferimento SoundBG adebito al play o al pause della musica di background*/
     private static SoundBG soundBG;
+    /**Campo che indica se la musica di background è stata già avviata oppure no*/
     private static boolean soundBGplayed = false;
 
+    /**
+     * Metodo che serve per settare un oggetto SoundBG, il riferimento al oggetto che fa partire la musica di background
+     * @param soundBG
+     */
     public static void setSoundBG(SoundBG soundBG) {
         SoundBackgroundActivity.soundBG = soundBG;
     }
 
+    /**
+     * Metodo onCreate richiamto automaticamente dall'actiivyt Life Cycke
+     * @param savedInstanceState parametro non utilizzato che serve per la gestione delle risorse di Android Runtime
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Metodo clear che serve per pulire le celle di memoria del SoundBg in maniera da non lasciare tracce e memoria corrotta sul dispositivo
+     */
     public static void clear()
     {
         //Log.i("RTAbg","playcanzone");
@@ -29,6 +53,9 @@ public class SoundBackgroundActivity extends AppCompatActivity {
         soundBG=null;
     }
 
+    /**
+     * Metodo play che avvia la musica di background
+     */
     public static void play() {
         if(!soundBGplayed) {
             //Log.i("RTAbg","playcanzone");
@@ -37,6 +64,9 @@ public class SoundBackgroundActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Metodo stop che stoppa la musica di background
+     */
     public static void stop()
     {
         if(soundBGplayed) {
@@ -45,6 +75,10 @@ public class SoundBackgroundActivity extends AppCompatActivity {
             soundBG.stop();
         }
     }
+
+    /**
+     * Metodo onPause richiamto automaticamente dall'actiivyt Life Cycle
+     */
     @Override
     protected void onPause()
     {
@@ -56,6 +90,9 @@ public class SoundBackgroundActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Metodo onResume richiamto automaticamente dall'actiivyt Life Cycke
+     */
     @Override
     protected void onResume()
     {

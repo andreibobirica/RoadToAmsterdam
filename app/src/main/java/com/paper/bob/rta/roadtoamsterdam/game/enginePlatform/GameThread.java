@@ -1,4 +1,8 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform;
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -126,8 +130,17 @@ public class GameThread extends Thread
         running=b;
     }
 
+    /**
+     * Metodo che ritorna la media di FPS istantanea
+     * @return
+     */
     public static double getAverangeFPS()
     {return averageFPS;}
 
+    /**
+     * Metodo che ritorna gli FPS massimi impostati di defoult che l'aplicazione può raggiongere, è un valore astratto in quanto non
+     * sarà mai vero che gli FPS saranno sempre Questi costantaneamente
+     * @return
+     */
     public static int getMAX_FPS(){return MAX_FPS;}
 }

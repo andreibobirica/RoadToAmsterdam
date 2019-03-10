@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
 package com.paper.bob.rta.roadtoamsterdam.gameUtils;
 
 import android.content.Context;
@@ -6,12 +10,12 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Background;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Base;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Background;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Base;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Player;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

@@ -1,9 +1,13 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects;
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.EngineGame;
 
 /**
  * Ostacolo è un elemento di gioco estensione del elemento astratto GameObject.

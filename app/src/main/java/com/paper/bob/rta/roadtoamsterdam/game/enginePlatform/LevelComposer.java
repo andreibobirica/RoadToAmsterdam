@@ -1,20 +1,27 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform;
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform;
 
 import android.content.Context;
 
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Background;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Base;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Notify;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Background;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Base;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Notify;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataXMLGraberPlatform;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.SoundBG;
 
 import java.util.ArrayList;
 
-
+/**
+ * Classe adebita alla creazione di un livello Platform , questa classe utillizzando il datagrabberPlatform crea i vari componenti di un
+ * Platform, e gli ritorna al EngineGame in sè.
+ */
 public class LevelComposer {
 
     private DataXMLGraberPlatform dtGraber;//Campo che si occupa di Prelevare tutti i dati neccessari al Game, incluse le sue Istanze
@@ -62,10 +69,18 @@ public class LevelComposer {
     }
 
 
+    /**
+     * Metodo che ritorna i suoni di gioco
+     * @return ArrayList contenente oggetti di tipo Sound, cioè i suoni di gioco
+     */
     public ArrayList<Sound> getSounds() {
         return dtGraber.getSounds(infoLevel);
     }
 
+    /**
+     * Metodo che ritorna il Sound di Background
+     * @return SoundBg oggetto adebito al controllo del suono di background
+     */
     public SoundBG getSoundBG() {
         return dtGraber.getSoundBG(infoLevel);
     }

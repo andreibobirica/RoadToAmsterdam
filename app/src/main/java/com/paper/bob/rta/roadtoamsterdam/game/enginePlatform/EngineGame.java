@@ -1,4 +1,8 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform;
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,16 +22,15 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.SoundBackgroundActivity;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Background;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Base;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.GameObject;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Notify;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Background;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Base;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.GameObject;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Notify;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
@@ -385,6 +388,10 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         return true;
     }
 
+    /**
+     * Metodo recycle che serve per riciclare gli elementi utillizzati e pulire le celle di memoria, in maniera da liberare spazio
+     * e non generare leak di memoria che potrebbero rallentare l'applicazione ma anche il dispositivo stesso
+     */
     public void recycle() {
         //Recycle all the Bitmap
         for(int i = 0; i < personaggi.size(); i++)

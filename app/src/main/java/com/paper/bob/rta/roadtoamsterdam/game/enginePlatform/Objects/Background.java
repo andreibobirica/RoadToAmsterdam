@@ -1,14 +1,17 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects;
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Controller;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Controller;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Player;
 
 /**
  * Classe Background che è un elemento del EngineGame, è lo sfondo del platformgame, è lo sfondo da visualizzare.

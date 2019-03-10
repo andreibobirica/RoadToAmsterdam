@@ -1,4 +1,8 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects;
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects;
 import android.graphics.Bitmap;
 
 /**

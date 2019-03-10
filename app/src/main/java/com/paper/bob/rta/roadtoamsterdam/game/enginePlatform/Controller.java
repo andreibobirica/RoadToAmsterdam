@@ -1,14 +1,17 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform;
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform;
 
 import android.graphics.Rect;
 import android.os.Handler;
-import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformActivity;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.GameObject;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Personaggio;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person.Player;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.GameObject;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Personaggio;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.Player;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 
 import java.util.ArrayList;
@@ -114,6 +117,9 @@ public class Controller{
         }
     }
 
+    /**
+     * Metodo che serve per variare il vettore del salto Dy e simulare una decelerazione gravitazionale del salto
+     */
     public void accelerateDY()
     {
         int ret = dy-1;
@@ -121,6 +127,9 @@ public class Controller{
         if(this.dy==0 && !mUp){this.dDown = 0;}
     }
 
+    /**
+     * Metodo che serve per variare il vettore del caduta dDown e simulare una accelerazione gravitazionale della caduta
+     */
     public void accelerateDDown()
     {
         int ret = dDown+1;
@@ -300,12 +309,19 @@ public class Controller{
         return ret;
     }
 
+    /**
+     * Metodo update richimato dal GamThread a cadenza di frame
+     */
     public void update()
     {
         if(!mUp)
         accelerateDDown();
     }
 
+    /**
+     * Metodo che serve per adattare i vettori di movimento al numero effettivo di FPS, in questo modo anche se variano gli FPS
+     * i vettori di movimento variano, permettendo di avere una velocità costante e non variabile in base agli FPS.
+     */
     public void adaptVectorXYfps()
     {
         float ret = 2*(vx/(1000 / GameThread.getMAX_FPS()));
@@ -380,6 +396,9 @@ public class Controller{
         }
     }
 
+    /**
+     * Metodo che playa il suono del Crush contro un oggetto
+     */
     private void playSoundCrush()
     {
         if(!alreadyCrush) {
@@ -391,6 +410,10 @@ public class Controller{
         }
     }
 
+    /**
+     * Metodo che ritorno il campo dTime, campo che contiene il tempo di salto
+     * @return int tempo di salto massimo
+     */
     public int getDTime() {
         return dTime;
     }

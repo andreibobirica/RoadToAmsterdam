@@ -1,9 +1,9 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person;
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Ostacolo;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Ostacolo;
 
 
 public class Personaggio extends Ostacolo {

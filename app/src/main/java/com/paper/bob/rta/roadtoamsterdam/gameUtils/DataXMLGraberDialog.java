@@ -1,10 +1,14 @@
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
 package com.paper.bob.rta.roadtoamsterdam.gameUtils;
 
 
 import android.content.Context;
 import android.util.Log;
 
-import com.paper.bob.rta.roadtoamsterdam.engineGame.engineDialog.Dialogo;
+import com.paper.bob.rta.roadtoamsterdam.game.engineDialog.Dialogo;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="AndreiBobirica" pattern="src[app]:com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Background||src[app]:com.paper.bob.rta.roadtoamsterdam.game.engineDialog.*||src[app]:com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person.*||src[app]:com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.*||src[app]:com.paper.bob.rta.roadtoamsterdam.activity.*||src[app]:com.paper.bob.rta.roadtoamsterdam.gameUtils.*||src[app]:com.paper.bob.rta.roadtoamsterdam.*||src[app]:*" />
+</component>

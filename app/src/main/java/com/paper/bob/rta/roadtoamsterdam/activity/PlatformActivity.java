@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.annotation.SuppressLint;
@@ -18,25 +22,39 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Controller;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Controller;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.EngineGame;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.Sound;
 
 import java.util.ArrayList;
 
+/**
+ * Acitivity Platform, questa acitivity gestisce la fase platform del gioco, il gioco 2d vero e proprio.
+ * è estensione di SoundBackgroundAcitivity in quanto deve avere anche lui il suono di background del Environment
+ */
 public class PlatformActivity extends SoundBackgroundActivity {
 
     /**Variabili adette ai sensori*/
     protected PowerManager.WakeLock mWakeLock;
     private PhoneStateListener phoneStateListener;
     /**Campi che sevono per il motore di gioco*/
+
+    /**Campo controller con il riferimento al controller, che gestisce i movimenti del player e tutte le analogie al concetto di movimento*/
     private Controller control;
+    /**Motore di gioco vero e proprio*/
     private EngineGame engineGame;
+    /**Campo che indica la scelta effetuata dall'utente nella acitivity Dialog*/
     private boolean scelta;
+
+    /**Riferimenti ai button per il movimento*/
     private ImageButton btn_right;
     private ImageButton btn_left;
     private ImageButton btn_up;
 
+    /**
+     * Metodo onCreate richiamto automaticamente dal ActivityLyfeCycle
+     * @param savedInstanceState parametro non uttilizzato, si utilizza per gestire le risorse nel Android Runtime
+     */
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +86,9 @@ public class PlatformActivity extends SoundBackgroundActivity {
         engineGame.setContext(this);
     }
 
+    /**
+     * Metodo onStart richiamto automaticamente dal ActivityLyfeCycle
+     */
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onStart() {
@@ -98,12 +119,9 @@ public class PlatformActivity extends SoundBackgroundActivity {
         if (mgr != null) {mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);}
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.i("RTA", "onsTOP");
-    }
-
+    /**
+     * Metodo onDestroy richiamto automaticamente dal ActivityLyfeCycle
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -113,6 +131,9 @@ public class PlatformActivity extends SoundBackgroundActivity {
         engineGame = null;
     }
 
+    /**
+     * Metodo onPause richiamto automaticamente dal ActivityLyfeCycle
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -128,6 +149,9 @@ public class PlatformActivity extends SoundBackgroundActivity {
 
     }
 
+    /**
+     * Metodo onResume richiamto automaticamente dal ActivityLyfeCycle
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -201,6 +225,10 @@ public class PlatformActivity extends SoundBackgroundActivity {
         super.finish();
     }
 
+    /**
+     * Metodo che registra il parametro di ritorno passato dalla chiusura della actiivy Dialog.
+     * Il parametro contiene la scelta , se necessaria, effettuata durante il dialogo.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -216,13 +244,20 @@ public class PlatformActivity extends SoundBackgroundActivity {
     /**
      * Metodo che richiamato dal Controller fa avviare un'altra activity con le informazioni che le servono.
      * In particolare avvia l'activity del dialogo e lo fa scegliere passandogli un parametro stringa
-     *
      * @param d parametro che indica il nome del dialogo , il suo identificativo
      */
     public void avviaDialogo(String d) {
         runOnUiThread(new runableAvviaDialogo(d));
     }
 
+    /**
+     * Classe privata che serve solamente per creare una animazione di caricamento prima di avviare un dialogo
+     * Il caricamento di una certa acitity necessita di tempo, e se il tempo su detterminati dispositivi è lungo
+     * può risultare molto fatico per l'utente avere una esperienza ottimale.
+     * Per questo motivo si uttilizzano tecnologie come i Task o i Thread per eseguire animazioni assestanti al Thread principale della Ui
+     * Utilizzando queste escamotage, si può implementare un caricamento come in questo caso con una barra di caricamento e un emssaggio illustrativo.
+     * Viene utilizzato una classe per il semplice motivo che è molto più immediato rispetto all'utilizzo di una funzione adebita allo stesso ragionamento.
+     */
     private class runableAvviaDialogo implements Runnable {
         private String d;
         public runableAvviaDialogo(String d) {this.d= d;}

@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
 package com.paper.bob.rta.roadtoamsterdam.activity;
 
 import android.content.Context;
@@ -20,8 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.engineDialog.DialogComposer;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.engineDialog.Dialogo;
+import com.paper.bob.rta.roadtoamsterdam.game.engineDialog.DialogComposer;
+import com.paper.bob.rta.roadtoamsterdam.game.engineDialog.Dialogo;
 
 import java.util.Stack;
 
@@ -65,9 +69,16 @@ public class DialogActivity extends SoundBackgroundActivity {
     private String nomeDialogo;
     /**Scelta del dialogo, nel caso necessaria o presente*/
     private boolean scelta = false;
+    /**Campo che serve a registrare se la scelta è la decisiva oppure no*/
     private boolean sceltaDecisiva = false;
+    /**Campo che serve per identificare se si ha già segnato la scelta decisiva*/
     private boolean sceltaDecisivaDone = false;
 
+    /**
+     * Metodo onCreate richiamato dall'AcitivytLyfeCycle
+     * @param savedInstanceState Parametro, non uttilizzato, che servirebbe per ripristinare la sessione in caso di una eliminazione
+     * delle risorse dovuta al java Runtime.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +98,9 @@ public class DialogActivity extends SoundBackgroundActivity {
         Log.i("RTA","\n@DIALOGO\t"+nomeDialogo);
     }
 
+    /**
+     * Metodo onStart richiamato dall'activityLyfeCycle
+     */
     @Override
     public void onStart()
     {
@@ -122,7 +136,7 @@ public class DialogActivity extends SoundBackgroundActivity {
                             //Applicazione Scelta
                             if(sceltaDecisiva) {
                                 scelta = (radioGroupScelte.getCheckedRadioButtonId() == radioSceltaTrue.getId());
-                                Log.i("RTA", " sd: "+sceltaDecisiva+" "+scelta);
+                                //Log.i("RTA", " sd: "+sceltaDecisiva+" "+scelta);
                             }
                             btn_avanti.setEnabled(true);
                         }
@@ -135,6 +149,9 @@ public class DialogActivity extends SoundBackgroundActivity {
         });
     }
 
+    /**
+     * Metodo oResume richiamato dall'activityLyfeCycle
+     */
     @Override
     public void onResume()
     {
@@ -142,6 +159,7 @@ public class DialogActivity extends SoundBackgroundActivity {
         /*Compositore di dialoghi che crea e restituisce i dialoghi*/
         DialogComposer dc = new DialogComposer(nomeDialogo, this);
         setDialoghi(dc.getDialoghi());
+        //Richiamo la funzione aplyDialoghi che applica i dialoghi alla view, mostrandoli e formattandoli sotto forma di Pila
         applyDialog(dialoghi);
     }
 
@@ -229,6 +247,13 @@ public class DialogActivity extends SoundBackgroundActivity {
         this.dialoghi = dialoghi;
     }
 
+    /**
+     * Metodo che dato un testo , e un oggetto Dialogo applica al TextView una animazione per la quale
+     * il testo si vede apparire un carrattere alla volta, consecutivamente
+     * Il metodo utilizza concetti come lgi Handler e il delay nel richiamare un Handler ricorsivamente
+     * @param testo
+     * @param d
+     */
     public void scrollTest(final String testo, final Dialogo d)
     {
         //textDialogo.setText(testo);

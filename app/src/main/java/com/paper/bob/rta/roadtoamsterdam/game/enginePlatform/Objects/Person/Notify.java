@@ -1,11 +1,11 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Person;
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects.Background;
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Background;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.EngineGame;
 import com.paper.bob.rta.roadtoamsterdam.gameUtils.DataXMLGraberPlatform;
 
 /**

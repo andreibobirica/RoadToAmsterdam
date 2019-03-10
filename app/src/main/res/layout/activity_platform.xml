@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame
+    <com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.EngineGame
         android:id="@+id/enginegame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

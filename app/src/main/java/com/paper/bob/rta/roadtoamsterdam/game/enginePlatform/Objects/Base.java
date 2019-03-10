@@ -1,11 +1,15 @@
-package com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.Objects;
+/*
+ * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ */
+
+package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects;
 
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.paper.bob.rta.roadtoamsterdam.engineGame.enginePlatform.EngineGame;
+import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.EngineGame;
 
 /**
  * Base è un elemento del EngineGame il quale ha come scopo il bloccare il player dalla caduta eterna verso il basso
