@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+  ~ Copyright (c)
+  ~ Road To Amsterdam, RTA
+  ~ Andrei Cristian Bobirica - Matteo Pedron
+  ~ Classe 5IA 2019
   -->
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

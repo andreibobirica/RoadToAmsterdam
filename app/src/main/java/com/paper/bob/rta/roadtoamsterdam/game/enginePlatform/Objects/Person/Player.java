@@ -1,6 +1,9 @@
 
 /*
- * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ * Copyright (c)
+ * Road To Amsterdam, RTA
+ * Andrei Cristian Bobirica - Matteo Pedron
+ * Classe 5IA 2019
  */
 
 package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Person;

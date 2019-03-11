@@ -1,5 +1,8 @@
 /*
- * Copyright (c) Andrei Cristian Bobirica Classe 5IA 2019
+ * Copyright (c)
+ * Road To Amsterdam, RTA
+ * Andrei Cristian Bobirica - Matteo Pedron
+ * Classe 5IA 2019
  */
 
 package com.paper.bob.rta.roadtoamsterdam.activity;
@@ -88,13 +91,14 @@ public class GameComposerActivity extends SoundBackgroundActivity {
     private void createEnviroments() {
         conts = new ArrayList<>();
         //Lista EnvirnmentContainer, livelli quindi
-        conts.add(new EnvironmentContainer("vid1", null, "padovacasello")); //0
-        conts.add(new EnvironmentContainer("vid2", "2d0", "austria")); //1
-        conts.add(new EnvironmentContainer(null, null, "svizzera")); //2
+        conts.add(new EnvironmentContainer("vid0", null, "padovacasello")); //0
+        conts.add(new EnvironmentContainer("vid1", "2d0", "austria")); //1
+        conts.add(new EnvironmentContainer("vid2", null, "svizzera")); //2
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //3
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //4
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //5
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //6
+        conts.add(new EnvironmentContainer("fin1", null, null)); //7
         // Inizializzazione del filone narrattivo, impostando per ogni livello le possibili diramazioni.
         //Nel caos esistano delle diramazioni diverse vengono impostati livelli diversi, altrimenti viene
         //assegnato lo stesso livello a entrambe le due diramazioni.
@@ -103,11 +107,13 @@ public class GameComposerActivity extends SoundBackgroundActivity {
                 //Se true Austria, se False Svizzera
                 conts.get(i).setNext(conts.get(1), conts.get(2));
             }
+            //Sempre Germania
             if (conts.get(i).getId() == 1) {
                 conts.get(i).setNext(conts.get(2), conts.get(2));
             }
+            //Se True FINE, se false Germania
             if (conts.get(i).getId() == 2) {
-                conts.get(i).setNext(conts.get(3), conts.get(3));
+                conts.get(i).setNext(conts.get(7), conts.get(3));
             }
             if (conts.get(i).getId() == 3) {
                 conts.get(i).setNext(conts.get(4), conts.get(4));
