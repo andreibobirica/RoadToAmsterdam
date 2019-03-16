@@ -9,6 +9,8 @@ package com.paper.bob.rta.roadtoamsterdam.game.enginePlatform;
 
 import android.graphics.Rect;
 import android.os.Handler;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformActivity;
 import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.GameObject;
@@ -50,6 +52,10 @@ public class Controller{
 
     public static boolean debugMode = false;
     private ArrayList<Personaggio> personaggi;
+    /**
+     * Campo che indica il tempo in cui il toast è stato fatto scattere l'ultima volta
+     */
+    private double toastLast=System.currentTimeMillis();
 
 
     /**
@@ -304,6 +310,10 @@ public class Controller{
                         if(end) {
                             plActivity.finish();
                         }
+                        else
+                        {
+                            plActivity.makeToast("Cerca e dialoga con tutti i personaggi prima di continuare...");
+                        }
                     }
                     break;
                 }
@@ -319,6 +329,12 @@ public class Controller{
     {
         if(!mUp)
         accelerateDDown();
+        //Resetto il Toast dopo un certo tempo maniera che nel caso l'utente non abbia finito i dialoghi glieli faccia apparire
+        if(System.currentTimeMillis()-toastLast>5000)
+        {
+            toastLast=System.currentTimeMillis();
+            plActivity.makeToast(null);
+        }
     }
 
     /**

@@ -23,6 +23,7 @@ import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.SoundBackgroundActivity;
 import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.Objects.Background;
@@ -406,6 +407,7 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         //Setto a null così il Garbage Collector farà il suo lavoro
         getHolder().getSurface().release();
     }
+
 
     /**
      * Metodo listener che appena ricere che il trascinamento è stato terminato  scala le coordinate

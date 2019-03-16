@@ -94,7 +94,7 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         conts.add(new EnvironmentContainer("vid0", null, "padovacasello")); //0
         conts.add(new EnvironmentContainer("vid1", "2d0", "austria")); //1
         conts.add(new EnvironmentContainer("vid2", null, "svizzera")); //2
-        conts.add(new EnvironmentContainer(null, null, "padovacasello")); //3
+        conts.add(new EnvironmentContainer(null, null, "germania")); //3
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //4
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //5
         conts.add(new EnvironmentContainer(null, null, "padovacasello")); //6
@@ -109,7 +109,7 @@ public class GameComposerActivity extends SoundBackgroundActivity {
             }
             //Sempre Germania
             if (conts.get(i).getId() == 1) {
-                conts.get(i).setNext(conts.get(2), conts.get(2));
+                conts.get(i).setNext(conts.get(3), conts.get(3));
             }
             //Se True FINE, se false Germania
             if (conts.get(i).getId() == 2) {

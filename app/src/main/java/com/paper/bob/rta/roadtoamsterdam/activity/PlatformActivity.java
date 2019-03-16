@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -53,6 +54,8 @@ public class PlatformActivity extends SoundBackgroundActivity {
     private ImageButton btn_right;
     private ImageButton btn_left;
     private ImageButton btn_up;
+    /** Variabile che viene utilizzata per far apparire il Toast*/
+    private boolean alreadyToast = true;
 
     /**
      * Metodo onCreate richiamto automaticamente dal ActivityLyfeCycle
@@ -251,6 +254,28 @@ public class PlatformActivity extends SoundBackgroundActivity {
      */
     public void avviaDialogo(String d) {
         runOnUiThread(new runableAvviaDialogo(d));
+    }
+
+    /**
+     * Metodo che serve per far apparire un messaggio Toast All'interno della applicazione, tramite una variabile di controllo areadyToast
+     * controlla se il Toast è stato già fatto apparire oppure no, in modo tale che in caso il metodo venga richiamato molte volte nel update, non ci sia
+     * un sovraccarico di Toast.
+     * @param s Stringa da far apparire nel toast, se nel caso è null allora si resetta il alreadyToast
+     */
+    public void makeToast(final String s) {
+        if(s==null)
+        {alreadyToast=false;}
+        else
+        {
+            if (!alreadyToast) {
+                alreadyToast=true;
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
     }
 
     /**
