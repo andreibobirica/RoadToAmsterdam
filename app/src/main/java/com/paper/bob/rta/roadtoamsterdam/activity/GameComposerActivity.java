@@ -94,35 +94,43 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         conts.add(new EnvironmentContainer("vid0", null, "padovacasello")); //0
         conts.add(new EnvironmentContainer("vid1", "2d0", "austria")); //1
         conts.add(new EnvironmentContainer("vid2", null, "svizzera")); //2
-        conts.add(new EnvironmentContainer(null, null, "germania")); //3
-        conts.add(new EnvironmentContainer(null, null, "padovacasello")); //4
-        conts.add(new EnvironmentContainer(null, null, "padovacasello")); //5
-        conts.add(new EnvironmentContainer(null, null, "padovacasello")); //6
-        conts.add(new EnvironmentContainer("fin1", null, null)); //7
+        conts.add(new EnvironmentContainer("vid3", null, "germania")); //3
+        conts.add(new EnvironmentContainer(null, null, "amsterdam")); //4
+        conts.add(new EnvironmentContainer(null, null, "amsterdamhigh")); //5
+        conts.add(new EnvironmentContainer("fin1", null, null)); //6
+        conts.add(new EnvironmentContainer(null,"fd2", null)); //7
+        conts.add(new EnvironmentContainer("fin2", null, null)); //8
         // Inizializzazione del filone narrattivo, impostando per ogni livello le possibili diramazioni.
         //Nel caos esistano delle diramazioni diverse vengono impostati livelli diversi, altrimenti viene
         //assegnato lo stesso livello a entrambe le due diramazioni.
         for (int i = 0; i < conts.size(); i++) {
             if (conts.get(i).getId() == 0) {
+                //Padova
                 //Se true Austria, se False Svizzera
                 conts.get(i).setNext(conts.get(1), conts.get(2));
             }
+            //Austria
             //Sempre Germania
             if (conts.get(i).getId() == 1) {
                 conts.get(i).setNext(conts.get(3), conts.get(3));
             }
-            //Se True FINE, se false Germania
+            //Svizzera
+            //Se True FINE 1, se false Germania
             if (conts.get(i).getId() == 2) {
-                conts.get(i).setNext(conts.get(7), conts.get(3));
+                conts.get(i).setNext(conts.get(6), conts.get(3));
             }
+            //Germania
+            //Se True Fine 2, se false Amsterdam
             if (conts.get(i).getId() == 3) {
-                conts.get(i).setNext(conts.get(4), conts.get(4));
+                conts.get(i).setNext(conts.get(7), conts.get(4));
             }
+            //Sempre Amsterdam High
             if (conts.get(i).getId() == 4) {
                 conts.get(i).setNext(conts.get(5), conts.get(5));
             }
-            if (conts.get(i).getId() == 5) {
-                conts.get(i).setNext(conts.get(6), conts.get(6));
+            //Sempre Finito Dialog Fin paSsare a Video Fin 2
+            if (conts.get(i).getId() == 7) {
+                conts.get(i).setNext(conts.get(8), conts.get(8));
             }
         }
     }
@@ -208,6 +216,11 @@ public class GameComposerActivity extends SoundBackgroundActivity {
                 startGame();
             } else {
                 Log.i("RTA", "\n\t@END GAME");
+                //Aggiornamento savegame ocn il livello 0
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("savegame", 0);
+                editor.apply();
+                //fish
                 finishAffinity();
                 System.exit(0);
             }

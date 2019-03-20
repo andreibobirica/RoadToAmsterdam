@@ -26,7 +26,7 @@ public class GameThread extends Thread
     // desired fps
     private final static int MAX_FPS = 60;
     // maximum number of frames to be skipped
-    private final static int MAX_FRAME_SKIPS = 5;
+    private final static int MAX_FRAME_SKIPS = 20;
     // the frame period
     private final static int FRAME_PERIOD = 1000 / MAX_FPS;
     private boolean firstTime = true;
@@ -72,7 +72,7 @@ public class GameThread extends Thread
                 synchronized (surfaceHolder) {
                     //Log.i("RTAloop", "Syncronized update and draw");
 
-                    beginTime = System.currentTimeMillis();
+                    beginTime = System.nanoTime();
                     framesSkipped = 0; // resetting the frames skipped
                     // update game state
                     this.engGame.update();
@@ -80,7 +80,7 @@ public class GameThread extends Thread
                     // draws the canvas on the panel
                     this.engGame.draw(canvas);
                     // calculate how long did the cycle take
-                    timeDiff = System.currentTimeMillis() - beginTime;
+                    timeDiff = System.nanoTime() - beginTime;
                     // calculate sleep time
                     sleepTime = (int)(FRAME_PERIOD - timeDiff);
                     if (sleepTime > 0 && !firstTime) {
@@ -89,7 +89,7 @@ public class GameThread extends Thread
                         try {
                             // send the thread to sleep for a short period
                             // very useful for battery saving
-                            //Log.i("RTA", "-----------scleep");
+                            Log.i("RTA", "-----------scleep");
                             //Log.i("RTAloop", "Sleep");
                             Thread.sleep(sleepTime);
                         } catch (InterruptedException e) {Log.i("RTA", "Exception look canvas"+e);
@@ -100,7 +100,8 @@ public class GameThread extends Thread
                         firstTime=false;
                         // we need to catch up
                         // update without rendering
-                        //Log.i("RTA", "sckippp frame ancd update");
+                        engGame.print("RTA sckippp frame ancd update");
+                        System.out.println("RTA sckippp frame ancd update");
 
                         this.engGame.update();
                         // add frame period to check if in next frame
@@ -115,7 +116,6 @@ public class GameThread extends Thread
                 if (canvas != null) {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
-                        //Log.i("RTAloop", "UnlockCanvasand post");
 
                     } catch (Exception e) {
                         e.printStackTrace();

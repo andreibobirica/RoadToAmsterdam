@@ -50,7 +50,7 @@ public class Controller{
     private final int numSalti = 1;
     private int jumpedNumber;
 
-    public static boolean debugMode = false;
+    public static boolean debugMode = true;
     private ArrayList<Personaggio> personaggi;
     /**
      * Campo che indica il tempo in cui il toast è stato fatto scattere l'ultima volta
@@ -344,10 +344,27 @@ public class Controller{
     public void adaptVectorXYfps()
     {
         float ret = 2*(vx/(1000 / GameThread.getMAX_FPS()));
-        dx = (ret<5) ? 15 : (int) ret;
+        dx = ((ret<5) ? 15 : (int) ret);
+        dx = positionAdapter(dx);
         ret = 2*(vy/(1000 / GameThread.getMAX_FPS()));
-        dy = (ret<5) ? 15 : (int) ret;
+        dy = ((ret<5) ? 15 : (int) ret);
+        dy = positionAdapter(dy);
         dDown = 0;
+    }
+
+    /**
+     * Metodo che adatta la velocità alla garndezza dello schermo
+     * @param x vettore da adattare alla grandezza dello schermo
+     * @return
+     */
+    private int positionAdapter(int x)
+    {
+        int screenWidth = EngineGame.WIDTH;
+        int screenHeight = EngineGame.HEIGHT;
+        if(x==0)
+        {return 0;}
+        else
+        {return (x*screenWidth)/1280;}
     }
 
     //ACTIVITY

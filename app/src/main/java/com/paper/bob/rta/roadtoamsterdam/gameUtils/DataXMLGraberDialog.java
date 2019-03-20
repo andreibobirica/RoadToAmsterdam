@@ -31,6 +31,7 @@ public class DataXMLGraberDialog extends DataXMLGraber {
         //Log.i("RTA", String.valueOf(battute.getLength())+"Leght battute");
         for(int i = 0; i< battute.getLength(); i++)
         {
+            Log.i("RTA","Battuta");
             Node battuta = battute.item(i);
             String nomePers = battuta.getAttributes().getNamedItem("nomePers").getNodeValue();
             String nomeImmPers = battuta.getAttributes().getNamedItem("immPers").getNodeValue();

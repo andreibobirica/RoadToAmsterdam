@@ -408,6 +408,10 @@ public class EngineGame extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().getSurface().release();
     }
 
+    public void print(String s) {
+        Log.i("RTA",s);
+    }
+
 
     /**
      * Metodo listener che appena ricere che il trascinamento è stato terminato  scala le coordinate

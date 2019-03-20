@@ -18,6 +18,7 @@ import android.os.PowerManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -277,6 +278,18 @@ public class PlatformActivity extends SoundBackgroundActivity {
             }
         }
     }
+
+    /**Overiding del metodo onKeyDown per non farlgi eseguire nessuna azione del caso in cui venga premuto
+     * il pulsante indietro all'interno del gioco*/
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5 && keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {onBackPressed();return true;}
+        return super.onKeyDown(keyCode, event);
+    }
+    /**Overiding del metodo onBackPressed per non farlgi eseguire nessuna azione del caso in cui venga premuto
+     * il pulsante indietro all'interno del gioco*/
+    @Override
+    public void onBackPressed() {}
 
     /**
      * Classe privata che serve solamente per creare una animazione di caricamento prima di avviare un dialogo
