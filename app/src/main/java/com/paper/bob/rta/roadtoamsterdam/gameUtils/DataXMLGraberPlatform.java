@@ -105,6 +105,11 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
                 width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_oriz_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_piccolo_oriz_height);
                 break;
+            case "person":
+                width = context.getResources().getDimensionPixelSize(R.dimen.person_width);
+                height= context.getResources().getDimensionPixelSize(R.dimen.person_height);
+                break;
+
             default:
                 width = context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_width);
                 height= context.getResources().getDimensionPixelSize(R.dimen.ostacolo_normale_height);
@@ -231,6 +236,15 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
         Bitmap imgL = BitmapFactory.decodeResource(context.getResources(), resIdL,options);
         int resIdR = context.getResources().getIdentifier(imgName+"right", "drawable", context.getPackageName());
         Bitmap imgR = BitmapFactory.decodeResource(context.getResources(), resIdR,options);
+        //Immagine Up
+        int resIdUp = context.getResources().getIdentifier(imgName+"up", "drawable", context.getPackageName());
+        Bitmap imgUp = BitmapFactory.decodeResource(context.getResources(), resIdUp,options);
+        //Image UpRight Up left
+        int resIdLUp = context.getResources().getIdentifier(imgName+"leftup", "drawable", context.getPackageName());
+        Bitmap imgLUp = BitmapFactory.decodeResource(context.getResources(), resIdLUp,options);
+        int resIdRUp = context.getResources().getIdentifier(imgName+"rightup", "drawable", context.getPackageName());
+        Bitmap imgRUp = BitmapFactory.decodeResource(context.getResources(), resIdRUp,options);
+
         //Posizione
         int x = Integer.parseInt(pl.getAttributes().getNamedItem("x").getNodeValue());
         int y = Integer.parseInt(pl.getAttributes().getNamedItem("y").getNodeValue());
@@ -243,14 +257,13 @@ public class DataXMLGraberPlatform extends DataXMLGraber {
         //Adattamento della risoluzione relativa
         x = positionAdapter(x,y)[0];
         y = positionAdapter(x,y)[1];
-        //CREATING ANIMATION GIF
-
         //Creazione Player
         Player play = new Player(img,x,y,height,width,nFrame);
-        play.setJumpLAnim(imgL);
-        play.setJumpRAnim(imgR);
+        play.setJumpLAnim(imgLUp);
+        play.setJumpRAnim(imgRUp);
         play.setLeftAnim(imgL);
         play.setRightAnim(imgR);
+        play.setUpAnima(imgUp);
         Log.i("RTA", "- Player");
         return play;
     }

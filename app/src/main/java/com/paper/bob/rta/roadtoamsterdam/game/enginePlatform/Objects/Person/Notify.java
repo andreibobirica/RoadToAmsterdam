@@ -92,11 +92,28 @@ public class Notify{
     public static void setBgCoord(Background bg)
     {bgCoord = bg;}
 
+    /**
+     * Metodo setX che serve a settare la coordinata X
+     * @param x coordinata X
+     */
     public void setX(int x)
     {this.x = x;}
+    /**
+     * Metodo setX che serve a settare la coordinata Y
+     * @param y coordinata Y
+     */
     public void setY(int y)
     {this.y = y;}
+
+    /**
+     * Metodo getX che ritorna la coordinata X
+     * @return coordianta x
+     */
     public int getX(){return x;}
+    /**
+     * Metodo getX che ritorna la coordinata Y
+     * @return coordianta y
+     */
     public int getY(){return y;}
 
 

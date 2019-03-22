@@ -95,42 +95,72 @@ public class GameComposerActivity extends SoundBackgroundActivity {
         conts.add(new EnvironmentContainer("vid1", "2d0", "austria")); //1
         conts.add(new EnvironmentContainer("vid2", null, "svizzera")); //2
         conts.add(new EnvironmentContainer("vid3", null, "germania")); //3
-        conts.add(new EnvironmentContainer(null, null, "amsterdam")); //4
-        conts.add(new EnvironmentContainer(null, null, "amsterdamhigh")); //5
+        conts.add(new EnvironmentContainer("vid4", null, "amsterdam")); //4
+        conts.add(new EnvironmentContainer("vid5", null, "amsterdamhigh")); //5
         conts.add(new EnvironmentContainer("fin1", null, null)); //6
         conts.add(new EnvironmentContainer(null,"fd2", null)); //7
         conts.add(new EnvironmentContainer("fin2", null, null)); //8
+        conts.add(new EnvironmentContainer("fin3", null, null)); //9
+        conts.add(new EnvironmentContainer("fin4", null, null)); //10
+        conts.add(new EnvironmentContainer("fin5", null, null)); //11
+        conts.add(new EnvironmentContainer("titoli", null, null)); //12
         // Inizializzazione del filone narrattivo, impostando per ogni livello le possibili diramazioni.
         //Nel caos esistano delle diramazioni diverse vengono impostati livelli diversi, altrimenti viene
         //assegnato lo stesso livello a entrambe le due diramazioni.
         for (int i = 0; i < conts.size(); i++) {
-            if (conts.get(i).getId() == 0) {
-                //Padova
-                //Se true Austria, se False Svizzera
-                conts.get(i).setNext(conts.get(1), conts.get(2));
-            }
-            //Austria
-            //Sempre Germania
-            if (conts.get(i).getId() == 1) {
-                conts.get(i).setNext(conts.get(3), conts.get(3));
-            }
-            //Svizzera
-            //Se True FINE 1, se false Germania
-            if (conts.get(i).getId() == 2) {
-                conts.get(i).setNext(conts.get(6), conts.get(3));
-            }
-            //Germania
-            //Se True Fine 2, se false Amsterdam
-            if (conts.get(i).getId() == 3) {
-                conts.get(i).setNext(conts.get(7), conts.get(4));
-            }
-            //Sempre Amsterdam High
-            if (conts.get(i).getId() == 4) {
-                conts.get(i).setNext(conts.get(5), conts.get(5));
-            }
-            //Sempre Finito Dialog Fin paSsare a Video Fin 2
-            if (conts.get(i).getId() == 7) {
-                conts.get(i).setNext(conts.get(8), conts.get(8));
+            switch (conts.get(i).getId())
+            {
+                case 0:
+                    //Padova
+                    //Se true Austria, se False Svizzera
+                    conts.get(i).setNext(conts.get(1), conts.get(2));
+                    break;
+                case 1:
+                    //Austria
+                    //Sempre Germania
+                    conts.get(i).setNext(conts.get(3), conts.get(3));
+                    break;
+                case 2:
+                    //Svizzera
+                    //Se True FINE 1, se false Germania
+                    conts.get(i).setNext(conts.get(6), conts.get(3));
+                    break;
+                case 3:
+                    //Germania
+                    //Se True Fine 2, se false Amsterdam
+                    conts.get(i).setNext(conts.get(7), conts.get(4));
+                    break;
+                case 4:
+                    //Amsterdam
+                    //True Fin3, False Amsterdam High
+                    conts.get(i).setNext(conts.get(9), conts.get(5));
+                    break;
+                case 5:
+                    //Amsterdam High
+                    //True Fin5, False Fin4
+                    conts.get(i).setNext(conts.get(11), conts.get(10));
+                    break;
+                case 6:
+                    //Titoli Di coda Dopo i finali
+                    conts.get(i).setNext(conts.get(12), conts.get(12));
+                    break;
+                case 7:
+                    //Dialog Fin2
+                    //Sempre Video Fin2
+                    conts.get(i).setNext(conts.get(8), conts.get(8));
+                    break;
+                case 8:
+                    conts.get(i).setNext(conts.get(12), conts.get(12));
+                    break;
+                case 9:
+                    conts.get(i).setNext(conts.get(12), conts.get(12));
+                    break;
+                case 10:
+                    conts.get(i).setNext(conts.get(12), conts.get(12));
+                    break;
+                case 11:
+                    conts.get(i).setNext(conts.get(12), conts.get(12));
+                    break;
             }
         }
     }
@@ -216,10 +246,12 @@ public class GameComposerActivity extends SoundBackgroundActivity {
                 startGame();
             } else {
                 Log.i("RTA", "\n\t@END GAME");
-                //Aggiornamento savegame ocn il livello 0
+                //Aggiornamento savegame ocn il livello
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("savegame", 0);
                 editor.apply();
+                int savegame = prefs.getInt("savegame", 0);
+                Log.i("RTA", "SaveGame Aggiornato:" + savegame);
                 //fish
                 finishAffinity();
                 System.exit(0);

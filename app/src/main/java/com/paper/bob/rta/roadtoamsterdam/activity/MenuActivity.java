@@ -187,10 +187,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         }
-        else if(id == R.id.nav_settings)
-        {
-            Log.i("RTA","navSettings");
-        }
+
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

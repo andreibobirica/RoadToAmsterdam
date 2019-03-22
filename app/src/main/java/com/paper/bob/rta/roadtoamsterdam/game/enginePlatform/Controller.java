@@ -46,11 +46,11 @@ public class Controller{
      * La variabile numSalti indica il numero massimo di salti che il player può fare
      * La variabile jumpedNumber serve per capire se il numero di salti sono stati completati*/
     private boolean uping=false;
-    private int dTime = 550;
+    private int dTime = 500;
     private final int numSalti = 1;
     private int jumpedNumber;
 
-    public static boolean debugMode = true;
+    public static boolean debugMode = false;
     private ArrayList<Personaggio> personaggi;
     /**
      * Campo che indica il tempo in cui il toast è stato fatto scattere l'ultima volta
@@ -234,12 +234,18 @@ public class Controller{
      * nel caso non ci sia nessuna intenzione di muoversi, e non si stia muovendo, mette in pausa il suono della camminata
      * @return ritorna vero nel caso in cui sia stoppato, falso nel caso in cui sia in movimento
      */
-    public boolean stopRL(){
-        if(!(mUp && alreadyDown && mLeft && mRight)) {
+    public void stopRL(){
             pauseSoundRL();
-            return alredyStop;
-        }
-        return false;
+    }
+
+    /**
+     * Metodo che controlla se si sta facendo un qualsiasi movimento, in qualsiasi direzione in qualsiasi tempo della animazione.
+     * Detto cioò ritorna un valore booleano che rapresenta se il Player è fermo oppure no
+     * @return
+     */
+    public boolean getStopRLUD()
+    {
+        return (!mUp && alreadyDown && !getMLeft() && !getMRight());
     }
 
     /**

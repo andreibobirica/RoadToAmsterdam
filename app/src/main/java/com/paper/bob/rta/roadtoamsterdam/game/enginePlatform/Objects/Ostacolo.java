@@ -60,7 +60,7 @@ public class Ostacolo extends GameObject {
             animation.setFrames(gif);
             //Se 2 frame = 100 delay - Se 6 frame = 200 delay
             //Per ogni frame 25 di delay in più
-            int delay = 50+nframe*20;
+            int delay = 50+nframe*25;
             animation.setDelay(delay);
         }
     }
@@ -81,6 +81,15 @@ public class Ostacolo extends GameObject {
         //Coordinate
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * Metodo che ritorna il riferimento al animation(
+     * @return Riferimetno al Animation
+     */
+    public Animation getAnimation()
+    {
+        return animation;
     }
     /**
     Metodo draw che richiamato da EngineGame.draw(Canvas c) disegna sul Canvas c la propietà IMG , cioè l'immggine.

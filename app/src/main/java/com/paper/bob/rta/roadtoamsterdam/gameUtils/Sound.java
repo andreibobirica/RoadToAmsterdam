@@ -14,6 +14,9 @@ import android.media.SoundPool;
 
 import com.paper.bob.rta.roadtoamsterdam.activity.PlatformActivity;
 
+/**
+ * Classe Sound costruita con la tecnologia SoundPool, usabile per brevi suini all'interno del gioco oppure brevi suoni di animazione
+ */
 public class Sound {
 
 
@@ -60,6 +63,10 @@ public class Sound {
         });
     }
 
+    /**
+     * Metodo play che fa partire il suono
+     * @return variabile boolean che indica se il suono è partito oppure no
+     */
     public boolean play()
     {
 
@@ -80,6 +87,10 @@ public class Sound {
         return false;
     }
 
+    /**
+     * Metodo replay che faripartire il suono
+     * @return variabile boolean che indica se il suono è ripartito oppure no
+     */
     public boolean replay()
     {
         if(play()){return true;}
@@ -88,12 +99,19 @@ public class Sound {
         return false;
     }
 
+    /**
+     * Pause per mettere il pausa un audio
+     */
     public void pause() {
         paused=true;
         soundPool.pause(mainSound);
         //Log.i("RTA","pause");
     }
 
+    /**
+     * Ritorna il tipo del SOUND, cioè per cosa sta a significare l'audio, magari camminata, oppure salto etc...
+     * @return String che indica il significato del suono, cioè il tipo
+     */
     public String getTipoSound() {
         return tipoSound;
     }

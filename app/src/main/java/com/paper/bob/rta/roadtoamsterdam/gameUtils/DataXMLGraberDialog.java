@@ -19,10 +19,19 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**
+ * Classe Dataxml Grabber che restituisce i dati relativi ai dialoghi
+ */
 public class DataXMLGraberDialog extends DataXMLGraber {
     public DataXMLGraberDialog(String file,Context c)
     {super(file,c);}
 
+    /**
+     * Metodo che restituisce uno Stack di dialoghi dando come parametro un riferimento stringa del sudetto dialogo.
+     * Questo metood fa principalemtne una ricerca del sudetto dialogo e lo ritorna sotto forma di Stack di Dialogo Object
+     * @param infoDialog String riferimento al dialogo
+     * @return Stack Dialoco , lista di dialoghi consecutivi con un singolo personaggio
+     */
     public Stack<Dialogo> getDialoghi(String infoDialog)
     {
         Node dialogNo = getDialogNode(infoDialog);
@@ -66,8 +75,6 @@ public class DataXMLGraberDialog extends DataXMLGraber {
                 dialoghi.push(d);
             }
         }
-        //Log.i("RTA","Dialoghi returnati DATAXMLGRABBER");
-        //Log.i("RTA","DIALOGHISIZE"+dialoghi.size());
         Stack<Dialogo> dialogoAppoggio = new Stack<>();
         int length = dialoghi.size();
         for(int z = 0 ; z < length; z++)
@@ -76,6 +83,11 @@ public class DataXMLGraberDialog extends DataXMLGraber {
         return dialoghi;
     }
 
+    /**
+     * Metodo che restituisce il Node Dialog dando come riferimento la stringa riferimento infoDialog
+     * @param infoDialog String di riferimento che è relativa al dialogo di riferimento
+     * @return Node del dialogo nel file XML
+     */
     private Node getDialogNode(String infoDialog)
     {
         NodeList dialogs= radice.getChildNodes();

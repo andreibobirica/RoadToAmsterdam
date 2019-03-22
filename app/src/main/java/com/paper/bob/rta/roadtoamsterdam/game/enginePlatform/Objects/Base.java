@@ -21,14 +21,25 @@ import com.paper.bob.rta.roadtoamsterdam.game.enginePlatform.EngineGame;
  * Essendo un elemento ha i metodi draw e update richiamati ogni FPS
  */
 public class Base extends Ostacolo {
+    /**IMG di sfondo della base*/
     private Bitmap img;
+    /**Riferimento al Background*/
     private static Background bgCoord;
 
+    /**
+     * Metodo Costruttore che inizializza un ogetto Base avendo un Bitmap di sfondo
+     * @param res Bitmap Sfondo base
+     */
     public Base(Bitmap res)
     {
         super(res,0, EngineGame.HEIGHT,(EngineGame.HEIGHT+200),(EngineGame.WIDTH*2),1);
         img = res;
     }
+
+    /**
+     * Metodo draw della base richiamato ogni update ciclicamente
+     * @param canvas Canvas oggetto canvas su cui si deve disegnare l'immmagine img.
+     */
     public void draw(Canvas canvas)
     {
         Rect src = new Rect(0,0,img.getWidth()-1, img.getHeight()-1);
@@ -46,6 +57,11 @@ public class Base extends Ostacolo {
             canvas.drawBitmap(img, src, dest, null);
         }
     }
+
+    /**
+     * Metodo update richiamato ciclicamente dal macro metodo update di EngineGame
+     * Il metodo update si occupa di aggiornare la posizione e modificare i dati della classe base
+     */
     public void update()
     {
         this.x += bgCoord.getDX();
@@ -57,6 +73,11 @@ public class Base extends Ostacolo {
             x=-EngineGame.WIDTH;
         }
     }
+
+    /**
+     * Metodo setBg che setta il riferimento al Background
+     * @param bg Riferimento al Bakcground
+     */
     public static void setBgCoord(Background bg)
     {bgCoord = bg;}
 

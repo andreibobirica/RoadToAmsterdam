@@ -20,9 +20,17 @@ import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+/**
+ * Classe DataXMLGraber che è una classe che verrà estesta, questa classe ha motivo solamente puramente sintattico, in quanto per dividere codice
+ * del XML DOM dalle richieste che si fanno utilizzando l'XML Dom
+ */
 public class DataXMLGraber {
 
+    /**
+     * Elmento radice del documento
+     */
     public Element radice;
+    /**Cotex di riferimento del EngineGame*/
     Context context;
     /**
      *Costruttore completo

@@ -116,21 +116,54 @@ public class Background {
      */
     public void setPlayer(Player pl){this.pl = pl;}
 
+    /**
+     * Metodo getDX che restituisce il vettore DX
+     * @return vettore DX
+     */
     public int getDX()
     {return dx;}
+    /**
+     * Metodo getDX che restituisce il vettore Dy
+     * @return vettore DY
+     */
     public int getDY()
     {return dy;}
+    /**
+     * Metodo che restituisce la coordinata Y
+     * @return coordinata Y
+     */
     public int getY()
     {return y;}
+    /**
+     * Metodo che restituisce la coordinata X
+     * @return coordinata X
+     */
     public int getX()
     {return x;}
+
+    /**
+     * Metodo che setta la coordinata X
+     * @param x coordinata X
+     */
     public void setX(int x){this.x = x;}
+    /**
+     * Metodo che setta la coordinata Y
+     * @param y coordinata Y
+     */
     public void setY(int y){this.y = y;}
 
+    /**
+     * Metodo che serve per settare il riferimento al Controller del EngineGame
+     * @param controller Riferimento del COntroller del EngineGame
+     */
     public void setController(Controller controller) {
         this.controller = controller;
     }
 
+    /**
+     * Metodo che serve per prendere un bitmap IMG che rappresenta lo sfondo del bg
+     * @return Bitmap sfondo
+     */
     public Bitmap getImage() {
         return image;
     }

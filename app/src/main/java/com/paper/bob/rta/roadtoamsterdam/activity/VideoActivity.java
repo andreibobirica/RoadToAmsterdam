@@ -25,14 +25,20 @@ import android.widget.VideoView;
 
 import com.paper.bob.rta.roadtoamsterdam.R;
 
+/**
+ * Activity Video che serve per visualizzare un video all'interno della applicazione a pieno schermo e con la
+ * possibilità di Skiparlo
+ */
 public class VideoActivity extends AppCompatActivity {
 
     private VideoView view;
-    private ScaleGestureDetector mScaleDetector;
     private ProgressBar pbSkip;
     private int timerSkip = 0;
     private boolean stop;
 
+    /**
+     * Metodo onCreate richiamato automaticamente dall'activity lifycycle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +50,9 @@ public class VideoActivity extends AppCompatActivity {
         pbSkip = findViewById(R.id.skipProgressBar);
     }
 
+    /**
+     * Metodo onStart richiamato automaticamente dall'activity lifycycle
+     */
     @Override
     protected void onStart()
     {
@@ -85,7 +94,7 @@ public class VideoActivity extends AppCompatActivity {
                             {
                                 runOnUiThread(new Runnable() {
                                     public void run() {
-                                        Toast.makeText(c, "Caricamento in Corso", Toast.LENGTH_LONG).show();}
+                                        Toast.makeText(c, "Caricamento in Corso", Toast.LENGTH_SHORT).show();}
                                 });
                                 finish();
                             }
@@ -115,6 +124,9 @@ public class VideoActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Metodo onResume richiamato automaticamente dall'activity lifycycle
+     */
     @Override
     protected void onResume()
     {
