@@ -22,6 +22,9 @@ jobs:
       with:
         java-version: 1.8
         
+    - name: Change wrapper permissions
+      run: chmod +x ./gradlew
+        
         ## Build all our Build Types at once ##
     - name: Build all artifacts
       id: buildAllApks
